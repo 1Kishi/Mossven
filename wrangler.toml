@@ -1,17 +1,18 @@
 name = "mossven-landingpage"
-compatibility_date = "2026-06-03"
-pages_build_output_dir = "dist"
-
 main = "src/worker.ts"
+compatibility_date = "2026-06-03"
 
+# Static Astro build served by the Worker
 [assets]
 directory = "./dist"
 binding = "SITE"
 
 [vars]
-# Non-secret config. Secrets (RESEND_API_KEY, TURNSTILE_SECRET_KEY) are set with:
+# Non-secret config.
+# Secrets must be set separately:
 #   npx wrangler secret put RESEND_API_KEY
 #   npx wrangler secret put TURNSTILE_SECRET_KEY
+
 FROM_EMAIL = "Mossven <leads@mossven.com>"
 NOTIFY_EMAIL = "jacobworkgreen@gmail.com"
 PRIVACY_POLICY_VERSION = "v1"
