@@ -8,7 +8,7 @@
  */
 
 interface Env {
-  ASSETS: Fetcher;
+  SITE: Fetcher;
   DB: D1Database;
   RESEND_API_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
@@ -213,6 +213,6 @@ export default {
       return handleContact(request, env);
     }
 
-    return env.ASSETS.fetch(request);
+    return env.SITE.fetch(request);
   },
 };
