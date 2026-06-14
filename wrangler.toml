@@ -4,9 +4,6 @@ pages_build_output_dir = "dist"
 
 main = "src/worker.ts"
 
-[assets]
-directory = "./dist"
-
 [vars]
 # Non-secret config. Secrets (RESEND_API_KEY, TURNSTILE_SECRET_KEY) are set with:
 #   npx wrangler secret put RESEND_API_KEY
