@@ -1,0 +1,888 @@
+---
+// Ukázkový (demo) web pro fiktivního truhláře „Dílna Vorel".
+// Samostatná stránka — nepoužívá Mossven Layout, aby měla vlastní identitu
+// a nijak nezasahovala do hlavního webu, Workeru ani kontaktního formuláře.
+// Route: /ukazky/truhlar
+
+const sluzby = [
+  {
+    kod: "01",
+    nazev: "Vestavěné skříně",
+    popis: "Skříně na míru do šikmin, výklenků a chodeb. Vejdou se tam, kde běžný nábytek skončí.",
+  },
+  {
+    kod: "02",
+    nazev: "Stoly a lavice",
+    popis: "Jídelní stoly, pracovní desky a lavice z masivu. Spoje, které drží, ne jen lepidlo.",
+  },
+  {
+    kod: "03",
+    nazev: "Kuchyňské prvky",
+    popis: "Dvířka, čela, police a pracovní desky. Sladěné s tím, co už v kuchyni máte.",
+  },
+  {
+    kod: "04",
+    nazev: "Police a úložné prostory",
+    popis: "Otevřené police i uzavřené úložné sestavy. Navržené na konkrétní věci, ne obecně.",
+  },
+  {
+    kod: "05",
+    nazev: "Opravy a renovace",
+    popis: "Vyviklaný spoj, prasklá deska, staré dvířka. Spravím, co se spravit dá, a řeknu, když ne.",
+  },
+  {
+    kod: "06",
+    nazev: "Prvky pro kavárny a provozovny",
+    popis: "Pulty, regály a sezení do provozu. Počítám s tím, že to bude denně v ruce.",
+  },
+];
+
+const postup = [
+  { c: "1", n: "Zaměření", d: "Přijedu, změřím prostor a poslechnu si, k čemu to má sloužit." },
+  { c: "2", n: "Návrh", d: "Připravím řešení a rozměry. Než se začne řezat, víte, jak to bude vypadat." },
+  { c: "3", n: "Výroba", d: "Vyrábím v dílně ručně. Každý spoj sedí dřív, než opustí ponk." },
+  { c: "4", n: "Montáž", d: "Smontuji u vás, vyrovnám do roviny a doladím na místě." },
+  { c: "5", n: "Předání", d: "Projdeme to spolu. Ukážu, jak se o dřevo starat, ať vydrží." },
+];
+
+const materialy = [
+  { nazev: "Dub", kod: "DUB", popis: "Tvrdý, výrazná kresba. Na desky a místa, kde se nešetří.", t: "oak" },
+  { nazev: "Jasan", kod: "JAS", popis: "Pružný a světlý. Hezky se snoubí se světlými interiéry.", t: "ash" },
+  { nazev: "Smrk", kod: "SMR", popis: "Lehký a poctivý. Na konstrukce a místa pod povrchem.", t: "spruce" },
+  { nazev: "Překližka", kod: "PŘK", popis: "Stabilní a čistá hrana. Na vestavby a korpusy.", t: "ply" },
+  { nazev: "Olejový finiš", kod: "OLJ", popis: "Matný, příjemný na dotek. Dá se kdykoli obnovit.", t: "oil" },
+  { nazev: "Odolný povrch", kod: "PVR", popis: "Tam, kde se víc utírá a víc žije. Zvládne provoz.", t: "surface" },
+];
+
+const ukazky = [
+  { nazev: "Jídelní stůl", kod: "ST-04", popis: "Masiv, viditelné čepování, olejovaný povrch.", t: "table" },
+  { nazev: "Vestavěná skříň", kod: "VS-11", popis: "Do šikminy podkroví, posuvná dvířka.", t: "wardrobe" },
+  { nazev: "Police do pracovny", kod: "PO-07", popis: "Otevřená sestava, skryté kování.", t: "shelf" },
+  { nazev: "Kavárenský pult", kod: "PU-02", popis: "Odolná deska, hrana broušená do ruky.", t: "counter" },
+];
+
+const duvery = [
+  "Zaměření po domluvě",
+  "Jasná cenová nabídka předem",
+  "Ruční výroba v dílně",
+  "Montáž u zákazníka",
+  "Práce pro domácnosti i menší provozovny",
+];
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dílna Vorel — truhlářství a nábytek na míru</title>
+    <meta
+      name="description"
+      content="Vestavěné skříně, stoly, kuchyňské prvky a opravy ze dřeva. Ruční výroba, zaměření po domluvě a jasná nabídka předem. Ukázkový web od Mossven."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="dv-body">
+    <!-- ====================== HEADER ====================== -->
+    <header class="dv-top">
+      <div class="dv-wrap dv-top__inner">
+        <a class="dv-brand" href="#dv-top" aria-label="Dílna Vorel — domů">
+          <svg class="dv-brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="3" y="3" width="26" height="26" rx="2" fill="none" stroke="currentColor" stroke-width="1.4" />
+            <path d="M7 21 L16 8 L25 21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+            <path d="M7 21 L25 21" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="16" cy="8" r="1.6" fill="currentColor" />
+          </svg>
+          <span class="dv-brand__name">Dílna Vorel</span>
+        </a>
+        <span class="dv-top__label">truhlářství · nábytek na míru</span>
+        <a class="dv-btn dv-btn--ghost dv-top__cta" href="#dv-kontakt">Poptat práci</a>
+      </div>
+    </header>
+
+    <main id="dv-top">
+      <!-- ====================== HERO ====================== -->
+      <section class="dv-hero" aria-labelledby="dv-hero-title">
+        <div class="dv-wrap dv-hero__grid">
+          <div class="dv-hero__text">
+            <p class="dv-eyebrow"><span class="dv-tick" aria-hidden="true"></span>Dílna · zakázková výroba</p>
+            <h1 id="dv-hero-title" class="dv-hero__title">
+              Nábytek na&nbsp;míru,<br />
+              <span class="dv-hero__title-em">řezaný přesně.</span>
+            </h1>
+            <p class="dv-hero__sub">
+              Vestavěné skříně, stoly, kuchyňské prvky a opravy ze dřeva. Přijedu, zaměřím prostor
+              a vyrobím kus, který sedne přesně tam, kam patří — z dubu, jasanu nebo smrku.
+            </p>
+            <div class="dv-hero__cta">
+              <a class="dv-btn dv-btn--solid" href="#dv-kontakt">Poptat práci</a>
+              <a class="dv-btn dv-btn--line" href="#dv-ukazky">Prohlédnout ukázky</a>
+            </div>
+            <p class="dv-hero__note">
+              <span class="dv-mono">měřeno 2×, řezáno 1×</span>
+            </p>
+          </div>
+
+          <!-- SIGNATURE: výkres na ponku — technický nákres přes teplé dřevo -->
+          <figure class="dv-plan" aria-label="Technický nákres jídelního stolu s kótami">
+            <figcaption class="dv-plan__cap dv-mono">
+              <span>VÝKRES · ST-04</span><span>měř. 1:20</span>
+            </figcaption>
+            <svg
+              class="dv-plan__svg"
+              viewBox="0 0 480 360"
+              role="img"
+              aria-label="Boční nárys stolu s kótami šířky 1240 mm a výšky 740 mm a detailem čepového spoje"
+            >
+              <!-- pencil guide grid -->
+              <g class="dv-plan__grid" aria-hidden="true">
+                <path d="M0 90H480M0 180H480M0 270H480" />
+                <path d="M120 0V360M240 0V360M360 0V360" />
+              </g>
+
+              <!-- horizontal dimension (width) -->
+              <g class="dv-dim" aria-hidden="true">
+                <line class="dv-draw" x1="96" y1="58" x2="384" y2="58" />
+                <line class="dv-tick" x1="96" y1="50" x2="96" y2="66" />
+                <line class="dv-tick" x1="384" y1="50" x2="384" y2="66" />
+                <text class="dv-dim__txt" x="240" y="50" text-anchor="middle">1240 mm</text>
+              </g>
+
+              <!-- table elevation -->
+              <g class="dv-table">
+                <!-- tabletop -->
+                <rect class="dv-draw dv-table__top" x="96" y="96" width="288" height="22" rx="2" />
+                <!-- legs -->
+                <rect class="dv-draw" x="112" y="118" width="20" height="150" rx="1" />
+                <rect class="dv-draw" x="348" y="118" width="20" height="150" rx="1" />
+                <!-- apron -->
+                <line class="dv-draw" x1="132" y1="132" x2="348" y2="132" />
+                <!-- floor line -->
+                <line class="dv-draw dv-table__floor" x1="72" y1="268" x2="408" y2="268" />
+              </g>
+
+              <!-- vertical dimension (height) -->
+              <g class="dv-dim" aria-hidden="true">
+                <line class="dv-draw" x1="426" y1="96" x2="426" y2="268" />
+                <line class="dv-tick" x1="418" y1="96" x2="434" y2="96" />
+                <line class="dv-tick" x1="418" y1="268" x2="434" y2="268" />
+                <text class="dv-dim__txt" x="426" y="186" text-anchor="middle" transform="rotate(90 426 186)">740 mm</text>
+              </g>
+
+              <!-- joinery callout: mortise & tenon -->
+              <g class="dv-callout">
+                <line class="dv-draw dv-callout__lead" x1="122" y1="118" x2="60" y2="320" />
+                <circle class="dv-callout__dot" cx="122" cy="118" r="3" />
+                <rect class="dv-draw dv-callout__box" x="20" y="300" width="150" height="44" rx="2" />
+                <text class="dv-callout__t dv-mono-svg" x="30" y="318">ČEP + DLAB</text>
+                <text class="dv-callout__s" x="30" y="334">spoj nohy a rámu — bez vrutů</text>
+              </g>
+
+              <!-- pencil annotation -->
+              <text class="dv-anno" x="250" y="150" transform="rotate(-4 250 150)">masiv · dub</text>
+            </svg>
+            <div class="dv-plan__stamp dv-mono" aria-hidden="true">DEMO</div>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ====================== SLUŽBY ====================== -->
+      <section class="dv-block dv-services" aria-labelledby="dv-services-h">
+        <div class="dv-wrap">
+          <header class="dv-head">
+            <p class="dv-mono dv-head__kicker">// co dělám</p>
+            <h2 id="dv-services-h" class="dv-head__title">Práce, se kterou se na mě obracejí</h2>
+          </header>
+          <ul class="dv-services__grid">
+            {sluzby.map((s) => (
+              <li class="dv-service">
+                <span class="dv-service__kod dv-mono">{s.kod}</span>
+                <h3 class="dv-service__nazev">{s.nazev}</h3>
+                <p class="dv-service__popis">{s.popis}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====================== POSTUP ====================== -->
+      <section class="dv-block dv-process" aria-labelledby="dv-process-h">
+        <div class="dv-wrap">
+          <header class="dv-head">
+            <p class="dv-mono dv-head__kicker">// jak to probíhá</p>
+            <h2 id="dv-process-h" class="dv-head__title">Pět kroků od měření k předání</h2>
+          </header>
+          <ol class="dv-process__list">
+            {postup.map((p) => (
+              <li class="dv-step">
+                <span class="dv-step__num dv-mono">{p.c}</span>
+                <div class="dv-step__body">
+                  <h3 class="dv-step__nazev">{p.n}</h3>
+                  <p class="dv-step__popis">{p.d}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- ====================== MATERIÁLY ====================== -->
+      <section class="dv-block dv-materials" aria-labelledby="dv-materials-h">
+        <div class="dv-wrap">
+          <header class="dv-head">
+            <p class="dv-mono dv-head__kicker">// vzorník</p>
+            <h2 id="dv-materials-h" class="dv-head__title">Dřevo a povrchy, se kterými pracuji</h2>
+            <p class="dv-head__lead">
+              Materiál vybírám podle toho, kam kus přijde a jak se bude používat. Tady je, z čeho
+              nejčastěji vycházím — od tvrdého dubu po olejový finiš, který se dá kdykoli obnovit.
+            </p>
+          </header>
+          <ul class="dv-materials__grid">
+            {materialy.map((m) => (
+              <li class="dv-mat">
+                <div class={`dv-mat__chip dv-mat__chip--${m.t}`} aria-hidden="true">
+                  <span class="dv-mat__code dv-mono">{m.kod}</span>
+                </div>
+                <h3 class="dv-mat__nazev">{m.nazev}</h3>
+                <p class="dv-mat__popis">{m.popis}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====================== UKÁZKY ====================== -->
+      <section id="dv-ukazky" class="dv-block dv-gallery" aria-labelledby="dv-gallery-h">
+        <div class="dv-wrap">
+          <header class="dv-head">
+            <p class="dv-mono dv-head__kicker">// ukázky</p>
+            <h2 id="dv-gallery-h" class="dv-head__title">Ukázkové kusy</h2>
+            <p class="dv-head__lead">
+              <strong>Ilustrační nákresy, ne fotografie hotových zakázek.</strong> Slouží k tomu,
+              aby bylo vidět styl a typ práce. Skutečné realizace ukážu při zaměření.
+            </p>
+          </header>
+          <ul class="dv-gallery__grid">
+            {ukazky.map((u) => (
+              <li class="dv-card">
+                <div class={`dv-card__art dv-card__art--${u.t}`} role="img" aria-label={`Ilustrační nákres — ${u.nazev}`}>
+                  <svg class="dv-card__svg" viewBox="0 0 200 150" aria-hidden="true">
+                    {u.t === "table" && (
+                      <g>
+                        <rect x="34" y="56" width="132" height="12" rx="1.5" />
+                        <rect x="46" y="68" width="9" height="56" />
+                        <rect x="145" y="68" width="9" height="56" />
+                        <line x1="55" y1="78" x2="145" y2="78" />
+                        <line x1="28" y1="124" x2="172" y2="124" class="dv-card__floor" />
+                        <line x1="34" y1="46" x2="166" y2="46" class="dv-card__dim" />
+                      </g>
+                    )}
+                    {u.t === "wardrobe" && (
+                      <g>
+                        <path d="M40 30 L160 30 L160 126 L40 126 Z" />
+                        <line x1="100" y1="30" x2="100" y2="126" />
+                        <line x1="40" y1="58" x2="160" y2="58" />
+                        <line x1="40" y1="88" x2="160" y2="88" />
+                        <circle cx="92" cy="80" r="2.4" class="dv-card__dot" />
+                        <circle cx="108" cy="80" r="2.4" class="dv-card__dot" />
+                        <path d="M40 30 L160 18" class="dv-card__dim" />
+                      </g>
+                    )}
+                    {u.t === "shelf" && (
+                      <g>
+                        <line x1="44" y1="28" x2="44" y2="126" />
+                        <line x1="156" y1="28" x2="156" y2="126" />
+                        <line x1="44" y1="48" x2="156" y2="48" />
+                        <line x1="44" y1="74" x2="156" y2="74" />
+                        <line x1="44" y1="100" x2="156" y2="100" />
+                        <line x1="44" y1="126" x2="156" y2="126" class="dv-card__floor" />
+                        <rect x="60" y="52" width="16" height="22" class="dv-card__dot" />
+                      </g>
+                    )}
+                    {u.t === "counter" && (
+                      <g>
+                        <rect x="34" y="56" width="132" height="14" rx="1.5" />
+                        <path d="M40 70 L40 122 L160 122 L160 70" />
+                        <line x1="40" y1="96" x2="160" y2="96" />
+                        <line x1="28" y1="122" x2="172" y2="122" class="dv-card__floor" />
+                        <line x1="34" y1="46" x2="166" y2="46" class="dv-card__dim" />
+                      </g>
+                    )}
+                  </svg>
+                  <span class="dv-card__tag dv-mono">{u.kod}</span>
+                </div>
+                <div class="dv-card__meta">
+                  <h3 class="dv-card__nazev">{u.nazev}</h3>
+                  <p class="dv-card__popis">{u.popis}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p class="dv-gallery__foot dv-mono">ukázkové nákresy · demo</p>
+        </div>
+      </section>
+
+      <!-- ====================== DŮVĚRA ====================== -->
+      <section class="dv-block dv-trust" aria-labelledby="dv-trust-h">
+        <div class="dv-wrap dv-trust__inner">
+          <header class="dv-head dv-head--left">
+            <p class="dv-mono dv-head__kicker">// jak pracuji</p>
+            <h2 id="dv-trust-h" class="dv-head__title">Bez překvapení</h2>
+            <p class="dv-head__lead">
+              Domluva, jasná cena a poctivý spoj. Nic, co byste museli hlídat — od zaměření
+              až po montáž víte, na čem jste.
+            </p>
+          </header>
+          <ul class="dv-trust__list">
+            {duvery.map((d) => (
+              <li class="dv-trust__item">
+                <svg class="dv-trust__check" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 13 L10 19 L20 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====================== KONTAKT ====================== -->
+      <section id="dv-kontakt" class="dv-block dv-contact" aria-labelledby="dv-contact-h">
+        <div class="dv-wrap">
+          <div class="dv-contact__panel">
+            <div class="dv-contact__text">
+              <p class="dv-mono dv-head__kicker">// ozvěte se</p>
+              <h2 id="dv-contact-h" class="dv-contact__title">Máte nápad nebo prostor, který volá po nábytku?</h2>
+              <p class="dv-contact__lead">
+                Napište nebo zavolejte. Domluvíme zaměření a já připravím nabídku, ve které
+                uvidíte cenu i rozměry předem.
+              </p>
+            </div>
+            <div class="dv-contact__details">
+              <a class="dv-contact__row" href="tel:+420777123456">
+                <span class="dv-mono dv-contact__lbl">Telefon</span>
+                <span class="dv-contact__val">+420 777 123 456</span>
+              </a>
+              <a class="dv-contact__row" href="mailto:dilna.vorel@example.cz">
+                <span class="dv-mono dv-contact__lbl">E-mail</span>
+                <span class="dv-contact__val">dilna.vorel@example.cz</span>
+              </a>
+              <a class="dv-btn dv-btn--solid dv-contact__btn" href="mailto:dilna.vorel@example.cz">Poptat práci</a>
+              <p class="dv-contact__demo dv-mono">Demo ukázka webu od Mossven.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ====================== FOOTER ====================== -->
+    <footer class="dv-foot">
+      <div class="dv-wrap dv-foot__inner">
+        <div class="dv-foot__brand">
+          <span class="dv-brand__name">Dílna Vorel</span>
+          <p class="dv-foot__tag">Truhlářství a nábytek na míru.</p>
+        </div>
+        <p class="dv-foot__note">
+          Demo web vytvořený jako ukázka řešení od <a class="dv-foot__link" href="/">Mossven</a>.
+        </p>
+      </div>
+    </footer>
+
+    <style is:global>
+      /* ============================================================
+         Dílna Vorel — samostatná demo stránka.
+         Vše prefixováno .dv- aby nedošlo ke konfliktu s globálním
+         Mossven CSS (.section, .cta, .button atd.). Tato stránka
+         Mossven Layout vůbec nenačítá, takže globální styly tu nejsou.
+         ============================================================ */
+      .dv-body {
+        --paper: #efe6d3;
+        --paper-2: #e7dcc4;
+        --panel: #f6efdf;
+        --walnut: #271a10;
+        --graphite: #5a534a;
+        --graphite-soft: #8a8175;
+        --oak: #c08245;
+        --blueprint: #27495a;
+        --blueprint-ink: #1d3a48;
+        --pencil: #b1492f;
+        --line: rgba(39, 26, 16, 0.16);
+        --line-soft: rgba(39, 26, 16, 0.09);
+        --ff-display: "Archivo", system-ui, sans-serif;
+        --ff-body: "Inter", system-ui, sans-serif;
+        --ff-mono: "JetBrains Mono", ui-monospace, monospace;
+        --maxw: 1140px;
+        --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+        margin: 0;
+        font-family: var(--ff-body);
+        color: var(--walnut);
+        background-color: var(--paper);
+        background-image:
+          radial-gradient(1200px 700px at 78% -12%, rgba(192, 130, 69, 0.1), transparent 60%),
+          repeating-linear-gradient(94deg, transparent 0 39px, rgba(39, 26, 16, 0.022) 39px 40px);
+        line-height: 1.62;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        overflow-x: hidden;
+      }
+      .dv-body *,
+      .dv-body *::before,
+      .dv-body *::after { box-sizing: border-box; }
+
+      .dv-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 26px; }
+
+      .dv-body a:not(.dv-btn) { color: inherit; }
+      .dv-body a { text-decoration: none; }
+      .dv-body h1, .dv-body h2, .dv-body h3 {
+        font-family: var(--ff-display); font-weight: 700; margin: 0;
+        line-height: 1.04; letter-spacing: -0.015em;
+      }
+      .dv-body p { margin: 0; }
+      .dv-mono {
+        font-family: var(--ff-mono); font-size: 0.7rem; font-weight: 500;
+        letter-spacing: 0.16em; text-transform: uppercase; color: var(--graphite);
+      }
+
+      /* focus visibility for keyboard users */
+      .dv-body a:focus-visible,
+      .dv-body button:focus-visible {
+        outline: 2.5px solid var(--blueprint);
+        outline-offset: 3px;
+        border-radius: 3px;
+      }
+
+      /* ---------------- BUTTONS ---------------- */
+      .dv-btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 0.5em; font-family: var(--ff-display); font-weight: 600;
+        font-size: 0.96rem; letter-spacing: 0.005em; line-height: 1;
+        padding: 0.85em 1.4em; border-radius: 3px; cursor: pointer;
+        border: 1.5px solid transparent; transition: transform 0.15s var(--ease),
+          background-color 0.2s var(--ease), color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+      }
+      .dv-btn--solid {
+        background: var(--walnut); color: var(--paper);
+        box-shadow: 0 1px 0 rgba(39, 26, 16, 0.4), 4px 4px 0 -1px rgba(39, 26, 16, 0.18);
+      }
+      .dv-btn--solid:hover { transform: translateY(-2px); background: #34230f; }
+      .dv-btn--line {
+        background: transparent; color: var(--walnut); border-color: var(--walnut);
+      }
+      .dv-btn--line:hover { background: var(--walnut); color: var(--paper); transform: translateY(-2px); }
+      .dv-btn--ghost {
+        background: transparent; color: var(--walnut); border-color: var(--line);
+        font-size: 0.86rem; padding: 0.62em 1.05em;
+      }
+      .dv-btn--ghost:hover { border-color: var(--walnut); }
+
+      /* ---------------- HEADER ---------------- */
+      .dv-top {
+        position: sticky; top: 0; z-index: 30;
+        background: color-mix(in srgb, var(--paper) 86%, transparent);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .dv-top__inner {
+        display: flex; align-items: center; gap: 18px;
+        height: 62px;
+      }
+      .dv-brand { display: inline-flex; align-items: center; gap: 0.6em; color: var(--walnut); }
+      .dv-brand__mark { width: 26px; height: 26px; color: var(--blueprint); flex: none; }
+      .dv-brand__name {
+        font-family: var(--ff-display); font-weight: 800; font-size: 1.12rem;
+        letter-spacing: 0.04em; text-transform: uppercase;
+      }
+      .dv-top__label {
+        font-family: var(--ff-mono); font-size: 0.66rem; letter-spacing: 0.18em;
+        text-transform: uppercase; color: var(--graphite-soft);
+        padding-left: 18px; border-left: 1px solid var(--line);
+      }
+      .dv-top__cta { margin-left: auto; }
+
+      /* ---------------- HERO ---------------- */
+      .dv-hero { padding: clamp(36px, 6vw, 76px) 0 clamp(44px, 6vw, 84px); position: relative; }
+      .dv-hero::before {
+        /* faint blueprint grid only behind the hero */
+        content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+        background-image:
+          linear-gradient(var(--line-soft) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+        background-size: 40px 40px;
+        -webkit-mask-image: radial-gradient(120% 90% at 70% 18%, #000 38%, transparent 78%);
+        mask-image: radial-gradient(120% 90% at 70% 18%, #000 38%, transparent 78%);
+        opacity: 0.7;
+      }
+      .dv-hero__grid {
+        position: relative; z-index: 1;
+        display: grid; grid-template-columns: 1.02fr 0.98fr;
+        gap: clamp(28px, 4vw, 56px); align-items: center;
+      }
+      .dv-eyebrow {
+        display: inline-flex; align-items: center; gap: 0.6em;
+        font-family: var(--ff-mono); font-size: 0.72rem; font-weight: 500;
+        letter-spacing: 0.18em; text-transform: uppercase; color: var(--blueprint);
+        margin-bottom: 1.1rem;
+      }
+      .dv-tick {
+        width: 26px; height: 0; border-top: 1.5px solid var(--blueprint);
+        position: relative;
+      }
+      .dv-tick::before, .dv-tick::after {
+        content: ""; position: absolute; top: -4px; width: 1.5px; height: 9px;
+        background: var(--blueprint);
+      }
+      .dv-tick::before { left: 0; }
+      .dv-tick::after { right: 0; }
+      .dv-hero__title {
+        font-size: clamp(2.5rem, 6.4vw, 4.4rem); font-weight: 800;
+        letter-spacing: -0.03em; line-height: 0.98;
+      }
+      .dv-hero__title-em { color: var(--pencil); position: relative; }
+      .dv-hero__title-em::after {
+        /* underline as a pencil guide line */
+        content: ""; position: absolute; left: 0; right: -2px; bottom: 0.06em;
+        height: 3px;
+        background: repeating-linear-gradient(90deg, var(--pencil) 0 11px, transparent 11px 16px);
+        opacity: 0.55;
+      }
+      .dv-hero__sub {
+        margin-top: 1.4rem; font-size: clamp(1.04rem, 1.5vw, 1.18rem);
+        color: var(--graphite); max-width: 30em;
+      }
+      .dv-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.9rem; }
+      .dv-hero__note { margin-top: 1.5rem; }
+      .dv-hero__note .dv-mono { color: var(--graphite-soft); }
+
+      /* ---------------- SIGNATURE PLAN ---------------- */
+      .dv-plan {
+        position: relative; margin: 0;
+        background: var(--panel);
+        border: 1.5px solid var(--walnut);
+        border-radius: 4px;
+        padding: 14px 14px 8px;
+        box-shadow: 10px 14px 0 -4px rgba(39, 26, 16, 0.12), 0 24px 50px -30px rgba(39, 26, 16, 0.5);
+      }
+      .dv-plan::before {
+        /* corner registration marks of a paper plan */
+        content: ""; position: absolute; inset: 7px; pointer-events: none;
+        border: 1px dashed var(--line); border-radius: 2px;
+      }
+      .dv-plan__cap {
+        display: flex; justify-content: space-between;
+        font-size: 0.62rem; color: var(--graphite-soft);
+        padding: 0 4px 8px;
+      }
+      .dv-plan__svg { display: block; width: 100%; height: auto; }
+      .dv-plan__grid path { stroke: var(--line-soft); stroke-width: 1; }
+      .dv-plan .dv-draw {
+        fill: none; stroke: var(--blueprint-ink); stroke-width: 1.6; stroke-linecap: round;
+      }
+      .dv-plan .dv-table__top { fill: rgba(192, 130, 69, 0.18); }
+      .dv-plan .dv-table__floor { stroke: var(--graphite); stroke-width: 1.2; }
+      .dv-plan .dv-tick { stroke: var(--pencil); stroke-width: 1.4; }
+      .dv-plan .dv-dim line:first-child { stroke: var(--pencil); }
+      .dv-dim__txt {
+        font-family: var(--ff-mono); font-size: 12px; font-weight: 500;
+        fill: var(--pencil); letter-spacing: 0.06em;
+      }
+      .dv-callout__lead { stroke: var(--graphite); stroke-width: 1; stroke-dasharray: 3 3; }
+      .dv-callout__dot { fill: var(--pencil); }
+      .dv-callout__box { fill: rgba(255, 255, 255, 0.5); stroke: var(--graphite); stroke-width: 1; }
+      .dv-mono-svg { font-family: var(--ff-mono); }
+      .dv-callout__t { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; fill: var(--blueprint-ink); }
+      .dv-callout__s { font-family: var(--ff-body); font-size: 9px; fill: var(--graphite); }
+      .dv-anno {
+        font-family: var(--ff-mono); font-size: 11px; fill: var(--graphite-soft);
+        letter-spacing: 0.08em;
+      }
+      .dv-plan__stamp {
+        position: absolute; right: 16px; bottom: 14px;
+        font-size: 0.62rem; color: var(--pencil);
+        border: 1.5px solid var(--pencil); border-radius: 3px;
+        padding: 3px 8px; transform: rotate(-7deg); opacity: 0.8;
+      }
+
+      /* one deliberate motion: lines draw in, labels fade up */
+      .dv-draw { stroke-dasharray: var(--len, 600); stroke-dashoffset: var(--len, 600); }
+      .dv-anim .dv-draw { animation: dv-draw 1.5s var(--ease) forwards; }
+      .dv-anim .dv-draw { animation-delay: calc(var(--i, 0) * 0.07s); }
+      .dv-dim__txt, .dv-callout__t, .dv-callout__s, .dv-anno, .dv-plan__stamp, .dv-plan__cap {
+        opacity: 0;
+      }
+      .dv-anim .dv-dim__txt, .dv-anim .dv-callout__t, .dv-anim .dv-callout__s,
+      .dv-anim .dv-anno, .dv-anim .dv-plan__stamp, .dv-anim .dv-plan__cap {
+        animation: dv-fade 0.7s var(--ease) forwards; animation-delay: 1.05s;
+      }
+      @keyframes dv-draw { to { stroke-dashoffset: 0; } }
+      @keyframes dv-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+      /* ---------------- SHARED SECTION HEAD ---------------- */
+      .dv-block { padding: clamp(48px, 7vw, 92px) 0; position: relative; }
+      .dv-head { max-width: 40rem; margin: 0 auto clamp(30px, 4vw, 52px); text-align: center; }
+      .dv-head--left { text-align: left; margin-left: 0; margin-right: 0; }
+      .dv-head__kicker { color: var(--blueprint); margin-bottom: 0.9rem; }
+      .dv-head__title { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 700; }
+      .dv-head__lead { margin-top: 1rem; color: var(--graphite); font-size: 1.04rem; }
+
+      /* divider line between sections */
+      .dv-block + .dv-block::before {
+        content: ""; position: absolute; top: 0; left: 26px; right: 26px;
+        max-width: var(--maxw); margin: 0 auto; height: 1px;
+        background: repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 16px);
+      }
+
+      /* ---------------- SLUŽBY ---------------- */
+      .dv-services__grid {
+        list-style: none; margin: 0; padding: 0;
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+        border: 1px solid var(--line); border-radius: 5px; overflow: hidden;
+        background: var(--panel);
+      }
+      .dv-service {
+        padding: clamp(22px, 2.6vw, 32px);
+        border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+        position: relative; transition: background-color 0.2s var(--ease);
+      }
+      .dv-service:hover { background: rgba(192, 130, 69, 0.08); }
+      .dv-service__kod {
+        color: var(--oak); font-weight: 700; font-size: 0.72rem;
+      }
+      .dv-service__nazev {
+        font-size: 1.22rem; font-weight: 700; margin: 0.5rem 0 0.5rem;
+      }
+      .dv-service__popis { color: var(--graphite); font-size: 0.97rem; }
+
+      /* ---------------- POSTUP ---------------- */
+      .dv-process__list {
+        list-style: none; margin: 0; padding: 0;
+        display: grid; gap: 0;
+        counter-reset: none;
+      }
+      .dv-step {
+        display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 2.4vw, 30px);
+        align-items: start; padding: clamp(18px, 2.4vw, 26px) 0;
+        border-top: 1px solid var(--line-soft); position: relative;
+      }
+      .dv-step:first-child { border-top: none; }
+      .dv-step__num {
+        font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; color: var(--blueprint);
+        font-family: var(--ff-mono); letter-spacing: 0; line-height: 1;
+        min-width: 2.4ch; text-align: right; padding-top: 0.1em;
+        border-bottom: 2px solid var(--pencil); padding-bottom: 4px;
+      }
+      .dv-step__nazev { font-size: 1.3rem; font-weight: 700; }
+      .dv-step__popis { color: var(--graphite); margin-top: 0.3rem; max-width: 46em; }
+
+      /* ---------------- MATERIÁLY ---------------- */
+      .dv-materials__grid {
+        list-style: none; margin: 0; padding: 0;
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2vw, 22px);
+      }
+      .dv-mat {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 5px;
+        padding: 16px; transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+      }
+      .dv-mat:hover { transform: translateY(-3px); box-shadow: 0 16px 34px -22px rgba(39, 26, 16, 0.55); }
+      .dv-mat__chip {
+        height: 96px; border-radius: 3px; position: relative; overflow: hidden;
+        border: 1px solid var(--line); margin-bottom: 14px;
+        display: flex; align-items: flex-end; padding: 8px;
+      }
+      .dv-mat__code {
+        font-size: 0.64rem; color: var(--walnut);
+        background: rgba(246, 239, 223, 0.82); padding: 2px 6px; border-radius: 2px;
+      }
+      /* material textures via gradients — no external images */
+      .dv-mat__chip--oak {
+        background:
+          repeating-linear-gradient(91deg, rgba(120, 72, 30, 0.16) 0 2px, transparent 2px 7px),
+          linear-gradient(180deg, #d49a5b, #b9763c);
+      }
+      .dv-mat__chip--ash {
+        background:
+          repeating-linear-gradient(90deg, rgba(150, 120, 80, 0.14) 0 1px, transparent 1px 9px),
+          linear-gradient(180deg, #e7d3ad, #d8bf90);
+      }
+      .dv-mat__chip--spruce {
+        background:
+          repeating-linear-gradient(92deg, rgba(150, 110, 60, 0.13) 0 2px, transparent 2px 11px),
+          linear-gradient(180deg, #ecd9b2, #e0c596);
+      }
+      .dv-mat__chip--ply {
+        background:
+          repeating-linear-gradient(0deg, rgba(120, 80, 40, 0.18) 0 3px, rgba(210, 175, 120, 0.6) 3px 6px),
+          linear-gradient(180deg, #dcbd8c, #cda871);
+      }
+      .dv-mat__chip--oil {
+        background:
+          radial-gradient(120% 100% at 30% 20%, rgba(255, 240, 215, 0.5), transparent 60%),
+          linear-gradient(150deg, #8a5a2e, #5f3c1d);
+      }
+      .dv-mat__chip--surface {
+        background:
+          repeating-linear-gradient(45deg, rgba(39, 26, 16, 0.08) 0 6px, transparent 6px 12px),
+          linear-gradient(180deg, #4f5b5f, #38444a);
+      }
+      .dv-mat__chip--oil .dv-mat__code,
+      .dv-mat__chip--surface .dv-mat__code { color: var(--walnut); }
+      .dv-mat__nazev { font-size: 1.12rem; font-weight: 700; }
+      .dv-mat__popis { color: var(--graphite); font-size: 0.92rem; margin-top: 0.25rem; }
+
+      /* ---------------- UKÁZKY / GALERIE ---------------- */
+      .dv-gallery__grid {
+        list-style: none; margin: 0; padding: 0;
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2.4vw, 26px);
+      }
+      .dv-card {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+        overflow: hidden; transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+      }
+      .dv-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -26px rgba(39, 26, 16, 0.55); }
+      .dv-card__art {
+        position: relative; aspect-ratio: 16 / 10;
+        display: flex; align-items: center; justify-content: center;
+        border-bottom: 1px solid var(--line);
+        background:
+          linear-gradient(var(--line-soft) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line-soft) 1px, transparent 1px),
+          linear-gradient(160deg, #f3ecdb, #e6d8bd);
+        background-size: 24px 24px, 24px 24px, 100% 100%;
+      }
+      .dv-card__svg { width: 78%; height: 78%; }
+      .dv-card__svg line, .dv-card__svg rect, .dv-card__svg path {
+        fill: none; stroke: var(--blueprint-ink); stroke-width: 1.6; stroke-linejoin: round;
+      }
+      .dv-card__svg .dv-card__floor { stroke: var(--graphite); }
+      .dv-card__svg .dv-card__dim { stroke: var(--pencil); stroke-dasharray: 4 3; stroke-width: 1.2; }
+      .dv-card__svg .dv-card__dot { fill: var(--pencil); stroke: none; }
+      .dv-card__tag {
+        position: absolute; top: 10px; right: 10px; font-size: 0.6rem;
+        background: var(--walnut); color: var(--paper); padding: 3px 7px; border-radius: 2px;
+        letter-spacing: 0.14em;
+      }
+      .dv-card__meta { padding: 16px 18px 18px; }
+      .dv-card__nazev { font-size: 1.16rem; font-weight: 700; }
+      .dv-card__popis { color: var(--graphite); font-size: 0.94rem; margin-top: 0.25rem; }
+      .dv-gallery__foot { text-align: center; margin-top: 26px; color: var(--graphite-soft); }
+
+      /* ---------------- DŮVĚRA ---------------- */
+      .dv-trust__inner {
+        display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(28px, 4vw, 60px);
+        align-items: center;
+      }
+      .dv-trust__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+      .dv-trust__item {
+        display: flex; align-items: center; gap: 14px;
+        padding: 16px 18px; background: var(--panel);
+        border: 1px solid var(--line); border-radius: 4px;
+        font-size: 1.05rem; font-weight: 500;
+      }
+      .dv-trust__check {
+        width: 22px; height: 22px; flex: none; color: var(--blueprint);
+        background: rgba(39, 73, 90, 0.1); border-radius: 50%; padding: 3px;
+      }
+
+      /* ---------------- KONTAKT ---------------- */
+      .dv-contact__panel {
+        display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(26px, 4vw, 52px);
+        background: var(--walnut); color: var(--paper);
+        border-radius: 8px; padding: clamp(28px, 4vw, 52px);
+        position: relative; overflow: hidden;
+      }
+      .dv-contact__panel::before {
+        content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+        background-image:
+          linear-gradient(rgba(239, 230, 211, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(239, 230, 211, 0.05) 1px, transparent 1px);
+        background-size: 32px 32px;
+        -webkit-mask-image: radial-gradient(90% 120% at 90% 0%, #000, transparent 70%);
+        mask-image: radial-gradient(90% 120% at 90% 0%, #000, transparent 70%);
+      }
+      .dv-contact__panel > * { position: relative; }
+      .dv-contact__panel .dv-head__kicker { color: var(--oak); }
+      .dv-contact__title { font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 700; color: var(--paper); }
+      .dv-contact__lead { margin-top: 1rem; color: #d8ccb6; max-width: 26em; }
+      .dv-contact__details { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+      .dv-contact__row {
+        display: flex; flex-direction: column; gap: 2px;
+        padding: 14px 16px; border: 1px solid rgba(239, 230, 211, 0.18);
+        border-radius: 4px; transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+      }
+      .dv-contact__row:hover { border-color: var(--oak); background: rgba(239, 230, 211, 0.05); }
+      .dv-contact__lbl { color: var(--oak); font-size: 0.62rem; }
+      .dv-contact__val { font-family: var(--ff-display); font-weight: 600; font-size: 1.18rem; }
+      .dv-contact__btn { margin-top: 4px; background: var(--oak); color: var(--walnut); border-color: var(--oak); }
+      .dv-contact__btn:hover { background: #d4954f; transform: translateY(-2px); }
+      .dv-contact__demo { color: #b6a987; margin-top: 6px; }
+
+      /* ---------------- FOOTER ---------------- */
+      .dv-foot { border-top: 1px solid var(--line); padding: 34px 0; }
+      .dv-foot__inner {
+        display: flex; flex-wrap: wrap; gap: 16px 28px;
+        align-items: center; justify-content: space-between;
+      }
+      .dv-foot__brand .dv-brand__name { font-size: 1rem; }
+      .dv-foot__tag { color: var(--graphite); font-size: 0.92rem; margin-top: 2px; }
+      .dv-foot__note { color: var(--graphite); font-size: 0.92rem; }
+      .dv-foot__link { color: var(--blueprint); font-weight: 600; border-bottom: 1.5px solid var(--blueprint); }
+      .dv-foot__link:hover { color: var(--pencil); border-color: var(--pencil); }
+
+      /* ---------------- RESPONSIVE ---------------- */
+      @media (max-width: 900px) {
+        .dv-hero__grid { grid-template-columns: 1fr; }
+        .dv-plan { order: -1; max-width: 460px; }
+        .dv-trust__inner { grid-template-columns: 1fr; }
+        .dv-contact__panel { grid-template-columns: 1fr; }
+        .dv-services__grid { grid-template-columns: repeat(2, 1fr); }
+        .dv-materials__grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 620px) {
+        .dv-top__label { display: none; }
+        .dv-top__cta { margin-left: auto; }
+        .dv-hero__title { font-size: clamp(2.2rem, 11vw, 3rem); }
+        .dv-services__grid { grid-template-columns: 1fr; }
+        .dv-materials__grid { grid-template-columns: 1fr; }
+        .dv-gallery__grid { grid-template-columns: 1fr; }
+        .dv-step { grid-template-columns: auto 1fr; gap: 14px; }
+        .dv-foot__inner { flex-direction: column; align-items: flex-start; }
+      }
+
+      /* ---------------- REDUCED MOTION ---------------- */
+      @media (prefers-reduced-motion: reduce) {
+        .dv-body * { animation: none !important; transition: none !important; }
+        .dv-draw { stroke-dashoffset: 0 !important; }
+        .dv-dim__txt, .dv-callout__t, .dv-callout__s, .dv-anno,
+        .dv-plan__stamp, .dv-plan__cap { opacity: 1 !important; transform: none !important; }
+      }
+    </style>
+
+    <script is:inline>
+      // One deliberate motion: trigger the hero plan to "draw in" on load.
+      // Respects prefers-reduced-motion (handled in CSS) and only enhances.
+      (function () {
+        var plan = document.querySelector(".dv-plan");
+        if (!plan) return;
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        // give each drawn line its own length + stagger index for the dash animation
+        var draws = plan.querySelectorAll(".dv-draw");
+        draws.forEach(function (el, i) {
+          try {
+            var len = el.getTotalLength ? el.getTotalLength() : 600;
+            el.style.setProperty("--len", Math.ceil(len + 2));
+            el.style.setProperty("--i", i);
+          } catch (e) {}
+        });
+        if (reduce) return;
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { plan.classList.add("dv-anim"); });
+        });
+      })();
+    </script>
+  </body>
+</html>

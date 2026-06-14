@@ -1,0 +1,301 @@
+---
+// Ukázkový (demo) web pro fiktivního osobního trenéra „Forma".
+// Samostatná stránka — vlastní identita, nepoužívá Mossven Layout.
+// Záměrně jiná struktura: programy + týdenní rytmus, ne grid+kroky.
+// Route: /ukazky/trener
+
+const programy = [
+  { kod: "01", nazev: "1:1 osobní trénink", delka: "60 min", format: "ve studiu", cena: "od 700 Kč", popis: "Trénink jen pro vás. Plán, technika a tempo podle toho, kde teď jste." },
+  { kod: "02", nazev: "Trénink ve dvojici", delka: "60 min", format: "ve studiu", cena: "od 500 Kč/os.", popis: "S parťákem nebo partnerkou. Levnější a o dost zábavnější." },
+  { kod: "03", nazev: "Plán na doma", delka: "4 týdny", format: "online", cena: "od 1 490 Kč", popis: "Rozpis na míru a opora přes zprávy. Když nestíháte do studia." },
+];
+
+const tyden = [
+  { d: "Po", t: "Síla" },
+  { d: "Út", t: "Mobilita" },
+  { d: "St", t: "Volno" },
+  { d: "Čt", t: "Síla" },
+  { d: "Pá", t: "Kondice" },
+  { d: "So", t: "Lehce" },
+  { d: "Ne", t: "Volno" },
+];
+
+const prokoho = [
+  "Začínáte a nechcete si ublížit špatnou technikou",
+  "Vracíte se po pauze nebo po zranění a chcete jistotu",
+  "Trénujete sami, ale přestalo to fungovat",
+  "Chcete plán, který sedne do běžného týdne",
+];
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forma — osobní trénink bez drama</title>
+    <meta name="description" content="Osobní trénink na míru — síla, kondice a technika podle toho, kde teď jste. První trénink na zkoušku. Ukázkový web od Mossven." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="fo-body">
+    <header class="fo-top">
+      <div class="fo-wrap fo-top__inner">
+        <a class="fo-brand" href="#fo-top" aria-label="Forma — domů">
+          <span class="fo-brand__name">FORMA</span>
+          <span class="fo-brand__sub">osobní trénink</span>
+        </a>
+        <a class="fo-btn fo-btn--ghost fo-top__cta" href="#fo-kontakt">Začít</a>
+      </div>
+    </header>
+
+    <main id="fo-top">
+      <!-- HERO -->
+      <section class="fo-hero" aria-labelledby="fo-hero-title">
+        <div class="fo-wrap">
+          <p class="fo-eyebrow"><span class="fo-eyebrow__dot" aria-hidden="true"></span>Osobní trénink · České Budějovice</p>
+          <h1 id="fo-hero-title" class="fo-hero__title">
+            DOSTAŇTE SE<br />DO FORMY.<br /><span class="fo-hero__title-em">BEZ DRAMA.</span>
+          </h1>
+          <div class="fo-hero__row">
+            <p class="fo-hero__sub">
+              Trénink na míru podle toho, kde teď jste — ne podle obrázku na internetu. Naučím vás
+              techniku, postavím plán a pohlídám, ať to dává smysl a vydrží.
+            </p>
+            <div class="fo-meter" aria-hidden="true">
+              <div class="fo-meter__head"><span>tvůj postup</span><span class="fo-meter__pct">0 → 100</span></div>
+              <div class="fo-meter__bar"><span class="fo-meter__fill"></span></div>
+              <div class="fo-meter__ticks"><span></span><span></span><span></span><span></span><span></span></div>
+            </div>
+          </div>
+          <div class="fo-hero__cta">
+            <a class="fo-btn fo-btn--solid" href="#fo-kontakt">Domluvit první trénink</a>
+            <a class="fo-btn fo-btn--line" href="#fo-programy">Zobrazit programy</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGRAMY -->
+      <section id="fo-programy" class="fo-section fo-programs" aria-labelledby="fo-programs-h">
+        <div class="fo-wrap">
+          <header class="fo-head">
+            <p class="fo-kicker">Programy</p>
+            <h2 id="fo-programs-h" class="fo-head__title">Vyberte si formát, který vám sedne</h2>
+          </header>
+          <ul class="fo-programs__grid">
+            {programy.map((p) => (
+              <li class="fo-prog">
+                <span class="fo-prog__kod">{p.kod}</span>
+                <h3 class="fo-prog__nazev">{p.nazev}</h3>
+                <p class="fo-prog__popis">{p.popis}</p>
+                <dl class="fo-prog__meta">
+                  <div><dt>Délka</dt><dd>{p.delka}</dd></div>
+                  <div><dt>Formát</dt><dd>{p.format}</dd></div>
+                  <div><dt>Cena</dt><dd class="fo-prog__cena">{p.cena}</dd></div>
+                </dl>
+              </li>
+            ))}
+          </ul>
+          <p class="fo-programs__note">Ceny jsou orientační, jednotlivý vstup. U permanentek vyjde trénink levněji — řekneme si konkrétně podle počtu.</p>
+        </div>
+      </section>
+
+      <!-- TÝDENNÍ RYTMUS -->
+      <section class="fo-section fo-week" aria-labelledby="fo-week-h">
+        <div class="fo-wrap">
+          <header class="fo-head">
+            <p class="fo-kicker fo-kicker--light">Jak vypadá týden</p>
+            <h2 id="fo-week-h" class="fo-head__title fo-head__title--light">Rytmus, ne dřina každý den</h2>
+          </header>
+          <ol class="fo-week__strip">
+            {tyden.map((w) => (
+              <li class={`fo-day${w.t === "Volno" ? " fo-day--off" : ""}`}>
+                <span class="fo-day__d">{w.d}</span>
+                <span class="fo-day__t">{w.t}</span>
+              </li>
+            ))}
+          </ol>
+          <p class="fo-week__note">Ukázkový rozvrh. Skutečný plán sestavíme podle vašich možností a cíle — klidně jen 2× týdně.</p>
+        </div>
+      </section>
+
+      <!-- PRO KOHO -->
+      <section class="fo-section fo-who" aria-labelledby="fo-who-h">
+        <div class="fo-wrap fo-who__inner">
+          <header class="fo-head fo-head--left">
+            <p class="fo-kicker">Pro koho to je</p>
+            <h2 id="fo-who-h" class="fo-head__title">Nemusíte být fit, abyste začali</h2>
+            <p class="fo-head__lead">Většina lidí, co ke mně chodí, nezačínala z formy. Začínali tím, že přišli.</p>
+          </header>
+          <ul class="fo-who__list">
+            {prokoho.map((x) => (
+              <li class="fo-who__item"><span class="fo-who__bar" aria-hidden="true"></span><span>{x}</span></li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- KONTAKT -->
+      <section id="fo-kontakt" class="fo-section fo-contact" aria-labelledby="fo-contact-h">
+        <div class="fo-wrap">
+          <div class="fo-contact__panel">
+            <div>
+              <p class="fo-kicker fo-kicker--lime">První trénink</p>
+              <h2 id="fo-contact-h" class="fo-contact__title">Pojďme začít prvním tréninkem na zkoušku</h2>
+              <p class="fo-contact__lead">Napište nebo zavolejte. Domluvíme termín, projdeme cíl a první trénink bez závazku vyzkoušíme.</p>
+            </div>
+            <div class="fo-contact__details">
+              <a class="fo-crow" href="tel:+420777567890"><span class="fo-crow__l">Telefon</span><span class="fo-crow__v">+420 777 567 890</span></a>
+              <a class="fo-crow" href="mailto:trener.forma@example.cz"><span class="fo-crow__l">E-mail</span><span class="fo-crow__v">trener.forma@example.cz</span></a>
+              <div class="fo-crow fo-crow--static"><span class="fo-crow__l">Kde</span><span class="fo-crow__v fo-crow__v--addr">Sportovní 4, České Budějovice</span></div>
+              <a class="fo-btn fo-btn--solid fo-contact__btn" href="tel:+420777567890">Domluvit trénink</a>
+              <p class="fo-contact__demo">Demo ukázka webu od Mossven.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="fo-foot">
+      <div class="fo-wrap fo-foot__inner">
+        <div>
+          <span class="fo-brand__name fo-foot__name">FORMA</span>
+          <p class="fo-foot__tag">Osobní trénink na míru.</p>
+        </div>
+        <p class="fo-foot__note">Demo web vytvořený jako ukázka řešení od <a class="fo-foot__link" href="/">Mossven</a>.</p>
+      </div>
+    </footer>
+
+    <style is:global>
+      /* Forma — samostatná demo stránka, vše prefixováno .fo- */
+      .fo-body {
+        --fo-bg: #f3f4ef; --fo-panel: #ffffff; --fo-ink: #15160f; --fo-char: #191b14;
+        --fo-soft: #565a4d; --fo-faint: #8b8f80; --fo-lime: #b9e335; --fo-lime-deep: #7f9e16;
+        --fo-line: rgba(21,22,15,.14); --fo-line-soft: rgba(21,22,15,.08);
+        --ff-display: "Big Shoulders Display", system-ui, sans-serif;
+        --ff-body: "Sora", system-ui, sans-serif;
+        --fo-ease: cubic-bezier(.22,.61,.36,1); --fo-maxw: 1140px;
+        margin: 0; font-family: var(--ff-body); color: var(--fo-ink); background: var(--fo-bg);
+        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      .fo-body *, .fo-body *::before, .fo-body *::after { box-sizing: border-box; }
+      .fo-wrap { max-width: var(--fo-maxw); margin: 0 auto; padding: 0 26px; }
+      .fo-body a:not(.fo-btn) { color: inherit; }
+      .fo-body a { text-decoration: none; }
+      .fo-body h1, .fo-body h2, .fo-body h3 { font-family: var(--ff-display); margin: 0; line-height: .9; letter-spacing: .01em; font-weight: 800; text-transform: uppercase; }
+      .fo-body p { margin: 0; }
+      .fo-kicker { font-family: var(--ff-body); font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--fo-lime-deep); }
+      .fo-kicker--light { color: var(--fo-lime); }
+      .fo-kicker--lime { color: var(--fo-lime); }
+      .fo-body a:focus-visible, .fo-body button:focus-visible { outline: 3px solid var(--fo-lime-deep); outline-offset: 3px; }
+
+      .fo-btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: 1.04rem; padding: .7em 1.4em; border-radius: 4px; cursor: pointer; border: 2px solid transparent; transition: transform .15s var(--fo-ease), background-color .2s, color .2s; }
+      .fo-btn--solid { background: var(--fo-lime); color: var(--fo-ink); }
+      .fo-btn--solid:hover { transform: translateY(-2px); background: #c7ee4e; }
+      .fo-btn--line { background: transparent; color: var(--fo-ink); border-color: var(--fo-ink); }
+      .fo-btn--line:hover { background: var(--fo-ink); color: #fff; transform: translateY(-2px); }
+      .fo-btn--ghost { background: var(--fo-ink); color: var(--fo-bg); font-size: .92rem; padding: .58em 1.2em; }
+      .fo-btn--ghost:hover { background: var(--fo-lime); color: var(--fo-ink); }
+
+      .fo-top { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--fo-bg) 86%, transparent); backdrop-filter: blur(9px); border-bottom: 1px solid var(--fo-line-soft); }
+      .fo-top__inner { display: flex; align-items: center; gap: 18px; height: 62px; }
+      .fo-brand { display: inline-flex; align-items: baseline; gap: .55em; }
+      .fo-brand__name { font-family: var(--ff-display); font-weight: 900; font-size: 1.5rem; letter-spacing: .02em; }
+      .fo-brand__sub { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fo-faint); }
+      .fo-top__cta { margin-left: auto; }
+
+      /* HERO */
+      .fo-hero { padding: clamp(40px,6vw,86px) 0 clamp(40px,5vw,70px); }
+      .fo-eyebrow { display: inline-flex; align-items: center; gap: .6em; font-size: .76rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--fo-soft); margin-bottom: 1.2rem; }
+      .fo-eyebrow__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--fo-lime); box-shadow: 0 0 0 4px rgba(185,227,53,.25); }
+      .fo-hero__title { font-size: clamp(3.4rem,12vw,8rem); font-weight: 900; line-height: .86; letter-spacing: 0; }
+      .fo-hero__title-em { color: var(--fo-ink); background: var(--fo-lime); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+      .fo-hero__row { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px,4vw,52px); align-items: end; margin-top: 1.8rem; }
+      .fo-hero__sub { font-size: clamp(1.04rem,1.5vw,1.2rem); color: var(--fo-soft); max-width: 30em; }
+      .fo-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.8rem; }
+
+      .fo-meter { border: 1px solid var(--fo-line); border-radius: 10px; padding: 16px; background: var(--fo-panel); }
+      .fo-meter__head { display: flex; justify-content: space-between; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fo-faint); }
+      .fo-meter__pct { font-family: var(--ff-display); font-weight: 800; color: var(--fo-ink); letter-spacing: .04em; }
+      .fo-meter__bar { height: 14px; border-radius: 999px; background: var(--fo-line-soft); margin: 12px 0 10px; overflow: hidden; }
+      .fo-meter__fill { display: block; height: 100%; width: 78%; border-radius: 999px; background: linear-gradient(90deg, var(--fo-lime-deep), var(--fo-lime)); }
+      .fo-meter__ticks { display: flex; justify-content: space-between; }
+      .fo-meter__ticks span { width: 1px; height: 8px; background: var(--fo-line); }
+      @media (prefers-reduced-motion: no-preference) {
+        .fo-meter__fill { width: 0; animation: fo-fill 1.4s var(--fo-ease) .25s forwards; }
+      }
+      @keyframes fo-fill { to { width: 78%; } }
+
+      /* SECTION shared */
+      .fo-section { padding: clamp(48px,7vw,96px) 0; position: relative; }
+      .fo-head { max-width: 40rem; margin: 0 auto clamp(28px,4vw,48px); text-align: center; }
+      .fo-head--left { text-align: left; margin: 0; }
+      .fo-kicker { display: inline-block; margin-bottom: .8rem; }
+      .fo-head__title { font-size: clamp(1.9rem,4.4vw,3.2rem); font-weight: 800; }
+      .fo-head__title--light { color: #f3f4ef; }
+      .fo-head__lead { margin-top: 1rem; color: var(--fo-soft); font-size: 1.04rem; font-family: var(--ff-body); text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+      /* PROGRAMY */
+      .fo-programs__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+      .fo-prog { background: var(--fo-panel); border: 1px solid var(--fo-line); border-radius: 10px; padding: clamp(22px,2.6vw,30px); display: flex; flex-direction: column; transition: transform .2s var(--fo-ease), box-shadow .2s; }
+      .fo-prog:hover { transform: translateY(-5px); box-shadow: 0 24px 44px -28px rgba(21,22,15,.4); }
+      .fo-prog__kod { font-family: var(--ff-display); font-weight: 800; font-size: 1.1rem; color: var(--fo-lime-deep); }
+      .fo-prog__nazev { font-size: 1.7rem; font-weight: 800; margin: .3rem 0 .5rem; }
+      .fo-prog__popis { color: var(--fo-soft); font-size: .96rem; font-family: var(--ff-body); }
+      .fo-prog__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--fo-line-soft); }
+      .fo-prog__meta dt { font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fo-faint); }
+      .fo-prog__meta dd { margin: 2px 0 0; font-family: var(--ff-display); font-weight: 700; font-size: 1.05rem; }
+      .fo-prog__meta > div:last-child { grid-column: 1 / -1; }
+      .fo-prog__cena { color: var(--fo-lime-deep); }
+      .fo-programs__note { margin-top: 20px; text-align: center; color: var(--fo-faint); font-size: .9rem; }
+
+      /* TÝDEN (dark band) */
+      .fo-week { background: var(--fo-char); border-radius: 0; }
+      .fo-week__strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7,1fr); gap: 10px; }
+      .fo-day { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 18px 10px; text-align: center; display: flex; flex-direction: column; gap: 8px; min-height: 104px; justify-content: space-between; }
+      .fo-day__d { font-family: var(--ff-display); font-weight: 800; font-size: 1.3rem; color: #f3f4ef; }
+      .fo-day__t { font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; color: var(--fo-lime); font-family: var(--ff-body); font-weight: 600; }
+      .fo-day--off { background: transparent; }
+      .fo-day--off .fo-day__t { color: var(--fo-faint); }
+      .fo-week__note { margin-top: 20px; text-align: center; color: var(--fo-faint); font-size: .9rem; }
+
+      /* PRO KOHO */
+      .fo-who__inner { display: grid; grid-template-columns: .95fr 1.05fr; gap: clamp(28px,4vw,60px); align-items: center; }
+      .fo-who__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+      .fo-who__item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: var(--fo-panel); border: 1px solid var(--fo-line); border-radius: 8px; font-size: 1.04rem; font-family: var(--ff-body); }
+      .fo-who__bar { width: 6px; height: 26px; flex: none; border-radius: 2px; background: var(--fo-lime); }
+
+      /* KONTAKT */
+      .fo-contact__panel { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(26px,4vw,52px); background: var(--fo-ink); color: var(--fo-bg); border-radius: 14px; padding: clamp(28px,4vw,52px); }
+      .fo-contact__title { color: #fff; }
+      .fo-contact__lead { margin-top: 1rem; color: #c4c7bb; max-width: 26em; font-family: var(--ff-body); }
+      .fo-contact__details { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+      .fo-crow { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border: 1px solid rgba(243,244,239,.16); border-radius: 8px; transition: border-color .2s, background-color .2s; }
+      a.fo-crow:hover { border-color: var(--fo-lime); background: rgba(243,244,239,.05); }
+      .fo-crow__l { font-size: .64rem; letter-spacing: .16em; text-transform: uppercase; color: var(--fo-lime); font-family: var(--ff-body); }
+      .fo-crow__v { font-family: var(--ff-display); font-weight: 700; font-size: 1.3rem; }
+      .fo-crow__v--addr { font-size: 1.05rem; }
+      .fo-contact__btn { margin-top: 4px; }
+      .fo-contact__demo { color: #9a9d8f; font-size: .78rem; margin-top: 6px; font-family: var(--ff-body); }
+
+      /* FOOTER */
+      .fo-foot { border-top: 1px solid var(--fo-line); padding: 32px 0; }
+      .fo-foot__inner { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; }
+      .fo-foot__name { font-size: 1.3rem; }
+      .fo-foot__tag { color: var(--fo-soft); font-size: .92rem; margin-top: 2px; font-family: var(--ff-body); }
+      .fo-foot__note { color: var(--fo-soft); font-size: .92rem; font-family: var(--ff-body); }
+      .fo-foot__link { color: var(--fo-lime-deep); font-weight: 600; border-bottom: 2px solid var(--fo-lime-deep); }
+
+      @media (max-width: 880px) {
+        .fo-hero__row { grid-template-columns: 1fr; align-items: stretch; }
+        .fo-programs__grid { grid-template-columns: 1fr; max-width: 440px; margin-inline: auto; }
+        .fo-week__strip { grid-template-columns: repeat(4,1fr); }
+        .fo-who__inner { grid-template-columns: 1fr; }
+        .fo-contact__panel { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 520px) { .fo-week__strip { grid-template-columns: repeat(2,1fr); } .fo-foot__inner { flex-direction: column; align-items: flex-start; } }
+      @media (prefers-reduced-motion: reduce) { .fo-body * { animation: none !important; transition: none !important; } .fo-meter__fill { width: 78% !important; } }
+    </style>
+  </body>
+</html>
