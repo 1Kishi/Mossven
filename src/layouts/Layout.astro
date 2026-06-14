@@ -13,7 +13,7 @@ const {
 } = Astro.props;
 ---
 <!doctype html>
-<html lang="cs" data-theme="light">
+<html lang="cs" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,8 +29,7 @@ const {
     <!-- Set theme + language before paint to avoid a flash -->
     <script is:inline>
       try {
-        var t = localStorage.getItem("mv-theme") ||
-          (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        var t = localStorage.getItem("mv-theme") || "dark";
         var l = localStorage.getItem("mv-lang") || "cs";
         document.documentElement.setAttribute("data-theme", t);
         document.documentElement.setAttribute("lang", l);
