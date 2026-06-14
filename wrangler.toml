@@ -9,7 +9,7 @@ main = "src/worker.ts"
 #   npx wrangler secret put RESEND_API_KEY
 #   npx wrangler secret put TURNSTILE_SECRET_KEY
 FROM_EMAIL = "Mossven <leads@mossven.com>"
-NOTIFY_EMAIL = "jacobfuturegreen@gmail.com"
+NOTIFY_EMAIL = "jacobworkgreen@gmail.com"
 PRIVACY_POLICY_VERSION = "v1"
 
 [[d1_databases]]
