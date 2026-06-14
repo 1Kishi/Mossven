@@ -13,15 +13,15 @@
       <div class="field half"><label data-i18n="ct.email">E-mail</label><input type="email" name="email" required /></div>
       <div class="field half"><label data-i18n="ct.phone">Telefon</label><input type="tel" name="phone" /></div>
       <div class="field half"><label data-i18n="ct.need">Co potřebujete?</label>
-        <select name="need"><option data-i18n="ct.need.o0">Nový web</option><option data-i18n="ct.need.o1">Web + péče</option><option data-i18n="ct.need.o2">Jen péče o stávající web</option><option data-i18n="ct.need.o3">Něco jiného</option></select></div>
+        <select name="need"><option value="new_website" data-i18n="ct.need.o0">Nový web</option><option value="website_care" data-i18n="ct.need.o1">Web + péče</option><option value="existing_care" data-i18n="ct.need.o2">Jen péče o stávající web</option><option value="other" data-i18n="ct.need.o3">Něco jiného</option></select></div>
       <div class="field half"><label data-i18n="ct.budget">Rozpočet / představa ceny</label>
-        <select name="budget"><option data-i18n="ct.budget.o0">do 15 000 Kč</option><option data-i18n="ct.budget.o1">15–30 000 Kč</option><option data-i18n="ct.budget.o2">30–50 000 Kč</option><option data-i18n="ct.budget.o3">nevím, chci poradit</option></select></div>
+        <select name="budget"><option value="under_15000" data-i18n="ct.budget.o0">do 15 000 Kč</option><option value="15000_30000" data-i18n="ct.budget.o1">15–30 000 Kč</option><option value="30000_50000" data-i18n="ct.budget.o2">30–50 000 Kč</option><option value="unknown" data-i18n="ct.budget.o3">nevím, chci poradit</option></select></div>
       <div class="field half"><label data-i18n="ct.when">Kdy web potřebujete?</label>
-        <select name="when"><option data-i18n="ct.when.o0">co nejdříve</option><option data-i18n="ct.when.o1">během měsíce</option><option data-i18n="ct.when.o2">během 2–3 měsíců</option><option data-i18n="ct.when.o3">zatím jen zjišťuji možnosti</option></select></div>
+        <select name="when"><option value="asap" data-i18n="ct.when.o0">co nejdříve</option><option value="within_month" data-i18n="ct.when.o1">během měsíce</option><option value="two_three_months" data-i18n="ct.when.o2">během 2–3 měsíců</option><option value="researching" data-i18n="ct.when.o3">zatím jen zjišťuji možnosti</option></select></div>
       <div class="field half"><label data-i18n="ct.has">Už máte web?</label>
-        <select name="hasweb"><option data-i18n="ct.yn.no">Ne</option><option data-i18n="ct.yn.yes">Ano</option></select></div>
+        <select name="hasweb"><option value="0" data-i18n="ct.yn.no">Ne</option><option value="1" data-i18n="ct.yn.yes">Ano</option></select></div>
       <div class="field half"><label data-i18n="ct.dom">Už máte doménu?</label>
-        <select name="hasdomain"><option data-i18n="ct.yn.no">Ne</option><option data-i18n="ct.yn.yes">Ano</option></select></div>
+        <select name="hasdomain"><option value="0" data-i18n="ct.yn.no">Ne</option><option value="1" data-i18n="ct.yn.yes">Ano</option></select></div>
       <div class="field"><label data-i18n="ct.url">Současný web (pokud máte)</label><input type="url" name="url" placeholder="https://" /></div>
       <div class="field"><label data-i18n="ct.pref">Preferovaný kontakt</label>
         <div class="radios"><label><input type="radio" name="pref" value="phone" checked /> <span data-i18n="ct.pref.phone">Telefonicky</span></label><label><input type="radio" name="pref" value="email" /> <span data-i18n="ct.pref.email">E-mailem</span></label></div></div>

@@ -1,4 +1,4 @@
-name = "hosting-greenstar-landingpage"
+name = "mossven-landingpage"
 compatibility_date = "2026-06-03"
 pages_build_output_dir = "dist"
 
@@ -6,8 +6,17 @@ main = "src/worker.ts"
 
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+
+[vars]
+# Non-secret config. Secrets (RESEND_API_KEY, TURNSTILE_SECRET_KEY) are set with:
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put TURNSTILE_SECRET_KEY
+FROM_EMAIL = "Mossven <leads@mossven.com>"
+NOTIFY_EMAIL = "jacobfuturegreen@gmail.com"
+PRIVACY_POLICY_VERSION = "v1"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "greenstar-leads"
-database_id = "1c4e9e3c-7110-4523-9651-a721491df660"
+database_name = "mossven-leads"
+database_id = "1b3cccd9-24ed-4cd2-b9fc-bb397951a777"

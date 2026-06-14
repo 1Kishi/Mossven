@@ -51,10 +51,47 @@ let rt;addEventListener('resize',()=>{clearTimeout(rt);mossline.classList.remove
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-document.getElementById('cform').addEventListener('submit',e=>{
-  e.preventDefault();const f=e.target;if(!f.checkValidity()){f.reportValidity();return;}
-  const ok=document.getElementById('ok');ok.classList.add('show');ok.scrollIntoView({behavior:'smooth',block:'center'});
-  f.querySelectorAll('input,textarea,select').forEach(el=>{if(el.type!=='radio'&&el.type!=='checkbox')el.value='';});
+document.getElementById('cform').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f=e.target as HTMLFormElement;
+  if(!f.checkValidity()){f.reportValidity();return;}
+  const fd=new FormData(f);
+  const consentLabel=document.querySelector('label[for="consent"]');
+  let lang='cs';try{lang=localStorage.getItem('mv-lang')||'cs';}catch(_){}
+  const params=new URLSearchParams(location.search);
+  const payload={
+    name:String(fd.get('name')||''),
+    email:String(fd.get('email')||''),
+    phone:String(fd.get('phone')||''),
+    need:String(fd.get('need')||''),
+    budget:String(fd.get('budget')||''),
+    project_timing:String(fd.get('when')||''),
+    has_website:String(fd.get('hasweb')||'0'),
+    has_domain:String(fd.get('hasdomain')||'0'),
+    current_url:String(fd.get('url')||''),
+    preferred_contact:String(fd.get('pref')||'phone'),
+    message:String(fd.get('message')||''),
+    consent_given:fd.get('consent')?1:0,
+    consent_text:consentLabel?consentLabel.textContent?.trim():'',
+    language:lang,
+    turnstile:String(fd.get('cf-turnstile-response')||''),
+    utm_source:params.get('utm_source')||'',
+    utm_medium:params.get('utm_medium')||'',
+    utm_campaign:params.get('utm_campaign')||'',
+  };
+  const btn=f.querySelector('button[type="submit"]') as HTMLButtonElement|null;
+  if(btn)btn.disabled=true;
+  try{
+    const res=await fetch('/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.ok)throw new Error(data.error||'request failed');
+    const ok=document.getElementById('ok');ok.classList.add('show');ok.scrollIntoView({behavior:'smooth',block:'center'});
+    f.querySelectorAll('input,textarea,select').forEach(el=>{if(el.type!=='radio'&&el.type!=='checkbox')el.value='';});
+  }catch(err){
+    alert((err&&err.message)?err.message:'Odeslání se nezdařilo. Zkuste to prosím znovu.');
+  }finally{
+    if(btn)btn.disabled=false;
+  }
 });
 
 (function(){
