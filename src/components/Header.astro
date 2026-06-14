@@ -22,8 +22,21 @@
       <button class="theme-btn" id="theme" aria-label="Přepnout režim"></button>
       <a href="#kontakt" class="btn btn-primary" data-i18n="nav.cta">Nezávazná konzultace</a>
     </div>
-    <button class="theme-btn menu-btn" id="menu" aria-label="Menu">
+    <button class="theme-btn menu-btn" id="menu" aria-label="Menu" aria-expanded="false" aria-controls="mnav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
   </div>
+  <nav class="mobile-nav" id="mnav" aria-label="Menu">
+    <div class="wrap">
+      <a href="#sluzby" data-i18n="nav.services">Co řeším</a>
+      <a href="#ceny" data-i18n="nav.pricing">Ceny</a>
+      <a href="#proces" data-i18n="nav.process">Jak to probíhá</a>
+      <a href="#faq" data-i18n="nav.faq">Časté dotazy</a>
+      <a href="#kontakt" data-i18n="nav.contact">Kontakt</a>
+      <div class="toggle menu-lang" role="group" aria-label="Language">
+        <button data-lang="cs" class="on">CZ</button><button data-lang="en">EN</button>
+      </div>
+      <a href="#kontakt" class="btn btn-primary" data-i18n="nav.cta">Nezávazná konzultace</a>
+    </div>
+  </nav>
 </header>

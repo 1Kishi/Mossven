@@ -103,6 +103,13 @@ nav.main a:hover{color:var(--ink)} nav.main a:hover::after{width:100%}
 .theme-btn:hover{transform:rotate(18deg)}
 .theme-btn svg{width:18px;height:18px}
 .menu-btn{display:none}
+/* MOBILE NAV (dropdown) */
+.mobile-nav{display:none;position:absolute;top:100%;left:0;right:0;background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:blur(14px) saturate(1.1);border-bottom:1px solid var(--line-soft);box-shadow:0 26px 44px -26px rgba(0,0,0,.55)}
+.mobile-nav .wrap{display:flex;flex-direction:column;gap:0;padding:.6rem 0 1.4rem}
+.mobile-nav a:not(.btn){padding:.95rem .25rem;color:var(--ink-soft);font-size:1.05rem;border-bottom:1px solid var(--line-soft);transition:color .25s}
+.mobile-nav a:not(.btn):hover{color:var(--ink)}
+.mobile-nav .menu-lang{margin:1.1rem 0 .2rem;align-self:flex-start}
+.mobile-nav .btn-primary{justify-content:center;margin-top:1rem}
 
 /* HERO */
 .hero{padding:5rem 0 4rem}
@@ -338,6 +345,8 @@ footer{border-top:1px solid var(--line);padding:2.8rem 0 2.2rem;margin-top:2rem}
 /* RESPONSIVE */
 @media(max-width:940px){
   nav.main{display:none}.menu-btn{display:grid}
+  .head-tools .btn-primary{display:none}
+  .mobile-nav.open{display:block}
   .hero-grid{grid-template-columns:1fr;gap:2.6rem}
   .node-layer{grid-template-columns:1fr;max-width:340px}.mossline{min-height:auto}
   .g4,.g3,.care-grid,.ind-grid{grid-template-columns:repeat(2,1fr)}

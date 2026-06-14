@@ -12,10 +12,10 @@ function setLang(lang){
     if(el.closest('#ceny')&&dict['pkg.badge'])el.setAttribute('data-badge',dict['pkg.badge']);
     if(el.closest('#pece')&&dict['mc.badge'])el.setAttribute('data-badge',dict['mc.badge']);
   });
-  document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
+  document.querySelectorAll('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
   try{localStorage.setItem('mv-lang',lang);}catch(e){}
 }
-document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
 
 const sunSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>';
 const moonSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
@@ -28,7 +28,13 @@ document.getElementById('yr').textContent=new Date().getFullYear();
 
 const head=document.getElementById('head');
 addEventListener('scroll',()=>head.classList.toggle('scrolled',scrollY>20));
-document.getElementById('menu').addEventListener('click',()=>{location.hash='#kontakt';});
+const menuBtn=document.getElementById('menu'),mnav=document.getElementById('mnav');
+function closeMenu(){if(!mnav)return;mnav.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn&&mnav){
+  menuBtn.addEventListener('click',()=>{const open=mnav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open?'true':'false');});
+  mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+  addEventListener('resize',()=>{if(innerWidth>940)closeMenu();});
+}
 
 const svg=document.getElementById('root-svg'),mossline=document.getElementById('mossline');
 function drawRoots(){
