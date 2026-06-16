@@ -87,10 +87,6 @@ const galerie = [
               <path class="kv-cup__body" d="M52 96 h80 a6 6 0 0 1 6 6 v18 a40 40 0 0 1 -40 40 h-12 a40 40 0 0 1 -40 -40 v-18 a6 6 0 0 1 6 -6 z" />
               <path class="kv-cup__handle" d="M138 104 a22 22 0 0 1 0 40" />
               <ellipse cx="92" cy="101.5" rx="36" ry="5.5" class="kv-cup__crema" />
-              <g class="kv-stamp" transform="rotate(-7 100 170)">
-                <rect class="kv-stamp__pill" x="72" y="159" width="56" height="21" rx="10.5" />
-                <text class="kv-stamp__txt" x="100" y="173.5" text-anchor="middle">OTEVŘENO</text>
-              </g>
             </svg>
           </figure>
         </div>
@@ -177,7 +173,7 @@ const galerie = [
           <header class="kv-ghead">
             <p class="kv-kicker">Ukázky</p>
             <h2 id="kv-gallery-h" class="kv-gallery__h">Jak to u nás vypadá</h2>
-            <p class="kv-ghead__lead"><strong>Ilustrační vizuály, ne fotografie.</strong> Skutečný interiér uvidíte, až se stavíte.</p>
+            <p class="kv-ghead__lead"><strong>Ilustrační vizuály, ne fotografie.</strong> Jedná se pouze o demo ukázku.</p>
           </header>
           <ul class="kv-gallery__grid">
             {galerie.map((g) => (
@@ -281,9 +277,6 @@ const galerie = [
       .kv-cup__handle { fill: none; stroke: var(--kv-espresso); stroke-width: 2.4; }
       .kv-cup__crema { fill: var(--kv-crema); }
       .kv-steam__w { fill: none; stroke: url(#kv-steam-grad); stroke-width: 3; stroke-linecap: round; opacity: .5; }
-      .kv-stamp { opacity: .9; }
-      .kv-stamp__pill { fill: none; stroke: var(--kv-clay); stroke-width: 2; }
-      .kv-stamp__txt { fill: var(--kv-clay); font-family: var(--ff-display); font-weight: 700; font-size: 9px; letter-spacing: 1.4px; }
       @media (prefers-reduced-motion: no-preference) {
         .kv-steam__w { animation: kv-steam 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom; }
         .kv-steam__w:nth-child(2) { animation-delay: .6s; }
