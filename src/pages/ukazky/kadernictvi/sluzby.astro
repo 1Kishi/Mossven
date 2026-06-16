@@ -1,0 +1,146 @@
+---
+import Luma from "./_layout/Luma.astro";
+import Ribbon from "./_layout/Ribbon.astro";
+import serviceHaircut from "./service-haircut.png";
+import serviceColor from "./service-color.png";
+import serviceBalayage from "./service-balayage.jpg";
+import serviceCare from "./service-care.jpg";
+import serviceStyling from "./service-styling.png";
+import consultation from "./color-consultation.png";
+
+const base = "/ukazky/kadernictvi";
+
+const groups = [
+  {
+    img: serviceHaircut,
+    t: "Dámské střihy",
+    co: "Střih na míru tvaru obličeje, struktuře vlasů i tomu, kolik času ráno máte.",
+    pro: "Pro každou, kdo chce střih, který drží formu i mezi návštěvami.",
+    cekat: "Konzultaci, mytí, střih a styling. Poradíme, jak ho doma zvládnete sami.",
+  },
+  {
+    img: serviceStyling,
+    t: "Pánské střihy",
+    co: "Klasika i modernější tvary, vousy podle zájmu. Práce strojkem i nůžkami.",
+    pro: "Pro muže, kteří chtějí čistý výsledek a jasné intervaly mezi střihy.",
+    cekat: "Rychlou domluvu, přesný střih a tip, za jak dlouho přijít znovu.",
+  },
+  {
+    img: serviceColor,
+    t: "Barvení",
+    co: "Od zakrytí šedin po výraznou změnu odstínu. Volíme barvu i postup podle kondice vlasů.",
+    pro: "Pro všechny, kdo chtějí jinou barvu — jistě a bez poškození vlasů.",
+    cekat: "Test odstínu, nanesení barvy, mytí a styling. U větší změny počítejte s delším časem.",
+  },
+  {
+    img: serviceBalayage,
+    t: "Balayage a melír",
+    co: "Ruční prosvětlení do ztracena. Vypadá přirozeně a hezky přerůstá.",
+    pro: "Pro ty, kdo chtějí světlejší vlasy bez ostrého odrostu a častých korekcí.",
+    cekat: "Delší návštěvu, tónování na závěr a doporučení péče, ať blond vydrží.",
+  },
+  {
+    img: serviceCare,
+    t: "Tónování a regenerace",
+    co: "Sjednocení a oživení barvy, hloubková výživa a obnova lesku.",
+    pro: "Pro vlasy unavené po létě, barvení nebo melíru.",
+    cekat: "Kratší návštěvu, znatelně hebčí vlasy a tip na domácí péči.",
+  },
+  {
+    img: serviceStyling,
+    t: "Svatební a společenské účesy",
+    co: "Účes na svatbu, ples nebo focení. Možnost zkoušky předem.",
+    pro: "Pro nevěsty i hosty, kteří chtějí mít na velký den jistotu.",
+    cekat: "Domluvu termínu i zkoušky, účes na míru šatům a příležitosti.",
+  },
+  {
+    img: consultation,
+    t: "Konzultace změny stylu",
+    co: "Když nevíte, co dál. Projdeme spolu vlasy, představy i to, co je reálné.",
+    pro: "Pro každého před větší změnou barvy nebo délky.",
+    cekat: "Klidný rozhovor bez tlaku a jasný plán, jak na změnu jít.",
+  },
+];
+---
+
+<Luma
+  title="Služby — Studio Luma"
+  description="Dámské a pánské střihy, barvení, balayage a melír, tónování, regenerace, svatební a společenské účesy a konzultace změny stylu. Co u Studia Luma zařídíme."
+  active="sluzby"
+  accent="copper"
+>
+  <header class="luma-phead">
+    <div class="luma-phead__art" aria-hidden="true"><Ribbon variant="header" /></div>
+    <div class="luma-wrap luma-phead__inner luma-anim">
+      <p class="luma-eyebrow">Služby</p>
+      <h1>Co u nás zařídíme</h1>
+      <p class="luma-phead__sub">
+        U každé služby píšeme, co to je, pro koho se hodí a co od návštěvy čekat.
+        Žádné mlžení — ať víte předem, do čeho jdete.
+      </p>
+    </div>
+  </header>
+
+  <div class="luma-wrap"><Ribbon variant="divider" /></div>
+
+  <section class="luma-section">
+    <div class="luma-wrap luma-svc">
+      {groups.map((g, i) => (
+        <article class:list={["luma-svc__row luma-anim", { "is-flip": i % 2 === 1 }]} data-delay={String((i % 3) + 1)}>
+          <div class="luma-svc__img">
+            <img src={g.img.src} width={g.img.width} height={g.img.height} alt={g.t} loading="lazy" decoding="async" />
+          </div>
+          <div class="luma-svc__body">
+            <h2>{g.t}</h2>
+            <dl class="luma-svc__dl">
+              <div><dt>Co to je</dt><dd>{g.co}</dd></div>
+              <div><dt>Pro koho</dt><dd>{g.pro}</dd></div>
+              <div><dt>Co čekat</dt><dd>{g.cekat}</dd></div>
+            </dl>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="luma-section luma-svc__cta-sec">
+    <div class="luma-wrap luma-svc__cta">
+      <div>
+        <h2>Nevíte, co přesně potřebujete?</h2>
+        <p>Začněte konzultací. Projdeme vlasy i představy a navrhneme postup — bez závazku.</p>
+      </div>
+      <div class="luma-svc__cta-btns">
+        <a class="luma-btn luma-btn--solid" href={`${base}/kontakt`}>Objednat termín</a>
+        <a class="luma-btn luma-btn--line" href={`${base}/cenik`}>Zobrazit ceník</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .luma-svc { display: flex; flex-direction: column; gap: clamp(2rem, 5vw, 3.5rem); }
+    .luma-svc__row { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+    .luma-svc__row.is-flip { grid-template-columns: 1.1fr 0.9fr; }
+    .luma-svc__row.is-flip .luma-svc__img { order: 2; }
+    .luma-svc__img { border-radius: var(--luma-r); overflow: hidden; box-shadow: var(--luma-shadow-sm); aspect-ratio: 5 / 4; }
+    .luma-svc__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .luma-svc__body h2 { font-size: clamp(1.7rem, 3.5vw, 2.3rem); margin-bottom: 1rem; }
+    .luma-svc__dl { margin: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+    .luma-svc__dl > div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.8rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--luma-line-soft); }
+    .luma-svc__dl dt { font-family: var(--luma-ff-body); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--luma-accent); margin: 0.15rem 0 0; }
+    .luma-svc__dl dd { margin: 0; color: var(--luma-ink-soft); }
+
+    .luma-svc__cta-sec { padding-top: 0; }
+    .luma-svc__cta { background: var(--luma-ink); color: var(--luma-paper); border-radius: var(--luma-r); padding: clamp(2rem, 4vw, 3rem); display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; justify-content: space-between; }
+    .luma-svc__cta h2 { color: var(--luma-paper); font-size: clamp(1.6rem, 3.5vw, 2.2rem); }
+    .luma-svc__cta p { color: color-mix(in srgb, var(--luma-paper) 76%, transparent); margin: 0.6rem 0 0; max-width: 44ch; }
+    .luma-svc__cta-btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .luma-svc__cta-btns .luma-btn--line { color: var(--luma-paper); border-color: color-mix(in srgb, var(--luma-paper) 40%, transparent); }
+    .luma-svc__cta-btns .luma-btn--line:hover { border-color: var(--luma-copper); color: var(--luma-copper); }
+
+    @media (max-width: 720px) {
+      .luma-svc__row, .luma-svc__row.is-flip { grid-template-columns: 1fr; }
+      .luma-svc__row.is-flip .luma-svc__img { order: 0; }
+      .luma-svc__dl > div { grid-template-columns: 1fr; gap: 0.2rem; }
+    }
+  </style>
+</Luma>

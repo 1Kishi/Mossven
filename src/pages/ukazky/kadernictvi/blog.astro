@@ -1,0 +1,115 @@
+---
+import Luma from "./_layout/Luma.astro";
+import Ribbon from "./_layout/Ribbon.astro";
+import blogColorChange from "./Blog/blog-color-change.png";
+import blogHaircutFreq from "./Blog/blog-haircut-frequency.png";
+import blogBalayage from "./Blog/blog-balayage-guide.png";
+import blogCareHome from "./Blog/blog-colored-hair-care.png";
+
+const posts = [
+  {
+    img: blogColorChange,
+    cat: "Barva",
+    t: "Jak se připravit na větší změnu barvy",
+    p: "Než půjdete z tmavé do blond (nebo naopak), pomůže pár věcí předem: nechat vlasy odpočinout od žehličky, přinést fotky toho, co se líbí, a počítat s tím, že velká změna může být na víc návštěv.",
+    read: "4 min čtení",
+  },
+  {
+    img: blogHaircutFreq,
+    cat: "Střih",
+    t: "Jak často chodit na střih podle typu vlasů",
+    p: "Krátký střih drží tvar zhruba čtyři až šest týdnů, delší vlasy zvládnou i tři měsíce. Rozhodující je, jestli chcete držet přesný tvar, nebo jen zbavit konečky. Poradíme interval na míru.",
+    read: "3 min čtení",
+  },
+  {
+    img: blogBalayage,
+    cat: "Balayage",
+    t: "Co je balayage a pro koho se hodí",
+    p: "Balayage je ruční prosvětlení do ztracena. Na rozdíl od melíru nemá ostrý odrost, takže nemusíte na korekci tak často. Hodí se, když chcete přirozeně prosvětlené vlasy bez velké údržby.",
+    read: "5 min čtení",
+  },
+  {
+    img: blogCareHome,
+    cat: "Péče",
+    t: "Péče o barvené vlasy doma",
+    p: "Barva vydrží déle s vlažnou vodou, šamponem pro barvené vlasy a maskou jednou týdně. Tepelná ochrana před žehličkou není luxus, ale základ. Pár návyků a barva drží znatelně déle.",
+    read: "4 min čtení",
+  },
+];
+---
+
+<Luma
+  title="Blog — Studio Luma"
+  description="Praktické tipy ze Studia Luma: jak se připravit na změnu barvy, jak často chodit na střih, co je balayage a jak pečovat o barvené vlasy doma."
+  active="blog"
+  accent="copper"
+>
+  <header class="luma-phead">
+    <div class="luma-phead__art" aria-hidden="true"><Ribbon variant="header" /></div>
+    <div class="luma-wrap luma-phead__inner luma-anim">
+      <p class="luma-eyebrow">Blog</p>
+      <h1>Tipy z křesla</h1>
+      <p class="luma-phead__sub">
+        Krátké, praktické rady, které se vám hodí mezi návštěvami — od přípravy na změnu
+        barvy po péči o vlasy doma.
+      </p>
+    </div>
+  </header>
+
+  <div class="luma-wrap"><Ribbon variant="divider" /></div>
+
+  <section class="luma-section">
+    <div class="luma-wrap luma-blog">
+      {posts.map((post, i) => (
+        <article class="luma-post luma-anim" data-delay={String((i % 2) + 1)}>
+          <div class="luma-post__img">
+            <img src={post.img.src} width={post.img.width} height={post.img.height} alt={post.t} loading="lazy" decoding="async" />
+            <span class="luma-post__cat">{post.cat}</span>
+          </div>
+          <div class="luma-post__body">
+            <h2>{post.t}</h2>
+            <p>{post.p}</p>
+            <div class="luma-post__meta">
+              <span class="luma-post__read">{post.read}</span>
+              <span class="luma-post__demo">Ukázkový článek</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="luma-wrap luma-blog__note luma-anim">
+      Ukázkové články pro demo web. U reálného salonu by texty odpovídaly službám a lokalitě.
+    </p>
+  </section>
+
+  <style>
+    .luma-blog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
+    .luma-post {
+      display: flex; flex-direction: column; background: var(--luma-card);
+      border: 1px solid var(--luma-line-soft); border-radius: var(--luma-r); overflow: hidden;
+      box-shadow: var(--luma-shadow-sm); transition: transform 0.28s var(--luma-ease), box-shadow 0.28s var(--luma-ease);
+    }
+    .luma-post:hover { transform: translateY(-5px); box-shadow: var(--luma-shadow); }
+    .luma-post__img { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+    .luma-post__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .luma-post__cat {
+      position: absolute; top: 12px; left: 12px; color: var(--luma-paper);
+      background: var(--luma-ink); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em;
+      padding: 0.4em 0.85em; border-radius: 999px;
+    }
+    .luma-post__body { padding: 1.5rem 1.6rem 1.6rem; display: flex; flex-direction: column; flex: 1; }
+    .luma-post__body h2 { font-size: 1.5rem; margin-bottom: 0.7rem; }
+    .luma-post__body p { color: var(--luma-ink-soft); margin: 0; }
+    .luma-post__meta { margin-top: auto; padding-top: 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
+    .luma-post__read { font-size: 0.84rem; color: var(--luma-ink-soft); font-weight: 500; }
+    .luma-post__demo {
+      margin-left: auto; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em;
+      color: var(--luma-copper); border: 1px dashed color-mix(in srgb, var(--luma-copper) 55%, transparent);
+      padding: 0.3em 0.7em; border-radius: 999px;
+    }
+    .luma-blog__note { margin: 2.4rem auto 0; max-width: 60ch; text-align: center; color: var(--luma-ink-soft); font-style: italic; font-size: 0.95rem; }
+
+    @media (max-width: 720px) { .luma-blog { grid-template-columns: 1fr; } }
+  </style>
+</Luma>

@@ -1,0 +1,36 @@
+---
+// Signature prvek Studia Luma: plynoucí barevné stuhy / prameny vlasů.
+// Používá se výrazně v heru, tišeji jako děliče a hlavičky podstránek.
+interface Props {
+  variant?: "hero" | "header" | "divider";
+  class?: string;
+}
+const { variant = "header", class: cls = "" } = Astro.props;
+
+// barvy vzorníku
+const C = {
+  coral: "#ff5a3c", amber: "#f6a623", teal: "#12a39a", magenta: "#e6186e", plum: "#6b2655",
+};
+
+// různě plynoucí prameny
+const strands = [
+  { d: "M-40,120 C 220,40 360,200 620,110 880,30 1020,180 1300,90", c: C.coral, w: 26, len: 1700 },
+  { d: "M-40,160 C 240,90 380,250 640,160 900,80 1040,230 1300,140", c: C.amber, w: 20, len: 1700 },
+  { d: "M-40,205 C 200,150 380,300 620,210 880,130 1060,280 1300,195", c: C.teal, w: 16, len: 1700 },
+  { d: "M-40,250 C 240,210 360,340 640,255 920,180 1040,320 1300,245", c: C.magenta, w: 12, len: 1700 },
+  { d: "M-40,95 C 260,20 380,150 640,70 900,0 1060,140 1300,55", c: C.plum, w: 9, len: 1700 },
+];
+const op = variant === "hero" ? 1 : 0.85;
+---
+<svg
+  class={`lm-ribbon ${cls}`}
+  viewBox="0 0 1260 320"
+  preserveAspectRatio="xMidYMid slice"
+  role="img"
+  aria-label="Barevné prameny — vizuální motiv Studia Luma"
+  focusable="false"
+>
+  {strands.map((s) => (
+    <path d={s.d} stroke={s.c} stroke-width={s.w} opacity={op} style={`--len:${s.len}`} />
+  ))}
+</svg>

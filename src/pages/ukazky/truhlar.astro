@@ -284,13 +284,13 @@ const duvery = [
                     )}
                     {u.t === "wardrobe" && (
                       <g>
-                        <path d="M40 30 L160 30 L160 126 L40 126 Z" />
-                        <line x1="100" y1="30" x2="100" y2="126" />
-                        <line x1="40" y1="58" x2="160" y2="58" />
-                        <line x1="40" y1="88" x2="160" y2="88" />
-                        <circle cx="92" cy="80" r="2.4" class="dv-card__dot" />
-                        <circle cx="108" cy="80" r="2.4" class="dv-card__dot" />
-                        <path d="M40 30 L160 18" class="dv-card__dim" />
+                        <line x1="26" y1="40" x2="174" y2="94" class="dv-card__ceil" />
+                        <path d="M40 45 l-7 -9 M70 56 l-7 -9 M100 67 l-7 -9 M130 78 l-7 -9 M160 89 l-7 -9" class="dv-card__hatch" />
+                        <path d="M44 56 L156 92 L156 126 L44 126 Z" />
+                        <line x1="100" y1="74" x2="100" y2="126" />
+                        <line x1="44" y1="100" x2="156" y2="100" />
+                        <line x1="94" y1="108" x2="94" y2="118" class="dv-card__pull" />
+                        <line x1="106" y1="108" x2="106" y2="118" class="dv-card__pull" />
                       </g>
                     )}
                     {u.t === "shelf" && (
@@ -761,6 +761,9 @@ const duvery = [
       .dv-card__svg .dv-card__floor { stroke: var(--graphite); }
       .dv-card__svg .dv-card__dim { stroke: var(--pencil); stroke-dasharray: 4 3; stroke-width: 1.2; }
       .dv-card__svg .dv-card__dot { fill: var(--pencil); stroke: none; }
+      .dv-card__svg .dv-card__ceil { stroke: var(--graphite); stroke-width: 1.8; stroke-linecap: round; }
+      .dv-card__svg .dv-card__hatch { stroke: var(--graphite-soft); stroke-width: 1; }
+      .dv-card__svg .dv-card__pull { stroke: var(--pencil); stroke-width: 2.4; stroke-linecap: round; }
       .dv-card__tag {
         position: absolute; top: 10px; right: 10px; font-size: 0.6rem;
         background: var(--walnut); color: var(--paper); padding: 3px 7px; border-radius: 2px;

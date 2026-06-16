@@ -1,0 +1,270 @@
+---
+import Luma from "./_layout/Luma.astro";
+import Ribbon from "./_layout/Ribbon.astro";
+import heroSalon from "./hero-salon.png";
+import serviceHaircut from "./service-haircut.png";
+import serviceColor from "./service-color.png";
+import serviceBalayage from "./service-balayage.jpg";
+import galBalayage from "./gallery/gallery-balayage-01.png";
+import galBlonde from "./gallery/gallery-blonde-01.png";
+import galShort from "./gallery/gallery-short-cut-01.png";
+import galCreative from "./gallery/gallery-creative-color-01.png";
+import teamKlara from "./Team/team-klara.png";
+import teamNela from "./Team/team-nela.png";
+import teamEva from "./Team/team-eva.png";
+
+const base = "/ukazky/kadernictvi";
+
+const services = [
+  { img: serviceHaircut, t: "Střih", p: "Dámský i pánský. Tvar, který drží i doma — bez denního boje s vlasy." },
+  { img: serviceColor, t: "Barva", p: "Od přírodního tónu po výraznou změnu. Vždy s ohledem na kondici vlasů." },
+  { img: serviceBalayage, t: "Balayage & melír", p: "Prosvětlení, které roste hezky a nepotřebuje časté korekce." },
+];
+
+const gallery = [
+  { img: galBalayage, t: "Balayage" },
+  { img: galBlonde, t: "Blond a tónování" },
+  { img: galShort, t: "Krátké střihy" },
+  { img: galCreative, t: "Kreativní barva" },
+];
+
+const team = [
+  { img: teamKlara, n: "Klára", f: "Střihy a přirozené barvy" },
+  { img: teamNela, n: "Nela", f: "Balayage, blond a tónování" },
+  { img: teamEva, n: "Eva", f: "Společenské a svatební účesy" },
+];
+
+const steps = [
+  { n: "01", t: "Ozvete se", p: "Napíšete nebo zavoláte, co chcete řešit. Domluvíme termín i kadeřnici." },
+  { n: "02", t: "Konzultace", p: "Na začátku návštěvy projdeme vlasy, představy a co je reálné." },
+  { n: "03", t: "Práce v křesle", p: "Střih, barva nebo péče — s vysvětlením, ať doma víte, jak na to." },
+  { n: "04", t: "Domů s výsledkem", p: "Ukážeme, jak účes udržet, a rovnou naladíme další návštěvu." },
+];
+---
+
+<Luma
+  title="Studio Luma — kadeřnický ateliér v Českých Budějovicích"
+  description="Barva, střih a péče s rukopisem. Dámské i pánské střihy, balayage, společenské účesy a osobní konzultace. Objednejte se do Studia Luma. Ukázkový web od Mossven."
+  active="uvod"
+  accent="coral"
+>
+  <!-- HERO -->
+  <section class="luma-hero">
+    <div class="luma-wrap luma-hero__grid">
+      <div class="luma-hero__text">
+        <p class="luma-eyebrow luma-anim">Kadeřnický ateliér · České Budějovice</p>
+        <h1 class="luma-hero__title luma-anim" data-delay="1">
+          Barva a střih,<br />které drží tvar<br /><span class="luma-hero__accent">i po odchodu</span> ze&nbsp;salonu.
+        </h1>
+        <p class="luma-lede luma-hero__sub luma-anim" data-delay="2">
+          Pracujeme s barvou, střihem i péčí o vlasy — a vždycky začínáme tím, že se
+          domluvíme, co vám reálně sedne. Žádné překvapení v zrcadle.
+        </p>
+        <div class="luma-hero__cta luma-anim" data-delay="3">
+          <a class="luma-btn luma-btn--solid" href={`${base}/kontakt`}>Objednat termín</a>
+          <a class="luma-btn luma-btn--line" href={`${base}/sluzby`}>Prohlédnout služby</a>
+        </div>
+      </div>
+
+      <div class="luma-hero__visual luma-anim" data-delay="2">
+        <div class="luma-hero__ribbon" aria-hidden="true">
+          <Ribbon variant="hero" />
+        </div>
+        <figure class="luma-hero__photo">
+          <img src={heroSalon.src} width={heroSalon.width} height={heroSalon.height} alt="Interiér ateliéru Studio Luma" loading="eager" decoding="async" />
+        </figure>
+        <span class="luma-hero__tag">Vlastní rukopis ▸ barva · střih · péče</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="luma-wrap"><Ribbon variant="divider" /></div>
+
+  <!-- SLUŽBY PREVIEW -->
+  <section class="luma-section">
+    <div class="luma-wrap">
+      <div class="luma-head luma-anim">
+        <p class="luma-eyebrow">Co u nás zvládneme</p>
+        <h2>Tři věci, na kterých stojíme</h2>
+        <p class="luma-lede">Střih, barva a péče. Zbytek — společenské účesy, regenerace, tónování — najdete v kompletním přehledu služeb.</p>
+      </div>
+      <div class="luma-cards3">
+        {services.map((s, i) => (
+          <article class="luma-pcard luma-anim" data-delay={String(i + 1)}>
+            <div class="luma-pcard__img"><img src={s.img.src} width={s.img.width} height={s.img.height} alt={s.t} loading="lazy" decoding="async" /></div>
+            <div class="luma-pcard__body">
+              <h3>{s.t}</h3>
+              <p>{s.p}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="luma-head__more luma-anim">
+        <a class="luma-btn luma-btn--line" href={`${base}/sluzby`}>Všechny služby</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIE PREVIEW -->
+  <section class="luma-section luma-galsec">
+    <div class="luma-wrap">
+      <div class="luma-head luma-anim">
+        <p class="luma-eyebrow">Ukázky práce</p>
+        <h2>Styl, který poznáte podle barvy</h2>
+      </div>
+      <div class="luma-galstrip">
+        {gallery.map((g, i) => (
+          <a class="luma-galcard luma-anim" data-delay={String(i + 1)} href={`${base}/galerie`}>
+            <img src={g.img.src} width={g.img.width} height={g.img.height} alt={g.t} loading="lazy" decoding="async" />
+            <span class="luma-galcard__label">{g.t}</span>
+          </a>
+        ))}
+      </div>
+      <div class="luma-head__more luma-anim">
+        <a class="luma-btn luma-btn--line" href={`${base}/galerie`}>Celá galerie</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÝM PREVIEW -->
+  <section class="luma-section">
+    <div class="luma-wrap">
+      <div class="luma-head luma-anim">
+        <p class="luma-eyebrow">Kdo se o vás postará</p>
+        <h2>Tři kadeřnice, tři rukopisy</h2>
+      </div>
+      <div class="luma-cards3">
+        {team.map((m, i) => (
+          <article class="luma-tcard luma-anim" data-delay={String(i + 1)}>
+            <div class="luma-tcard__img"><img src={m.img.src} width={m.img.width} height={m.img.height} alt={`${m.n} — kadeřnice Studio Luma`} loading="lazy" decoding="async" /></div>
+            <div class="luma-tcard__body">
+              <h3>{m.n}</h3>
+              <p>{m.f}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="luma-head__more luma-anim">
+        <a class="luma-btn luma-btn--line" href={`${base}/tym`}>Poznat tým</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- JAK TO PROBÍHÁ -->
+  <section class="luma-section luma-stepsec">
+    <div class="luma-wrap">
+      <div class="luma-head luma-anim">
+        <p class="luma-eyebrow">Jak to u nás chodí</p>
+        <h2>Od zprávy k výsledku ve čtyřech krocích</h2>
+      </div>
+      <ol class="luma-steps">
+        {steps.map((st, i) => (
+          <li class="luma-step luma-anim" data-delay={String(i + 1)}>
+            <span class="luma-step__n">{st.n}</span>
+            <h3>{st.t}</h3>
+            <p>{st.p}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ZÁVĚREČNÁ CTA -->
+  <section class="luma-section">
+    <div class="luma-wrap">
+      <div class="luma-cta luma-anim">
+        <div class="luma-cta__ribbon" aria-hidden="true"><Ribbon variant="header" /></div>
+        <div class="luma-cta__text">
+          <h2>Pojďme naladit váš příští účes</h2>
+          <p>Napište nám, co řešíte — barvu, střih, nebo jen že potřebujete změnu. Termín i kadeřnici doladíme spolu.</p>
+          <div class="luma-cta__btns">
+            <a class="luma-btn luma-btn--solid" href={`${base}/kontakt`}>Objednat termín</a>
+            <a class="luma-btn luma-btn--line" href={`${base}/cenik`}>Zobrazit ceník</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* HERO */
+    .luma-hero { padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2rem, 5vw, 3.5rem); }
+    .luma-hero__grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+    .luma-hero__title { font-size: clamp(2.6rem, 6vw, 4.6rem); font-weight: 600; }
+    .luma-hero__accent { font-style: italic; color: var(--luma-coral); }
+    .luma-hero__sub { margin: 1.6rem 0 2rem; }
+    .luma-hero__cta { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+    .luma-hero__visual { position: relative; }
+    .luma-hero__ribbon { position: absolute; inset: -8% -10% -8% -14%; z-index: 0; opacity: 0.9; pointer-events: none; }
+    .luma-hero__photo { position: relative; z-index: 1; margin: 0; border-radius: var(--luma-r); overflow: hidden; box-shadow: var(--luma-shadow); aspect-ratio: 4 / 5; }
+    .luma-hero__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .luma-hero__tag {
+      position: absolute; z-index: 2; left: -6px; bottom: 22px;
+      background: var(--luma-ink); color: var(--luma-paper);
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+      padding: 0.6em 1em; border-radius: 999px; box-shadow: var(--luma-shadow-sm);
+    }
+
+    /* SEKČNÍ HLAVIČKY */
+    .luma-head { max-width: 60ch; margin-bottom: 2.4rem; }
+    .luma-head h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); }
+    .luma-head .luma-lede { margin-top: 0.9rem; font-size: 1.08rem; }
+    .luma-head__more { margin-top: 2rem; }
+
+    /* 3 KARTY */
+    .luma-cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    .luma-pcard, .luma-tcard {
+      background: var(--luma-card); border: 1px solid var(--luma-line-soft);
+      border-radius: var(--luma-r); overflow: hidden; box-shadow: var(--luma-shadow-sm);
+      transition: transform 0.28s var(--luma-ease), box-shadow 0.28s var(--luma-ease);
+    }
+    .luma-pcard:hover, .luma-tcard:hover { transform: translateY(-5px); box-shadow: var(--luma-shadow); }
+    .luma-pcard__img, .luma-tcard__img { aspect-ratio: 4 / 3; overflow: hidden; }
+    .luma-tcard__img { aspect-ratio: 1 / 1; }
+    .luma-pcard__img img, .luma-tcard__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .luma-pcard__body, .luma-tcard__body { padding: 1.3rem 1.4rem 1.5rem; }
+    .luma-pcard__body h3, .luma-tcard__body h3 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .luma-pcard__body p, .luma-tcard__body p { color: var(--luma-ink-soft); margin: 0; }
+    .luma-tcard__body p { color: var(--luma-coral); font-weight: 600; }
+
+    /* GALERIE STRIP */
+    .luma-galsec { background: var(--luma-paper-2); }
+    .luma-galstrip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .luma-galcard { position: relative; display: block; border-radius: var(--luma-r-sm); overflow: hidden; aspect-ratio: 3 / 4; box-shadow: var(--luma-shadow-sm); text-decoration: none; }
+    .luma-galcard img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s var(--luma-ease); }
+    .luma-galcard:hover img { transform: scale(1.05); }
+    .luma-galcard__label {
+      position: absolute; left: 12px; bottom: 12px; color: var(--luma-paper);
+      background: color-mix(in srgb, var(--luma-ink) 78%, transparent); backdrop-filter: blur(4px);
+      font-size: 0.78rem; font-weight: 600; padding: 0.4em 0.8em; border-radius: 999px;
+    }
+
+    /* KROKY */
+    .luma-stepsec { background: var(--luma-ink); color: var(--luma-paper); border-radius: 0; }
+    .luma-stepsec .luma-eyebrow { color: var(--luma-copper); }
+    .luma-stepsec .luma-head h2 { color: var(--luma-paper); }
+    .luma-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; }
+    .luma-step { border-top: 2px solid color-mix(in srgb, var(--luma-paper) 22%, transparent); padding-top: 1.1rem; }
+    .luma-step__n { font-family: var(--luma-ff-display); font-size: 2rem; color: var(--luma-copper); display: block; margin-bottom: 0.5rem; }
+    .luma-step h3 { font-size: 1.25rem; color: var(--luma-paper); margin-bottom: 0.4rem; }
+    .luma-step p { color: color-mix(in srgb, var(--luma-paper) 74%, transparent); margin: 0; }
+
+    /* ZÁVĚREČNÁ CTA */
+    .luma-cta { position: relative; background: var(--luma-paper-2); border-radius: var(--luma-r); padding: clamp(2.5rem, 5vw, 4rem); overflow: hidden; }
+    .luma-cta__ribbon { position: absolute; right: -40px; top: -30px; width: 320px; height: 280px; opacity: 0.5; pointer-events: none; }
+    .luma-cta__text { position: relative; z-index: 1; max-width: 46ch; }
+    .luma-cta__text h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+    .luma-cta__text p { color: var(--luma-ink-soft); margin: 0.9rem 0 1.8rem; }
+    .luma-cta__btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+    @media (max-width: 920px) {
+      .luma-hero__grid { grid-template-columns: 1fr; }
+      .luma-hero__visual { max-width: 460px; }
+      .luma-cards3, .luma-galstrip, .luma-steps { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .luma-cards3, .luma-galstrip, .luma-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</Luma>

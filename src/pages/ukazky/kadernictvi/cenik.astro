@@ -1,0 +1,141 @@
+---
+import Luma from "./_layout/Luma.astro";
+import Ribbon from "./_layout/Ribbon.astro";
+
+const base = "/ukazky/kadernictvi";
+
+const groups = [
+  {
+    name: "Střihy",
+    sw: "var(--luma-coral)",
+    items: [
+      { n: "Střih dámský", note: "mytí, střih, styling", p: "od 690 Kč" },
+      { n: "Střih pánský", note: "mytí, střih, úprava", p: "od 420 Kč" },
+    ],
+  },
+  {
+    name: "Barvení a melír",
+    sw: "var(--luma-copper)",
+    items: [
+      { n: "Barvení", note: "podle délky a náročnosti", p: "od 1 200 Kč" },
+      { n: "Balayage / melír", note: "ruční prosvětlení + tónování", p: "od 2 200 Kč" },
+      { n: "Tónování", note: "oživení a sjednocení barvy", p: "od 700 Kč" },
+    ],
+  },
+  {
+    name: "Péče",
+    sw: "var(--luma-jade)",
+    items: [
+      { n: "Regenerace", note: "hloubková výživa a lesk", p: "od 350 Kč" },
+    ],
+  },
+  {
+    name: "Společenské účesy",
+    sw: "var(--luma-magenta)",
+    items: [
+      { n: "Společenský účes", note: "ples, focení, oslava", p: "od 1 200 Kč" },
+      { n: "Svatební účes", note: "možnost zkoušky předem", p: "individuálně" },
+    ],
+  },
+];
+---
+
+<Luma
+  title="Ceník — Studio Luma"
+  description="Orientační ceník Studia Luma: střihy, barvení, balayage a melír, tónování, regenerace a společenské účesy. Přesnou cenu domluvíme podle délky vlasů a náročnosti."
+  active="cenik"
+  accent="jade"
+>
+  <header class="luma-phead">
+    <div class="luma-phead__art" aria-hidden="true"><Ribbon variant="header" /></div>
+    <div class="luma-wrap luma-phead__inner luma-anim">
+      <p class="luma-eyebrow">Ceník</p>
+      <h1>Ceny na rovinu</h1>
+      <p class="luma-phead__sub">
+        Orientační ceny, ať máte představu ještě před návštěvou. Konečnou částku
+        vždy potvrdíme při konzultaci — žádné překvapení na konci.
+      </p>
+      <p class="luma-demo-flag">Ukázkové (demo) ceny pro tento web. U reálného salonu by zde byl skutečný ceník.</p>
+    </div>
+  </header>
+
+  <div class="luma-wrap"><Ribbon variant="divider" /></div>
+
+  <section class="luma-section">
+    <div class="luma-wrap luma-price">
+      {groups.map((g, gi) => (
+        <div class="luma-price__group luma-anim" data-delay={String((gi % 3) + 1)}>
+          <h2 class="luma-price__gname"><span class="luma-sw" style={`background:${g.sw}`} aria-hidden="true"></span>{g.name}</h2>
+          <ul class="luma-tickets">
+            {g.items.map((it) => (
+              <li class="luma-ticket">
+                <span class="luma-ticket__sw" style={`background:${g.sw}`} aria-hidden="true"></span>
+                <span class="luma-ticket__main">
+                  <span class="luma-ticket__n">{it.n}</span>
+                  <span class="luma-ticket__note">{it.note}</span>
+                </span>
+                <span class="luma-ticket__p">{it.p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="luma-wrap">
+      <p class="luma-price__note luma-anim">
+        Ceny jsou orientační. Přesnou cenu domluvíme podle délky vlasů, náročnosti a použité péče.
+      </p>
+      <div class="luma-price__cta luma-anim">
+        <a class="luma-btn luma-btn--solid" href={`${base}/kontakt`}>Objednat termín</a>
+        <a class="luma-btn luma-btn--line" href={`${base}/sluzby`}>Co která služba zahrnuje</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .luma-demo-flag {
+      display: inline-block; margin-top: 1.4rem;
+      background: color-mix(in srgb, var(--luma-jade) 14%, transparent);
+      color: color-mix(in srgb, var(--luma-jade) 70%, var(--luma-ink));
+      border: 1px dashed color-mix(in srgb, var(--luma-jade) 50%, transparent);
+      padding: 0.55em 0.9em; border-radius: 999px; font-size: 0.86rem; font-weight: 500;
+    }
+
+    .luma-price { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.5rem, 4vw, 2.6rem); }
+    .luma-price__group {
+      background: var(--luma-card); border: 1px solid var(--luma-line-soft);
+      border-radius: var(--luma-r); padding: clamp(1.4rem, 3vw, 2rem); box-shadow: var(--luma-shadow-sm);
+    }
+    .luma-price__gname { display: flex; align-items: center; gap: 0.6rem; font-size: 1.4rem; margin-bottom: 1.2rem; }
+    .luma-sw { width: 14px; height: 14px; border-radius: 4px; display: inline-block; transform: rotate(-8deg); }
+
+    .luma-tickets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .luma-ticket {
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.9rem;
+      padding: 0.85rem 1rem; border-radius: var(--luma-r-sm);
+      background: var(--luma-paper); border: 1px solid var(--luma-line-soft);
+      position: relative;
+    }
+    /* perforovaný okraj „salonního lístku" */
+    .luma-ticket::before, .luma-ticket::after {
+      content: ""; position: absolute; width: 12px; height: 12px; border-radius: 50%;
+      background: var(--luma-card); top: 50%; transform: translateY(-50%);
+    }
+    .luma-ticket::before { left: -7px; }
+    .luma-ticket::after { right: -7px; }
+    .luma-ticket__sw { width: 8px; height: 38px; border-radius: 4px; }
+    .luma-ticket__main { display: flex; flex-direction: column; }
+    .luma-ticket__n { font-weight: 600; font-size: 1.05rem; }
+    .luma-ticket__note { color: var(--luma-ink-soft); font-size: 0.86rem; }
+    .luma-ticket__p { font-family: var(--luma-ff-display); font-weight: 600; font-size: 1.15rem; white-space: nowrap; }
+
+    .luma-price__note {
+      margin: 2.4rem auto 0; max-width: 60ch; text-align: center; color: var(--luma-ink-soft);
+      font-style: italic; padding: 1rem 1.2rem; border-top: 1px solid var(--luma-line-soft);
+    }
+    .luma-price__cta { margin-top: 1.6rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 720px) { .luma-price { grid-template-columns: 1fr; } }
+  </style>
+</Luma>

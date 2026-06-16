@@ -71,14 +71,27 @@ const galerie = [
             </div>
           </div>
           <figure class="kv-cupwrap" aria-hidden="true">
-            <div class="kv-steam"><span></span><span></span><span></span></div>
             <svg class="kv-cup" viewBox="0 0 200 200" role="img" aria-label="Šálek kávy">
+              <defs>
+                <linearGradient id="kv-steam-grad" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0" stop-color="#6f5a47" stop-opacity=".55" />
+                  <stop offset="1" stop-color="#6f5a47" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <g class="kv-steam">
+                <path class="kv-steam__w" d="M76 84 q-7 -9 0 -18 q7 -9 0 -18 q-7 -8 0 -14" />
+                <path class="kv-steam__w" d="M92 86 q7 -10 0 -20 q-7 -9 0 -18 q7 -8 0 -14" />
+                <path class="kv-steam__w" d="M108 84 q-7 -9 0 -18 q7 -9 0 -18 q-7 -8 0 -14" />
+              </g>
               <circle cx="92" cy="120" r="58" class="kv-cup__saucer" />
               <path class="kv-cup__body" d="M52 96 h80 a6 6 0 0 1 6 6 v18 a40 40 0 0 1 -40 40 h-12 a40 40 0 0 1 -40 -40 v-18 a6 6 0 0 1 6 -6 z" />
               <path class="kv-cup__handle" d="M138 104 a22 22 0 0 1 0 40" />
-              <ellipse cx="92" cy="100" rx="40" ry="9" class="kv-cup__crema" />
+              <ellipse cx="92" cy="101.5" rx="36" ry="5.5" class="kv-cup__crema" />
+              <g class="kv-stamp" transform="rotate(-7 100 170)">
+                <rect class="kv-stamp__pill" x="72" y="159" width="56" height="21" rx="10.5" />
+                <text class="kv-stamp__txt" x="100" y="173.5" text-anchor="middle">OTEVŘENO</text>
+              </g>
             </svg>
-            <span class="kv-stamp">OTEVŘENO</span>
           </figure>
         </div>
       </section>
@@ -267,15 +280,16 @@ const galerie = [
       .kv-cup__body { fill: var(--kv-panel); stroke: var(--kv-espresso); stroke-width: 2.4; }
       .kv-cup__handle { fill: none; stroke: var(--kv-espresso); stroke-width: 2.4; }
       .kv-cup__crema { fill: var(--kv-crema); }
-      .kv-steam { position: absolute; top: 14%; left: 50%; transform: translateX(-26px); display: flex; gap: 9px; }
-      .kv-steam span { width: 4px; height: 34px; border-radius: 4px; background: linear-gradient(var(--kv-soft), transparent); opacity: .5; }
-      .kv-stamp { position: absolute; right: 8%; bottom: 14%; font-family: var(--ff-display); font-weight: 700; font-size: .72rem; letter-spacing: .14em; color: var(--kv-clay); border: 2px solid var(--kv-clay); border-radius: 999px; padding: 5px 12px; transform: rotate(-8deg); opacity: .85; }
+      .kv-steam__w { fill: none; stroke: url(#kv-steam-grad); stroke-width: 3; stroke-linecap: round; opacity: .5; }
+      .kv-stamp { opacity: .9; }
+      .kv-stamp__pill { fill: none; stroke: var(--kv-clay); stroke-width: 2; }
+      .kv-stamp__txt { fill: var(--kv-clay); font-family: var(--ff-display); font-weight: 700; font-size: 9px; letter-spacing: 1.4px; }
       @media (prefers-reduced-motion: no-preference) {
-        .kv-steam span { animation: kv-steam 2.6s ease-in-out infinite; transform-origin: bottom; }
-        .kv-steam span:nth-child(2) { animation-delay: .5s; }
-        .kv-steam span:nth-child(3) { animation-delay: 1s; }
+        .kv-steam__w { animation: kv-steam 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom; }
+        .kv-steam__w:nth-child(2) { animation-delay: .6s; }
+        .kv-steam__w:nth-child(3) { animation-delay: 1.1s; }
       }
-      @keyframes kv-steam { 0% { opacity: 0; transform: translateY(6px) scaleY(.8); } 40% { opacity: .55; } 100% { opacity: 0; transform: translateY(-14px) scaleY(1.2); } }
+      @keyframes kv-steam { 0% { opacity: 0; transform: translateY(5px) scaleY(.85); } 45% { opacity: .55; } 100% { opacity: 0; transform: translateY(-12px) scaleY(1.15); } }
 
       /* MENU */
       .kv-menu { padding: clamp(30px,4vw,60px) 0; }

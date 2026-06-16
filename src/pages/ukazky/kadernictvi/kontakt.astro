@@ -1,0 +1,168 @@
+---
+import Luma from "./_layout/Luma.astro";
+import Ribbon from "./_layout/Ribbon.astro";
+import salonChair from "./salon-chair-detail.png";
+
+const hours = [
+  { d: "Pondělí – Pátek", h: "9:00 – 18:00" },
+  { d: "Sobota", h: "dle objednání" },
+  { d: "Neděle", h: "zavřeno" },
+];
+---
+
+<Luma
+  title="Kontakt a objednání — Studio Luma"
+  description="Objednejte se do Studia Luma. Telefon +420 777 234 567, adresa Náměstí 12, České Budějovice. Otevřeno Po–Pá 9:00–18:00, So dle objednání."
+  active="kontakt"
+  accent="coral"
+>
+  <header class="luma-phead">
+    <div class="luma-phead__art" aria-hidden="true"><Ribbon variant="header" /></div>
+    <div class="luma-wrap luma-phead__inner luma-anim">
+      <p class="luma-eyebrow">Kontakt</p>
+      <h1>Pojďme se objednat</h1>
+      <p class="luma-phead__sub">
+        Napište, co řešíte, a my se ozveme s termínem. Nebo zavolejte — domluva po telefonu
+        bývá nejrychlejší.
+      </p>
+    </div>
+  </header>
+
+  <div class="luma-wrap"><Ribbon variant="divider" /></div>
+
+  <section class="luma-section">
+    <div class="luma-wrap luma-contact">
+      <!-- LEVÝ SLOUPEC: údaje -->
+      <aside class="luma-contact__info luma-anim">
+        <figure class="luma-contact__photo">
+          <img src={salonChair.src} width={salonChair.width} height={salonChair.height} alt="Detail salonu Studio Luma" loading="lazy" decoding="async" />
+        </figure>
+
+        <dl class="luma-info">
+          <div><dt>Telefon</dt><dd><a href="tel:+420777234567">+420 777 234 567</a></dd></div>
+          <div><dt>E-mail</dt><dd><a href="mailto:studio.luma@example.cz">studio.luma@example.cz</a></dd></div>
+          <div><dt>Adresa</dt><dd>Náměstí 12, České Budějovice</dd></div>
+        </dl>
+
+        <div class="luma-hours">
+          <h2>Otevírací doba</h2>
+          <ul>
+            {hours.map((h) => (
+              <li><span class="luma-hours__d">{h.d}</span><span class="luma-hours__dots" aria-hidden="true"></span><span class="luma-hours__h">{h.h}</span></li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+
+      <!-- PRAVÝ SLOUPEC: formulář -->
+      <div class="luma-contact__form luma-anim" data-delay="1">
+        <h2>Nezávazná poptávka</h2>
+        <p class="luma-form__intro">Vyplňte, co potřebujete, a my se vám ozveme s návrhem termínu.</p>
+
+        <form class="luma-form" id="luma-form" novalidate>
+          <div class="luma-field">
+            <label for="lf-name">Jméno</label>
+            <input id="lf-name" name="name" type="text" autocomplete="name" placeholder="Vaše jméno" />
+          </div>
+          <div class="luma-field__row">
+            <div class="luma-field">
+              <label for="lf-email">E-mail</label>
+              <input id="lf-email" name="email" type="email" autocomplete="email" placeholder="vas@email.cz" />
+            </div>
+            <div class="luma-field">
+              <label for="lf-phone">Telefon</label>
+              <input id="lf-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 …" />
+            </div>
+          </div>
+          <div class="luma-field__row">
+            <div class="luma-field">
+              <label for="lf-service">O co máte zájem</label>
+              <select id="lf-service" name="service">
+                <option value="">Vyberte službu…</option>
+                <option>Dámský střih</option>
+                <option>Pánský střih</option>
+                <option>Barvení</option>
+                <option>Balayage / melír</option>
+                <option>Tónování / regenerace</option>
+                <option>Společenský / svatební účes</option>
+                <option>Konzultace změny stylu</option>
+              </select>
+            </div>
+            <div class="luma-field">
+              <label for="lf-date">Preferovaný termín</label>
+              <input id="lf-date" name="date" type="date" />
+            </div>
+          </div>
+          <div class="luma-field">
+            <label for="lf-msg">Zpráva</label>
+            <textarea id="lf-msg" name="message" rows="4" placeholder="Napište, co řešíte — délka vlasů, představa, kdy se vám to hodí…"></textarea>
+          </div>
+
+          <button class="luma-btn luma-btn--solid luma-form__submit" type="submit">Nezávazně odeslat poptávku</button>
+
+          <p class="luma-form__demo" id="luma-form-demo">
+            Demo formulář — na reálném webu by zpráva dorazila do e-mailu salonu.
+          </p>
+          <p class="luma-form__sent" id="luma-form-sent" hidden role="status">
+            Toto je ukázka — zpráva se nikam neodeslala. Na ostrém webu by teď dorazila salonu.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .luma-contact { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(1.6rem, 4vw, 3rem); align-items: start; }
+
+    .luma-contact__photo { margin: 0 0 1.6rem; border-radius: var(--luma-r); overflow: hidden; box-shadow: var(--luma-shadow-sm); aspect-ratio: 4 / 3; }
+    .luma-contact__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .luma-info { margin: 0 0 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; }
+    .luma-info > div { padding-bottom: 0.9rem; border-bottom: 1px solid var(--luma-line-soft); }
+    .luma-info dt { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--luma-coral); margin-bottom: 0.2rem; }
+    .luma-info dd { margin: 0; font-size: 1.1rem; }
+    .luma-info a { text-decoration: none; }
+    .luma-info a:hover { color: var(--luma-coral); }
+
+    .luma-hours h2 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+    .luma-hours ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .luma-hours li { display: flex; align-items: baseline; gap: 0.5rem; }
+    .luma-hours__dots { flex: 1; border-bottom: 1px dotted var(--luma-line); transform: translateY(-3px); }
+    .luma-hours__h { color: var(--luma-ink-soft); }
+
+    .luma-contact__form { background: var(--luma-card); border: 1px solid var(--luma-line-soft); border-radius: var(--luma-r); padding: clamp(1.6rem, 4vw, 2.4rem); box-shadow: var(--luma-shadow-sm); }
+    .luma-contact__form h2 { font-size: 1.7rem; }
+    .luma-form__intro { color: var(--luma-ink-soft); margin: 0.5rem 0 1.6rem; }
+    .luma-form { display: flex; flex-direction: column; gap: 1.1rem; }
+    .luma-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .luma-field__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .luma-field label { font-size: 0.86rem; font-weight: 600; color: var(--luma-ink); }
+    .luma-field input, .luma-field select, .luma-field textarea {
+      font-family: var(--luma-ff-body); font-size: 1rem; color: var(--luma-ink);
+      padding: 0.75em 0.9em; border-radius: var(--luma-r-sm);
+      border: 1px solid var(--luma-line); background: var(--luma-paper);
+      transition: border-color 0.2s var(--luma-ease);
+    }
+    .luma-field input:focus, .luma-field select:focus, .luma-field textarea:focus { border-color: var(--luma-coral); }
+    .luma-field textarea { resize: vertical; }
+    .luma-form__submit { align-self: flex-start; margin-top: 0.4rem; }
+    .luma-form__demo { margin: 0; font-size: 0.86rem; color: var(--luma-ink-soft); border-left: 3px solid var(--luma-copper); padding-left: 0.8rem; }
+    .luma-form__sent { margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--luma-jade); background: color-mix(in srgb, var(--luma-jade) 12%, transparent); padding: 0.8em 1em; border-radius: var(--luma-r-sm); }
+
+    @media (max-width: 820px) { .luma-contact { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .luma-field__row { grid-template-columns: 1fr; } }
+  </style>
+
+  <script>
+    const form = document.getElementById("luma-form") as HTMLFormElement | null;
+    const sent = document.getElementById("luma-form-sent");
+    const demo = document.getElementById("luma-form-demo");
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault(); // Demo: nikam neodesílá
+      if (sent) sent.hidden = false;
+      if (demo) demo.hidden = true;
+      form.reset();
+      sent?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  </script>
+</Luma>

@@ -1,9 +1,11 @@
 ---
 // "Ukázky" — showcase of demo sites Mossven has built, split into two
-// categories: single-page "landing" sites (live) and multi-page sites
-// (in preparation). Pure CSS/SVG previews — no external images. The
-// multi-page demos are marked "Připravujeme" until their pages exist,
-// so nothing links to a 404.
+// categories: single-page "landing" sites (live) and multi-page sites.
+// Single-page previews are pure CSS/SVG; live multi-page demos can carry
+// a real screenshot/photo (e.g. Studio Luma's hero). Demos marked
+// "Připravujeme" stay non-linked until their pages exist.
+
+import lumaHero from "../pages/ukazky/kadernictvi/hero-salon.png";
 
 const landing = [
   {
@@ -34,11 +36,13 @@ const landing = [
 
 const multi = [
   {
+    href: "/ukazky/kadernictvi",
     url: "mossven.cz/ukazky/kadernictvi",
     tag: "demos.2t", tagFallback: "Kadeřnictví",
     h: "demos.2h", hFallback: "Studio Luma",
     p: "demos.2p", pFallback: "Barva, střih, rezervace, galerie a tým — na více stránkách.",
-    prev: "salon",
+    prev: "salon", aria: "Otevřít ukázku — Studio Luma, kadeřnictví (vícestránkový web)",
+    img: lumaHero, imgAlt: "Náhled webu Studio Luma — interiér kadeřnictví",
   },
   {
     url: "mossven.cz/ukazky/tetovani",
@@ -88,7 +92,7 @@ const multi = [
                 <svg viewBox="0 0 220 130" aria-hidden="true" class="ux-art">
                   <path d="M74 54 h54 v16 a27 27 0 0 1 -27 27 a27 27 0 0 1 -27 -27 z" class="ux-ln ux-ln--ink"/>
                   <path d="M128 60 a15 15 0 0 1 0 28" class="ux-ln"/>
-                  <ellipse cx="101" cy="60" rx="27" ry="6" class="ux-ln ux-ln--accent ux-fill"/>
+                  <ellipse cx="101" cy="60" rx="23" ry="5.5" class="ux-ln ux-ln--accent ux-fill"/>
                   <line x1="84" y1="42" x2="84" y2="34" class="ux-ln"/>
                   <line x1="101" y1="42" x2="101" y2="32" class="ux-ln"/>
                   <line x1="118" y1="42" x2="118" y2="34" class="ux-ln"/>
@@ -125,24 +129,52 @@ const multi = [
     </div>
     <div class="ux-grid ux-grid--2">
       {multi.map((c) => (
-        <div class="ux-card ux-card--soon reveal" aria-label="Připravovaná vícestránková ukázka">
-          <div class="ux-frame">
-            <div class="ux-bar">
-              <span class="ux-dot"></span><span class="ux-dot"></span><span class="ux-dot"></span>
-              <span class="ux-url mono">{c.url}</span>
+        c.href ? (
+          <a class="ux-card ux-card--live reveal" href={c.href} aria-label={c.aria}>
+            <div class="ux-frame">
+              <div class="ux-bar">
+                <span class="ux-dot"></span><span class="ux-dot"></span><span class="ux-dot"></span>
+                <span class="ux-url mono">{c.url}</span>
+              </div>
+              {c.img ? (
+                <div class="ux-prev ux-prev--photo">
+                  <img class="ux-shot" src={c.img.src} width={c.img.width} height={c.img.height} alt={c.imgAlt} loading="lazy" decoding="async" />
+                  <span class="ux-badge mono">DEMO</span>
+                </div>
+              ) : (
+                <div class={`ux-prev ux-prev--${c.prev} ux-prev--pages`}>
+                  <span class="ux-pages" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="ux-badge mono">DEMO</span>
+                </div>
+              )}
             </div>
-            <div class={`ux-prev ux-prev--${c.prev} ux-prev--pages`}>
-              <span class="ux-pages" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span class="ux-badge ux-badge--soon mono" data-i18n="demos.soon">Připravujeme</span>
+            <div class="ux-meta">
+              <span class="kicker mono ux-tag" data-i18n={c.tag}>{c.tagFallback}</span>
+              <h4 class="ux-name" data-i18n={c.h}>{c.hFallback}</h4>
+              <p data-i18n={c.p}>{c.pFallback}</p>
+              <span class="ux-go"><span data-i18n="demos.live">Prohlédnout ukázku</span><span class="ux-arrow" aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        ) : (
+          <div class="ux-card ux-card--soon reveal" aria-label="Připravovaná vícestránková ukázka">
+            <div class="ux-frame">
+              <div class="ux-bar">
+                <span class="ux-dot"></span><span class="ux-dot"></span><span class="ux-dot"></span>
+                <span class="ux-url mono">{c.url}</span>
+              </div>
+              <div class={`ux-prev ux-prev--${c.prev} ux-prev--pages`}>
+                <span class="ux-pages" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="ux-badge ux-badge--soon mono" data-i18n="demos.soon">Připravujeme</span>
+              </div>
+            </div>
+            <div class="ux-meta">
+              <span class="kicker mono ux-tag" data-i18n={c.tag}>{c.tagFallback}</span>
+              <h4 class="ux-name" data-i18n={c.h}>{c.hFallback}</h4>
+              <p data-i18n={c.p}>{c.pFallback}</p>
+              <span class="ux-go ux-go--muted"><span data-i18n="demos.soon2">Brzy k dispozici</span></span>
             </div>
           </div>
-          <div class="ux-meta">
-            <span class="kicker mono ux-tag" data-i18n={c.tag}>{c.tagFallback}</span>
-            <h4 class="ux-name" data-i18n={c.h}>{c.hFallback}</h4>
-            <p data-i18n={c.p}>{c.pFallback}</p>
-            <span class="ux-go ux-go--muted"><span data-i18n="demos.soon2">Brzy k dispozici</span></span>
-          </div>
-        </div>
+        )
       ))}
     </div>
 
@@ -182,6 +214,11 @@ const multi = [
 
   .ux-prev { position: relative; aspect-ratio: 22 / 13; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .ux-art { width: 86%; height: 86%; }
+
+  /* live multi-page card with a real screenshot/photo */
+  .ux-prev--photo { background: var(--panel-2); }
+  .ux-shot { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s var(--ease); }
+  .ux-card--live:hover .ux-shot { transform: scale(1.04); }
   .ux-ln { fill: none; stroke: var(--ink-soft); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .ux-ln--ink { stroke: var(--ink); }
   .ux-ln--accent { stroke: var(--accent); }

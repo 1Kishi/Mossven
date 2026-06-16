@@ -1,0 +1,132 @@
+---
+import Luma from "./_layout/Luma.astro";
+import Ribbon from "./_layout/Ribbon.astro";
+import gBalayage1 from "./gallery/gallery-balayage-01.png";
+import gBalayage2 from "./gallery/gallery-balayage-02.png";
+import gBlonde from "./gallery/gallery-blonde-01.png";
+import gShort from "./gallery/gallery-short-cut-01.png";
+import gBeforeAfter from "./gallery/gallery-before-after-style-01.png";
+import gNatural from "./gallery/gallery-natural-tone-01.png";
+import gWedding from "./gallery/gallery-wedding-style-01.png";
+import gCreative from "./gallery/gallery-creative-color-01.png";
+import gCopper from "./gallery/gallery-copper-01.png";
+import gGloss from "./gallery/gallery-gloss-care-01.png";
+
+const cats = [
+  { key: "balayage", label: "Balayage" },
+  { key: "kratke", label: "Krátké střihy" },
+  { key: "tonovani", label: "Přirozené tónování" },
+  { key: "svatebni", label: "Svatební účesy" },
+  { key: "kreativni", label: "Kreativní barva" },
+  { key: "lesk", label: "Regenerace a lesk" },
+];
+
+const photos = [
+  { img: gBalayage1, cat: "balayage", label: "Balayage" },
+  { img: gCreative, cat: "kreativni", label: "Kreativní barva" },
+  { img: gShort, cat: "kratke", label: "Krátký střih" },
+  { img: gWedding, cat: "svatebni", label: "Svatební účes" },
+  { img: gBalayage2, cat: "balayage", label: "Balayage" },
+  { img: gNatural, cat: "tonovani", label: "Přirozené tónování" },
+  { img: gCopper, cat: "kreativni", label: "Měděná barva" },
+  { img: gGloss, cat: "lesk", label: "Regenerace a lesk" },
+  { img: gBlonde, cat: "tonovani", label: "Blond a tónování" },
+  { img: gBeforeAfter, cat: "kratke", label: "Proměna střihu" },
+];
+---
+
+<Luma
+  title="Galerie — Studio Luma"
+  description="Ukázky práce Studia Luma: balayage, krátké střihy, přirozené tónování, svatební účesy, kreativní barva a regenerace. Prohlédněte si styl salonu."
+  active="galerie"
+  accent="magenta"
+>
+  <header class="luma-phead">
+    <div class="luma-phead__art" aria-hidden="true"><Ribbon variant="header" /></div>
+    <div class="luma-wrap luma-phead__inner luma-anim">
+      <p class="luma-eyebrow">Galerie</p>
+      <h1>Styl, který poznáte podle barvy</h1>
+      <p class="luma-phead__sub">
+        Průřez tím, co děláme nejradši — od přirozeného tónování po výraznou kreativní barvu.
+        Vyberte kategorii a prohlédněte si konkrétní směr.
+      </p>
+    </div>
+  </header>
+
+  <div class="luma-wrap"><Ribbon variant="divider" /></div>
+
+  <section class="luma-section">
+    <div class="luma-wrap">
+      <div class="luma-filter luma-anim" role="group" aria-label="Filtr galerie">
+        <button class="luma-chip is-active" type="button" data-filter="all">Vše</button>
+        {cats.map((c) => (
+          <button class="luma-chip" type="button" data-filter={c.key}>{c.label}</button>
+        ))}
+      </div>
+
+      <div class="luma-grid">
+        {photos.map((p, i) => (
+          <figure class="luma-gitem luma-anim" data-cat={p.cat} data-delay={String((i % 4) + 1)}>
+            <img src={p.img.src} width={p.img.width} height={p.img.height} alt={p.label} loading="lazy" decoding="async" />
+            <figcaption><span class="luma-gitem__dot" aria-hidden="true"></span>{p.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <p class="luma-gnote luma-anim">
+        Ukázková galerie pro demo web. U reálného salonu by zde byly skutečné fotografie práce.
+      </p>
+    </div>
+  </section>
+
+  <style>
+    .luma-filter { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .luma-chip {
+      font-family: var(--luma-ff-body); font-weight: 500; font-size: 0.92rem;
+      padding: 0.5em 1em; border-radius: 999px; cursor: pointer;
+      background: var(--luma-card); color: var(--luma-ink-soft);
+      border: 1px solid var(--luma-line); transition: all 0.2s var(--luma-ease);
+    }
+    .luma-chip:hover { border-color: var(--luma-magenta); color: var(--luma-ink); }
+    .luma-chip.is-active { background: var(--luma-ink); color: var(--luma-paper); border-color: var(--luma-ink); }
+
+    .luma-grid { columns: 3; column-gap: 1rem; }
+    .luma-gitem {
+      break-inside: avoid; margin: 0 0 1rem; position: relative;
+      border-radius: var(--luma-r-sm); overflow: hidden; box-shadow: var(--luma-shadow-sm);
+    }
+    .luma-gitem.is-hidden { display: none; }
+    .luma-gitem img { width: 100%; height: auto; display: block; transition: transform 0.45s var(--luma-ease); }
+    .luma-gitem:hover img { transform: scale(1.04); }
+    .luma-gitem figcaption {
+      position: absolute; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 0.45em;
+      color: var(--luma-paper); background: color-mix(in srgb, var(--luma-ink) 78%, transparent);
+      backdrop-filter: blur(4px); font-size: 0.8rem; font-weight: 600; padding: 0.4em 0.8em; border-radius: 999px;
+    }
+    .luma-gitem__dot { width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(120deg, var(--luma-coral), var(--luma-magenta)); }
+
+    .luma-gnote {
+      margin: 2.4rem auto 0; max-width: 60ch; text-align: center;
+      color: var(--luma-ink-soft); font-style: italic; font-size: 0.95rem;
+    }
+
+    @media (max-width: 820px) { .luma-grid { columns: 2; } }
+    @media (max-width: 480px) { .luma-grid { columns: 1; } }
+  </style>
+
+  <script>
+    const chips = document.querySelectorAll<HTMLButtonElement>(".luma-chip");
+    const items = document.querySelectorAll<HTMLElement>(".luma-gitem");
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chips.forEach((c) => c.classList.remove("is-active"));
+        chip.classList.add("is-active");
+        const f = chip.dataset.filter;
+        items.forEach((it) => {
+          const show = f === "all" || it.dataset.cat === f;
+          it.classList.toggle("is-hidden", !show);
+        });
+      });
+    });
+  </script>
+</Luma>

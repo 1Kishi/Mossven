@@ -1,0 +1,70 @@
+---
+// Signature prvek Studia Luma: barevné stuhy / prameny vlasů.
+// Tekoucí bezierové křivky vyplněné paletou (korálová → měděná → magenta → jade)
+// — chovají se jako prameny vlasů a vzorník barev.
+// `variant` mění kompozici: hero (velké, výrazné), divider (tenké předěly),
+// header (akcent v hlavičce stránky).
+
+interface Props {
+  variant?: "hero" | "divider" | "header";
+  class?: string;
+}
+const { variant = "divider", class: cls = "" } = Astro.props;
+const uid = "luma-rib-" + Math.random().toString(36).slice(2, 8);
+---
+
+{variant === "hero" && (
+  <svg class:list={["luma-ribbon", cls]} viewBox="0 0 520 520" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id={uid} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="var(--luma-coral)" />
+        <stop offset="0.4" stop-color="var(--luma-copper)" />
+        <stop offset="0.7" stop-color="var(--luma-magenta)" />
+        <stop offset="1" stop-color="var(--luma-jade)" />
+      </linearGradient>
+    </defs>
+    <g stroke-linecap="round" fill="none">
+      <path d="M70 30 C 220 120, 60 250, 230 320 S 120 470, 300 500" stroke={`url(#${uid})`} stroke-width="34" opacity="0.92" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;animation:luma-draw 1.4s var(--luma-ease) .1s forwards" />
+      <path d="M150 20 C 320 110, 180 240, 350 300 S 250 460, 430 500" stroke={`url(#${uid})`} stroke-width="22" opacity="0.7" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;animation:luma-draw 1.4s var(--luma-ease) .28s forwards" />
+      <path d="M240 30 C 380 120, 300 250, 440 320" stroke="var(--luma-copper)" stroke-width="13" opacity="0.55" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;animation:luma-draw 1.4s var(--luma-ease) .46s forwards" />
+    </g>
+  </svg>
+)}
+
+{variant === "divider" && (
+  <svg class:list={["luma-ribbon luma-ribbon--divider", cls]} viewBox="0 0 1200 90" fill="none" aria-hidden="true" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id={uid} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="var(--luma-coral)" />
+        <stop offset="0.5" stop-color="var(--luma-copper)" />
+        <stop offset="1" stop-color="var(--luma-magenta)" />
+      </linearGradient>
+    </defs>
+    <path d="M0 60 C 200 10, 360 90, 600 45 S 1000 0, 1200 50" stroke={`url(#${uid})`} stroke-width="10" stroke-linecap="round" />
+    <path d="M0 72 C 240 30, 420 96, 640 62 S 1010 28, 1200 64" stroke="var(--luma-copper)" stroke-width="5" stroke-linecap="round" opacity="0.5" />
+  </svg>
+)}
+
+{variant === "header" && (
+  <svg class:list={["luma-ribbon luma-ribbon--header", cls]} viewBox="0 0 360 300" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id={uid} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="var(--luma-accent, var(--luma-coral))" />
+        <stop offset="1" stop-color="var(--luma-copper)" />
+      </linearGradient>
+    </defs>
+    <g stroke-linecap="round" fill="none">
+      <path d="M40 20 C 200 70, 100 160, 280 200 S 160 290, 330 280" stroke={`url(#${uid})`} stroke-width="26" opacity="0.85" />
+      <path d="M120 10 C 260 60, 200 150, 340 180" stroke="var(--luma-magenta)" stroke-width="14" opacity="0.55" />
+    </g>
+  </svg>
+)}
+
+<style is:global>
+  @keyframes luma-draw { to { stroke-dashoffset: 0; } }
+  .luma-ribbon { display: block; width: 100%; height: 100%; }
+  .luma-ribbon--divider { height: 64px; width: 100%; }
+  @media (prefers-reduced-motion: reduce) {
+    .luma-ribbon path { stroke-dashoffset: 0 !important; animation: none !important; }
+  }
+</style>
