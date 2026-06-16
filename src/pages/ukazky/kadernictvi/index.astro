@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Luma from "./_layout/Luma.astro";
 import Ribbon from "./_layout/Ribbon.astro";
 import heroSalon from "./hero-salon.png";
@@ -71,7 +72,7 @@ const steps = [
           <Ribbon variant="hero" />
         </div>
         <figure class="luma-hero__photo">
-          <img src={heroSalon.src} width={heroSalon.width} height={heroSalon.height} alt="Interiér ateliéru Studio Luma" loading="eager" decoding="async" />
+          <Image src={heroSalon} alt="Interiér ateliéru Studio Luma" width={900} format="webp" quality={75} loading="eager" decoding="async" />
         </figure>
         <span class="luma-hero__tag">Vlastní rukopis ▸ barva · střih · péče</span>
       </div>
@@ -91,7 +92,7 @@ const steps = [
       <div class="luma-cards3">
         {services.map((s, i) => (
           <article class="luma-pcard luma-anim" data-delay={String(i + 1)}>
-            <div class="luma-pcard__img"><img src={s.img.src} width={s.img.width} height={s.img.height} alt={s.t} loading="lazy" decoding="async" /></div>
+            <div class="luma-pcard__img"><Image src={s.img} alt={s.t} width={700} format="webp" quality={75} loading="lazy" decoding="async" /></div>
             <div class="luma-pcard__body">
               <h3>{s.t}</h3>
               <p>{s.p}</p>
@@ -115,7 +116,7 @@ const steps = [
       <div class="luma-galstrip">
         {gallery.map((g, i) => (
           <a class="luma-galcard luma-anim" data-delay={String(i + 1)} href={`${base}/galerie`}>
-            <img src={g.img.src} width={g.img.width} height={g.img.height} alt={g.t} loading="lazy" decoding="async" />
+            <Image src={g.img} alt={g.t} width={560} format="webp" quality={75} loading="lazy" decoding="async" />
             <span class="luma-galcard__label">{g.t}</span>
           </a>
         ))}
@@ -136,7 +137,7 @@ const steps = [
       <div class="luma-cards3">
         {team.map((m, i) => (
           <article class="luma-tcard luma-anim" data-delay={String(i + 1)}>
-            <div class="luma-tcard__img"><img src={m.img.src} width={m.img.width} height={m.img.height} alt={`${m.n} — kadeřnice Studio Luma`} loading="lazy" decoding="async" /></div>
+            <div class="luma-tcard__img"><Image src={m.img} alt={`${m.n} — kadeřnice Studio Luma`} width={700} format="webp" quality={75} loading="lazy" decoding="async" /></div>
             <div class="luma-tcard__body">
               <h3>{m.n}</h3>
               <p>{m.f}</p>

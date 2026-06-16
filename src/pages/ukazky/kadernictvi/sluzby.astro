@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Luma from "./_layout/Luma.astro";
 import Ribbon from "./_layout/Ribbon.astro";
 import serviceHaircut from "./service-haircut.png";
@@ -88,7 +89,7 @@ const groups = [
       {groups.map((g, i) => (
         <article class:list={["luma-svc__row luma-anim", { "is-flip": i % 2 === 1 }]} data-delay={String((i % 3) + 1)}>
           <div class="luma-svc__img">
-            <img src={g.img.src} width={g.img.width} height={g.img.height} alt={g.t} loading="lazy" decoding="async" />
+            <Image src={g.img} alt={g.t} width={900} format="webp" quality={75} loading="lazy" decoding="async" />
           </div>
           <div class="luma-svc__body">
             <h2>{g.t}</h2>

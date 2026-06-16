@@ -5,6 +5,7 @@
 // a real screenshot/photo (e.g. Studio Luma's hero). Demos marked
 // "Připravujeme" stay non-linked until their pages exist.
 
+import { Image } from "astro:assets";
 import lumaHero from "../pages/ukazky/kadernictvi/hero-salon.png";
 
 const landing = [
@@ -138,7 +139,7 @@ const multi = [
               </div>
               {c.img ? (
                 <div class="ux-prev ux-prev--photo">
-                  <img class="ux-shot" src={c.img.src} width={c.img.width} height={c.img.height} alt={c.imgAlt} loading="lazy" decoding="async" />
+                  <Image class="ux-shot" src={c.img} alt={c.imgAlt} width={700} format="webp" quality={75} loading="lazy" decoding="async" />
                   <span class="ux-badge mono">DEMO</span>
                 </div>
               ) : (

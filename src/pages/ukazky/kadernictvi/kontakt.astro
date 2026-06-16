@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Luma from "./_layout/Luma.astro";
 import Ribbon from "./_layout/Ribbon.astro";
 import salonChair from "./salon-chair-detail.png";
@@ -35,7 +36,7 @@ const hours = [
       <!-- LEVÝ SLOUPEC: údaje -->
       <aside class="luma-contact__info luma-anim">
         <figure class="luma-contact__photo">
-          <img src={salonChair.src} width={salonChair.width} height={salonChair.height} alt="Detail salonu Studio Luma" loading="lazy" decoding="async" />
+          <Image src={salonChair} alt="Detail salonu Studio Luma" width={700} format="webp" quality={75} loading="lazy" decoding="async" />
         </figure>
 
         <dl class="luma-info">
