@@ -874,4 +874,18 @@ const duvery = [
         var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         // give each drawn line its own length + stagger index for the dash animation
         var draws = plan.querySelectorAll(".dv-draw");
-        draws.forEach(function (el,
+        draws.forEach(function (el, i) {
+          try {
+            var len = el.getTotalLength ? el.getTotalLength() : 600;
+            el.style.setProperty("--len", Math.ceil(len + 2));
+            el.style.setProperty("--i", i);
+          } catch (e) {}
+        });
+        if (reduce) return;
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { plan.classList.add("dv-anim"); });
+        });
+      })();
+    </script>
+  </body>
+</html>

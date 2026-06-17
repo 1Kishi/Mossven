@@ -118,7 +118,7 @@ export const translations: Record<Lang, Record<string, string>> = {
   "hero.a1b":"from 14,900 CZK","hero.a1s":"for a website","hero.a2b":"from 990 CZK / month","hero.a2s":"for site care","hero.a3b":"within 1 day","hero.a3s":"reply to your enquiry",
   "ml.domain":"Domain","ml.web":"Website","ml.backup":"Backups","ml.edits":"Edits",
   "ml.cap.h":"Your website isn't left unattended after launch.","ml.cap.p":"Domain, hosting, SSL, backups, monitoring and small edits are all under control.",
-  "st.domain":"Active","st.web":"Online","st.ssl":"Secured","st.backup":"Regular","st.mon":"Monitored","st.edits":"On request",
+  "st.domain":"Active","st.web":"Online","st.ssl":"Secured","st.backup":"Automatic","st.mon":"Live","st.edits":"On request",
   "prob.kicker":"Where you are now","prob.h":"No website? An old website? Don't want to deal with the tech?","prob.p":"Whichever of these you're in, the answer is the same. You describe what you do, and leave the rest to me.",
   "prob.1q":"No website","prob.1p":"People search for you online and don't find you. I'll build a site that introduces you and brings in enquiries.",
   "prob.2q":"An old website","prob.2p":"Hard to open on a phone, can't be edited, nobody watches it. I'll fix it up, or build a new one.",
@@ -187,4 +187,20 @@ export const translations: Record<Lang, Record<string, string>> = {
   "ct.kicker":"Contact","ct.h":"Tell me what your website should handle.","ct.p":"Write a few sentences. I'll reply within one working day with a proposal and price. No commitment.",
   "ct.anti":"Not sure exactly what you need? That's fine. Write to me what you do and roughly what the site should handle. I'll look at it and propose the simplest sensible solution. No pressure, no technical talk.",
   "ct.free1":"Got an old website?","ct.free2":"Send it to me and I'll tell you for free what I'd improve.","ct.ok":"Your enquiry arrived. I'll reply within one working day.",
-  "ct.name":"Name","ct.email":"Email","ct.phone":"Phone","ct.need":"What do you need?","ct.budget":"Budget / price idea","ct.when":"When do you need the site?","ct.has":"Do you have a website?","ct.dom":"Do you have a domain?","ct.url":"C
+  "ct.name":"Name","ct.email":"Email","ct.phone":"Phone","ct.need":"What do you need?","ct.budget":"Budget / price idea","ct.when":"When do you need the site?","ct.has":"Do you have a website?","ct.dom":"Do you have a domain?","ct.url":"Current website (if any)",
+  "ct.need.o0":"New website","ct.need.o1":"Website + care","ct.need.o2":"Care for an existing site only","ct.need.o3":"Something else",
+  "ct.budget.o0":"up to 15,000 CZK","ct.budget.o1":"15–30,000 CZK","ct.budget.o2":"30–50,000 CZK","ct.budget.o3":"not sure, I want advice",
+  "ct.when.o0":"as soon as possible","ct.when.o1":"within a month","ct.when.o2":"within 2–3 months","ct.when.o3":"just exploring options for now",
+  "ct.yn.no":"No","ct.yn.yes":"Yes","ct.pref":"Preferred contact","ct.pref.phone":"By phone","ct.pref.email":"By email",
+  "ct.msg":"Short message","ct.consent":"I agree to my data being processed to reply to this enquiry.","ct.btn":"Send enquiry",
+  "ft.tag":"Websites, hosting and care that quietly just work.","ft.contact":"Contact","ft.ico":"Reg. no.: [to add]","ft.addr":"Address: [to add]","ft.vat":"[add VAT status]",
+  "ft.legal":"Information","ft.terms":"Terms and conditions","ft.privacy":"Privacy policy","ft.cookies":"Cookies","ft.rights":"Calm care for your website.",
+  "pkg.badge":"Most popular","mc.badge":"Most chosen"
+ }
+};
+
+/** Server-side default lookup (Czech-first). The client toggle in
+ *  src/scripts/app.ts swaps text live using this same table. */
+export function t(key: string, lang: Lang = "cs"): string {
+  return translations[lang]?.[key] ?? key;
+}
