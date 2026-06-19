@@ -16,6 +16,9 @@ const landing = [
     h: "demos.1h", hFallback: "Dílna Vorel",
     p: "demos.1p", pFallback: "Nábytek na míru — vestavěné skříně, stoly, kuchyňské prvky a opravy.",
     prev: "wood", aria: "Otevřít ukázku — Dílna Vorel, truhlářství",
+    prob: "demos.1prob", probFallback: "Zákazník potřebuje ukázat práci, oblast působení a získat poptávky.",
+    sol: "demos.1sol", solFallback: "Jednostránkový web s fotkami, službami, formulářem a mapou.",
+    forr: "demos.1for", forFallback: "Truhláře, řemeslníky, instalatéry, elektrikáře.",
   },
   {
     href: "/ukazky/kavarna",
@@ -24,6 +27,9 @@ const landing = [
     h: "demos.4h", hFallback: "Kavárna Zrnko",
     p: "demos.4p", pFallback: "Menu, otevírací doba a cesta k vám. Útulně a přehledně.",
     prev: "cafe", aria: "Otevřít ukázku — Kavárna Zrnko",
+    prob: "demos.4prob", probFallback: "Lidé hledají menu, otevírací dobu a cestu, nejčastěji z mobilu.",
+    sol: "demos.4sol", solFallback: "Přehledná stránka s menu, otevírací dobou a mapou.",
+    forr: "demos.4for", forFallback: "Kavárny, bistra, cukrárny, malé restaurace.",
   },
   {
     href: "/ukazky/trener",
@@ -32,6 +38,9 @@ const landing = [
     h: "demos.5h", hFallback: "Forma",
     p: "demos.5p", pFallback: "Programy, týdenní rytmus a první trénink na zkoušku.",
     prev: "fit", aria: "Otevřít ukázku — Forma, osobní trénink",
+    prob: "demos.5prob", probFallback: "Klient chce vysvětlit programy a získat první rezervaci na zkoušku.",
+    sol: "demos.5sol", solFallback: "Jednostránkový web s programy, rozvrhem a kontaktem.",
+    forr: "demos.5for", forFallback: "Osobní trenéry, lektory, fyzioterapeuty.",
   },
 ];
 
@@ -44,6 +53,9 @@ const multi = [
     p: "demos.2p", pFallback: "Barva, střih, rezervace, galerie a tým — na více stránkách.",
     prev: "salon", aria: "Otevřít ukázku — Studio Luma, kadeřnictví (vícestránkový web)",
     img: lumaHero, imgAlt: "Náhled webu Studio Luma — interiér kadeřnictví",
+    prob: "demos.2prob", probFallback: "Salon potřebuje ukázat práci, ceník, tým a umožnit rezervaci.",
+    sol: "demos.2sol", solFallback: "Vícestránkový web s galerií, ceníkem, týmem a rezervací.",
+    forr: "demos.2for", forFallback: "Kadeřnictví, kosmetiku, nehtová a barber studia.",
   },
   {
     url: "mossven.cz/ukazky/tetovani",
@@ -51,6 +63,9 @@ const multi = [
     h: "demos.3h", hFallback: "Ateliér Hrot",
     p: "demos.3p", pFallback: "Portfolio, služby, ceník a hygiena — jako vícestránkový web.",
     prev: "ink",
+    prob: "demos.3prob", probFallback: "Studio potřebuje portfolio, ceník a jasná pravidla hygieny.",
+    sol: "demos.3sol", solFallback: "Vícestránkový web s portfoliem, službami a ceníkem.",
+    forr: "demos.3for", forFallback: "Tetovací studia, piercing, beauty služby.",
   },
 ];
 ---
@@ -114,6 +129,11 @@ const multi = [
             <span class="kicker mono ux-tag" data-i18n={c.tag}>{c.tagFallback}</span>
             <h4 class="ux-name" data-i18n={c.h}>{c.hFallback}</h4>
             <p data-i18n={c.p}>{c.pFallback}</p>
+            <div class="ux-case">
+              <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lprob">Problém</span><span class="ux-case-v" data-i18n={c.prob}>{c.probFallback}</span></div>
+              <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lsol">Řešení</span><span class="ux-case-v" data-i18n={c.sol}>{c.solFallback}</span></div>
+              <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lfor">Vhodné pro</span><span class="ux-case-v" data-i18n={c.forr}>{c.forFallback}</span></div>
+            </div>
             <span class="ux-go"><span data-i18n="demos.live">Prohlédnout ukázku</span><span class="ux-arrow" aria-hidden="true">→</span></span>
           </div>
         </a>
@@ -153,6 +173,11 @@ const multi = [
               <span class="kicker mono ux-tag" data-i18n={c.tag}>{c.tagFallback}</span>
               <h4 class="ux-name" data-i18n={c.h}>{c.hFallback}</h4>
               <p data-i18n={c.p}>{c.pFallback}</p>
+              <div class="ux-case">
+                <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lprob">Problém</span><span class="ux-case-v" data-i18n={c.prob}>{c.probFallback}</span></div>
+                <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lsol">Řešení</span><span class="ux-case-v" data-i18n={c.sol}>{c.solFallback}</span></div>
+                <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lfor">Vhodné pro</span><span class="ux-case-v" data-i18n={c.forr}>{c.forFallback}</span></div>
+              </div>
               <span class="ux-go"><span data-i18n="demos.live">Prohlédnout ukázku</span><span class="ux-arrow" aria-hidden="true">→</span></span>
             </div>
           </a>
@@ -172,6 +197,11 @@ const multi = [
               <span class="kicker mono ux-tag" data-i18n={c.tag}>{c.tagFallback}</span>
               <h4 class="ux-name" data-i18n={c.h}>{c.hFallback}</h4>
               <p data-i18n={c.p}>{c.pFallback}</p>
+              <div class="ux-case">
+                <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lprob">Problém</span><span class="ux-case-v" data-i18n={c.prob}>{c.probFallback}</span></div>
+                <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lsol">Řešení</span><span class="ux-case-v" data-i18n={c.sol}>{c.solFallback}</span></div>
+                <div class="ux-case-row"><span class="ux-case-k" data-i18n="demos.lfor">Vhodné pro</span><span class="ux-case-v" data-i18n={c.forr}>{c.forFallback}</span></div>
+              </div>
               <span class="ux-go ux-go--muted"><span data-i18n="demos.soon2">Brzy k dispozici</span></span>
             </div>
           </div>
