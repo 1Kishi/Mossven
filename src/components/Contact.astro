@@ -11,7 +11,7 @@
       <div class="success" id="ok" data-i18n="ct.ok">Poptávka dorazila. Ozvu se do jednoho pracovního dne.</div>
       <div class="field half"><label data-i18n="ct.name">Jméno</label><input type="text" name="name" required /></div>
       <div class="field half"><label data-i18n="ct.email">E-mail</label><input type="email" name="email" required /></div>
-      <div class="field half"><label data-i18n="ct.phone">Telefon</label><input type="tel" name="phone" /></div>
+      <div class="field half"><label><span data-i18n="ct.phone">Telefon</span> <span class="opt" data-i18n="ct.opt">nepovinné</span></label><input type="tel" name="phone" /></div>
       <div class="field half"><label data-i18n="ct.need">Co potřebujete?</label>
         <select name="need"><option value="new_website" data-i18n="ct.need.o0">Nový web</option><option value="website_care" data-i18n="ct.need.o1">Web + péče</option><option value="existing_care" data-i18n="ct.need.o2">Jen péče o stávající web</option><option value="other" data-i18n="ct.need.o3">Něco jiného</option></select></div>
       <div class="field half"><label data-i18n="ct.budget">Rozpočet / představa ceny</label>
@@ -22,10 +22,10 @@
         <select name="hasweb"><option value="0" data-i18n="ct.yn.no">Ne</option><option value="1" data-i18n="ct.yn.yes">Ano</option></select></div>
       <div class="field half"><label data-i18n="ct.dom">Už máte doménu?</label>
         <select name="hasdomain"><option value="0" data-i18n="ct.yn.no">Ne</option><option value="1" data-i18n="ct.yn.yes">Ano</option></select></div>
-      <div class="field"><label data-i18n="ct.url">Současný web (pokud máte)</label><input type="url" name="url" placeholder="https://" /></div>
-      <div class="field"><label data-i18n="ct.pref">Preferovaný kontakt</label>
+      <div class="field"><label><span data-i18n="ct.url">Současný web (pokud máte)</span> <span class="opt" data-i18n="ct.opt">nepovinné</span></label><input type="url" name="url" placeholder="https://" /></div>
+      <div class="field"><label><span data-i18n="ct.pref">Preferovaný kontakt</span> <span class="opt" data-i18n="ct.opt">nepovinné</span></label>
         <div class="radios"><label><input type="radio" name="pref" value="phone" checked /> <span data-i18n="ct.pref.phone">Telefonicky</span></label><label><input type="radio" name="pref" value="email" /> <span data-i18n="ct.pref.email">E-mailem</span></label></div></div>
-      <div class="field"><label data-i18n="ct.msg">Krátká zpráva</label><textarea name="message"></textarea></div>
+      <div class="field"><label data-i18n="ct.msg">Krátká zpráva</label><textarea name="message" required></textarea></div>
       <div class="field consent"><input type="checkbox" name="consent" id="consent" required /><label for="consent" style="margin:0;font-weight:500" data-i18n="ct.consent">Souhlasím se zpracováním údajů za účelem odpovědi na poptávku.</label></div>
       <button type="submit" class="btn btn-primary" data-i18n="ct.btn">Odeslat poptávku</button>
     </form>
