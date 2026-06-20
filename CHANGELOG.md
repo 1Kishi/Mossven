@@ -15,6 +15,91 @@
 
 ## 2026-06-20
 
+### Forma (trainer) v2 — warmer/human + a real progress visual system
+Pushed the trainer page past brutalist-fitness toward personal & trustworthy, keeping the bold
+condensed type and lime accent.
+
+- **Warmth:** palette shifted from cool grey-green to warm paper/sand (`--fo-bg #f4f0e7`,
+  `--fo-sand`, warm ink `#1a1611`, warm charcoal band), softer 16px radii (`--fo-r`), warm radial
+  hero glow, rounded pills/chips. Personal touch: trainer named "Tomáš" — hero byline
+  ("vede Tomáš · 8 let praxe · 1. trénink na zkoušku"), photo name chip, first-person signed
+  contact note ("Ozvu se vám já, ne recepce. — Tomáš"), footer + brand sub.
+- **Header CTA fix:** the broken solid-black `.fo-btn--ghost` block replaced with a clean lime
+  `.fo-btn--pill` ("Začít →") with arrow nudge on hover (removed the ghost modifier).
+- **Hero image treatment (custom, not stock):** offset `--fo-sand` panel behind the frame
+  (`.fo-hero__art::before`), inner ring + bottom gradient (`.fo-herofig::after`), saturate/contrast
+  bump, a lime "Vede Tomáš" pill, and an overlapping floating **progress card** ("Váš postup 6/12
+  týdnů" with an animated bar) anchored over the photo corner.
+- **Floating green dot:** removed the meaningless `.fo-hero__title-em::after` dot; the progress idea
+  it gestured at is now a real system.
+- **Progress system across the page:** reusable `.fo-pcard` + `.fo-track` language. New measurable
+  **milestone timeline** (`.fo-mile`, lime dots on a rule: 1. trénink / 4 týdny / 12 týdnů / ∞ návyk
+  with outcome copy) replaces the old static tick-rule. New **"Co spolu sledujeme"** section
+  (`#fo-postup`) with three progress cards (Technika 8/10, Síla +18 %, Návyk 9 týdnů) whose bars
+  animate on scroll-reveal. Dropped the vague hero `0 → 100` meter in favor of the meaningful card.
+  Added a "Postup" nav link.
+
+**Touched:** `src/pages/ukazky/trener.astro`
+
+**Note:** Full rewrite via Write tool (avoids this file's known Edit-tail corruption). Validated via
+`@astrojs/compiler` transform() — 0 errors, no NUL, 7/7 sections, all 6 photo imports used.
+`astro build` still blocked in sandbox (rollup binary). Confirm with `npm run dev`.
+
+### Fixed café marquee early-reset (seamless infinite loop)
+The flat single-track marquee used a uniform `gap`, so `translateX(-50%)` landed half a gap
+short of the duplicate's start → visible jump/reset around "Flat white"/"Filtr V60." Rebuilt as
+a proper tiling marquee: `tickerItems` defined once in frontmatter and rendered as two identical
+`.kv-ticker__group` blocks inside one `.kv-ticker__track`. Track is `display:flex; width:max-content`
+(content-based, not viewport); spacing moved from `gap` to per-child `margin-right` so the groups
+tile with no extra inter-group gap, making `-50%` exactly one group wide. Animation is explicit
+`translateX(0)→translateX(-50%)`, `linear`, `overflow:hidden` on the wrapper. Subtle cream/brown
+style preserved. 0 compiler errors.
+
+**Touched:** `src/pages/ukazky/kavarna.astro`
+
+### Softened the café hero marquee into a subtle menu-tape divider
+The post-hero ticker was too heavy (dark `--ink` band, large italic Fraunces) and split the
+page. Restyled `.kv-ticker` to a quiet editorial strip: muted cream/brown background
+(`paper-2`×`panel` mix), hairline `line-soft` borders (no more solid ink rules), small
+uppercase mono type (.8rem, +.16em tracking), more gap/whitespace, slower 46s scroll. Swapped
+the aggressive `✶` separators for small muted `●` dots (crema, .55 opacity). Café compiles 0 errors.
+
+**Touched:** `src/pages/ukazky/kavarna.astro`
+
+### Art-directed redesign of the kavárna (café) and trenér (Forma) demo pages
+Rebuilt both pages from safe card-grid layouts into custom, art-directed pages per the
+"premium studio, not a template" brief (every section a unique layout, oversized type,
+asymmetry/overlap, images as design elements). Café pushed maximal/editorial; trainer kept
+commercially believable and conversion-focused but de-templated.
+
+- **kavárna.astro** — full rewrite as an editorial "kávový zin." New type system: Fraunces
+  (display, italic/optical) + Instrument Sans (body) + Spline Sans Mono (labels); kept the
+  cream/clay/espresso palette. Sections, each a distinct layout: sticky masthead/tiráž; cover
+  hero with giant mixed roman/italic headline, rotated photo + crop marks + a rotating SVG
+  circular roast seal (textPath) with a coffee-bean center; an italic marquee ticker; an
+  oversized pull-quote credo; a typographic menu *spread* (vertical side-label, dot-leader
+  rows, rotated bleed photo, asymmetric grid-areas — no card grid); a rotated/overlapping
+  bean photo-collage reportage; a pasteboard "nástěnka" gallery (4 pinned, taped, rotated
+  photos on an overlapping CSS grid — the hard-to-template section); an editorial colophon
+  visit block with dot-leader hours + SVG map; a dark closing CTA spread. Page-wide SVG paper
+  grain overlay, IntersectionObserver reveals, reduced-motion guards.
+- **trener.astro** — rewrite keeping Forma's lime/charcoal + Big Shoulders identity and all
+  conversion elements (clear CTAs, price transparency, first-session offer, phone/email/addr).
+  Introduced a "measurement/tracking" visual language: a tick-rule milestone strip (00/04/12/∞),
+  oversized index numerals. Programs are now alternating full-width editorial rows (photo left/
+  right, big kód, inline meta) instead of a 3-up card grid. Week section is a CSS training-load
+  **bar chart** (per-day intensity, staggered grow animation) instead of 7 equal boxes. Pro koho
+  uses an overlapping 2-photo composition with a lime "1. trénink na zkoušku" tag + numbered list.
+  Contact panel refined. Kept the hero progress meter.
+
+**Touched:** `src/pages/ukazky/kavarna.astro`, `src/pages/ukazky/trener.astro`
+
+**Note:** Both validated through `@astrojs/compiler` `transform()` — 0 errors, no NUL bytes,
+balanced `<section>`/`<Image>` tags (café 7/9, trainer 5/5). Full `astro build` still can't run
+in this sandbox (missing `@rollup/rollup-linux-x64-gnu`). Brand recognizability, Czech copy, and
+all existing photo assets/imports preserved; Showcase wiring untouched (imports by path). Confirm
+visually with `npm run dev` on Windows. Café uses the wider 1180px container; trainer too.
+
 ### Wired real photography into the Ateliér Hrot demo
 Jacob added 12 portfolio photos to `src/pages/ukazky/tetovani/` (matching the brief's suggested
 filenames). Swapped the placeholder SVG `Flash` motifs for the real photos via `astro:assets`

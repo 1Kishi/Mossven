@@ -1,9 +1,9 @@
 ---
 // Ukázkový (demo) web pro fiktivní kavárnu „Kavárna Zrnko".
 // Samostatná stránka - vlastní identita, nepoužívá Mossven Layout.
-// Záměrně jiná struktura než ostatní ukázky: menu je hlavní obsah.
-// Route: /ukazky/kavarna
-
+// Redesign: editorial / „kávový zin" — magazínová úprava, předimenzovaná
+// typografie (Fraunces), asymetrie, fotokoláž místo gridu. Každá sekce má
+// vlastní layout. Route: /ukazky/kavarna
 import { Image } from "astro:assets";
 
 // Fotografie atmosféry, kávy a interiéru (přes astro:assets: automatický webp,
@@ -17,13 +17,6 @@ import fotoInterier from "./kavarna/kavarna-interier.png";
 import fotoSalek from "./kavarna/kavarna-salek-detail.png";
 import fotoVitrina from "./kavarna/kavarna-vitrina.png";
 import fotoVchod from "./kavarna/kavarna-vchod.png";
-
-// Malý fotopruh k menu (neúplný výčet, jen pro atmosféru).
-const menuFoto = [
-  { img: fotoEspresso, alt: "Šálek espresa s krémovou cremou na dřevěném stole", n: "Espresso" },
-  { img: fotoKolac, alt: "Domácí koláč na talířku v útulné kavárně", n: "Domácí koláč" },
-  { img: fotoToast, alt: "Avokádový toast naservírovaný k lehkému obědu", n: "Něco k tomu" },
-];
 
 const espresso = [
   { n: "Espresso", p: "55" },
@@ -40,15 +33,14 @@ const ktomu = [
   { n: "Cookie", p: "39" },
   { n: "Avokádový toast", p: "129" },
 ];
+// Položky běžícího pruhu (jeden seznam; v šabloně se vykreslí 2× identicky,
+// aby byla smyčka marquee neviditelná).
+const tickerItems = ["Espresso", "Filtr V60", "Flat white", "Domácí koláče", "Výběrová zrna"];
+
 const hodiny = [
-  { d: "Po–Pá", h: "7:30 – 18:00" },
-  { d: "Sobota", h: "9:00 – 17:00" },
-  { d: "Neděle", h: "9:00 – 15:00" },
-];
-const galerie = [
-  { n: "Interiér", img: fotoInterier, alt: "Útulný interiér kavárny s dřevěnými stoly a měkkým denním světlem" },
-  { n: "Šálek", img: fotoSalek, alt: "Detail šálku kávy s mléčnou pěnou na keramickém talířku" },
-  { n: "Vitrína", img: fotoVitrina, alt: "Vitrína s domácími dorty a koláči připravenými k podání" },
+  { d: "Pondělí — Pátek", h: "7:30 — 18:00" },
+  { d: "Sobota", h: "9:00 — 17:00" },
+  { d: "Neděle", h: "9:00 — 15:00" },
 ];
 ---
 
@@ -57,384 +49,498 @@ const galerie = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kavárna Zrnko: káva, co stojí za zastavení</title>
+    <title>Kavárna Zrnko — káva, co stojí za zastavení</title>
     <meta name="description" content="Malá kavárna s vlastním výběrem zrna. Espresso, filtr a poctivé dobroty. Stavte se na šálek. Ukázkový web od Mossven." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body class="kv-body">
-    <header class="kv-top">
-      <div class="kv-wrap kv-top__inner">
-        <a class="kv-brand" href="#kv-top" aria-label="Kavárna Zrnko, domů">
-          <span class="kv-brand__mark" aria-hidden="true"></span>
-          <span class="kv-brand__name">Kavárna&nbsp;Zrnko</span>
-        </a>
-        <span class="kv-top__hours">Dnes 7:30–18:00</span>
-        <a class="kv-btn kv-btn--ghost kv-top__cta" href="#kv-najit">Najít cestu</a>
+    <!-- Papírové zrno přes celou stránku (tisková textura) -->
+    <svg class="kv-grain" aria-hidden="true" width="0" height="0">
+      <filter id="kvNoise"><feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    </svg>
+
+    <!-- MASTHEAD / tiráž v hlavičce -->
+    <header class="kv-mast">
+      <div class="kv-wrap kv-mast__row">
+        <a class="kv-mast__brand" href="#kv-top" aria-label="Kavárna Zrnko, domů">Kavárna&nbsp;Zrnko</a>
+        <nav class="kv-mast__nav" aria-label="Hlavní">
+          <a href="#kv-menu">Menu</a>
+          <a href="#kv-zrno">Zrno</a>
+          <a href="#kv-najit">Najít nás</a>
+        </nav>
+        <span class="kv-mast__meta">Vyd. 01 · dnes 7:30—18:00</span>
       </div>
     </header>
 
     <main id="kv-top">
-      <!-- HERO -->
-      <section class="kv-hero" aria-labelledby="kv-hero-title">
-        <div class="kv-wrap kv-hero__grid">
-          <div class="kv-hero__text">
-            <p class="kv-eyebrow">Malá kavárna · pražíme po malých dávkách</p>
-            <h1 id="kv-hero-title" class="kv-hero__title">Káva, co stojí<br />za zastavení.</h1>
-            <p class="kv-hero__sub">
-              Vybíráme zrno, které nám chutná, a děláme ho poctivě. Sedněte si na chvíli,
-              nebo si vezměte s sebou: espresso, filtr a něco dobrého k tomu.
+      <!-- ████ TITULNÍ STRANA / HERO ████ -->
+      <section class="kv-cover" aria-labelledby="kv-cover-h">
+        <span class="kv-cmark kv-cmark--tl" aria-hidden="true"></span>
+        <span class="kv-cmark kv-cmark--tr" aria-hidden="true"></span>
+        <span class="kv-cmark kv-cmark--bl" aria-hidden="true"></span>
+        <span class="kv-cmark kv-cmark--br" aria-hidden="true"></span>
+        <div class="kv-wrap kv-cover__grid">
+          <div class="kv-cover__type">
+            <p class="kv-dateline"><span>Č. Budějovice</span><span class="kv-dot" aria-hidden="true"></span><span>Krajinská 9</span><span class="kv-dot" aria-hidden="true"></span><span>Est. 2019</span></p>
+            <h1 id="kv-cover-h" class="kv-cover__h">
+              <span class="kv-cover__l1">Káva,</span>
+              <span class="kv-cover__l2">co stojí <em>za</em></span>
+              <span class="kv-cover__l3">zastavení</span>
+            </h1>
+            <p class="kv-cover__lead">
+              <span class="kv-drop">V</span>ybíráme zrno, které nám chutná, a děláme ho poctivě.
+              Sedněte si na chvíli — nebo si vezměte s sebou: espresso, filtr
+              a něco dobrého k tomu.
             </p>
-            <div class="kv-hero__cta">
+            <div class="kv-cover__cta">
               <a class="kv-btn kv-btn--solid" href="#kv-najit">Stavte se</a>
-              <a class="kv-btn kv-btn--line" href="#kv-menu">Zobrazit menu</a>
+              <a class="kv-btn kv-btn--line" href="#kv-menu">Prolistovat menu</a>
             </div>
           </div>
-          <figure class="kv-herofig">
-            <Image
-              src={heroKava}
-              alt="Šálek kávy na dřevěném stole v útulném interiéru kavárny, měkké ranní světlo"
-              widths={[480, 720, 1040, 1400]}
-              sizes="(max-width: 880px) 100vw, 520px"
-              format="webp"
-              quality={74}
-              loading="eager"
-              decoding="async"
-            />
-          </figure>
-        </div>
-      </section>
 
-      <!-- MENU (centerpiece) -->
-      <section id="kv-menu" class="kv-menu" aria-labelledby="kv-menu-h">
-        <div class="kv-wrap">
-          <div class="kv-menu__card">
-            <header class="kv-menu__head">
-              <h2 id="kv-menu-h">Menu</h2>
-              <span class="kv-menu__note">ceny v Kč · platí dnes</span>
-            </header>
-            <div class="kv-menu__cols">
-              <div class="kv-menu__col">
-                <h3 class="kv-menu__cat">Espresso bar</h3>
-                <ul class="kv-list">
-                  {espresso.map((i) => (
-                    <li class="kv-row"><span class="kv-row__n">{i.n}</span><span class="kv-row__dots" aria-hidden="true"></span><span class="kv-row__p">{i.p}</span></li>
-                  ))}
-                </ul>
-              </div>
-              <div class="kv-menu__col">
-                <h3 class="kv-menu__cat">K tomu</h3>
-                <ul class="kv-list">
-                  {ktomu.map((i) => (
-                    <li class="kv-row"><span class="kv-row__n">{i.n}</span><span class="kv-row__dots" aria-hidden="true"></span><span class="kv-row__p">{i.p}</span></li>
-                  ))}
-                </ul>
-                <p class="kv-menu__small">Rostlinné mléko bez příplatku. Sezónní nabídku najdete na tabuli ve dveřích.</p>
-              </div>
+          <div class="kv-cover__art">
+            <figure class="kv-cover__fig">
+              <Image
+                src={heroKava}
+                alt="Šálek kávy na dřevěném stole v útulném interiéru kavárny, měkké ranní světlo"
+                widths={[480, 720, 1040, 1400]}
+                sizes="(max-width: 900px) 92vw, 540px"
+                format="webp"
+                quality={76}
+                loading="eager"
+                decoding="async"
+              />
+              <figcaption class="kv-cover__cap">fig. 00 — ranní stůl u okna</figcaption>
+            </figure>
+            <!-- Razítko pražírny: kruhový text + zrno -->
+            <div class="kv-seal" aria-hidden="true">
+              <svg viewBox="0 0 200 200">
+                <defs><path id="kvSealPath" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+                <text class="kv-seal__txt"><textPath href="#kvSealPath" startOffset="0">· pražíme po malých dávkách · čerstvě každý den </textPath></text>
+              </svg>
+              <span class="kv-seal__bean"></span>
             </div>
           </div>
-          <ul class="kv-menustrip" aria-label="Ukázky z nabídky">
-            {menuFoto.map((f) => (
-              <li class="kv-menustrip__item">
-                <figure class="kv-shot">
-                  <Image
-                    src={f.img}
-                    alt={f.alt}
-                    widths={[360, 560, 760]}
-                    sizes="(max-width: 600px) 100vw, (max-width: 880px) 50vw, 340px"
-                    format="webp"
-                    quality={74}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <figcaption class="kv-shot__cap">{f.n}</figcaption>
-                </figure>
-              </li>
+        </div>
+        <div class="kv-ticker" aria-hidden="true">
+          <div class="kv-ticker__track">
+            {[0, 1].map(() => (
+              <div class="kv-ticker__group">
+                {tickerItems.map((t) => (
+                  <>
+                    <span class="kv-ticker__item">{t}</span>
+                    <span class="kv-ticker__sep">●</span>
+                  </>
+                ))}
+              </div>
             ))}
-          </ul>
-        </div>
-      </section>
-
-      <!-- ZRNO -->
-      <section class="kv-beans" aria-labelledby="kv-beans-h">
-        <div class="kv-wrap kv-beans__inner">
-          <figure class="kv-shot kv-beans__photo">
-            <Image
-              src={fotoZrno}
-              alt="Detail kávových zrn a přípravy kávy, mlýnek a páka s mletou kávou"
-              widths={[420, 640, 880]}
-              sizes="(max-width: 880px) 100vw, 420px"
-              format="webp"
-              quality={74}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          <div>
-            <p class="kv-kicker">Naše zrno</p>
-            <h2 id="kv-beans-h" class="kv-beans__h">Pražíme po malých dávkách, ať je čerstvé</h2>
-            <p class="kv-beans__p">
-              Měníme nabídku podle sezóny a podle toho, co zrovna chutná nám. Když nevíte, dáme vám
-              ochutnat a poradíme podle toho, jak pijete kávu doma. Zrno si můžete odnést i v balíčku.
-            </p>
           </div>
         </div>
       </section>
 
-      <!-- HODINY + NAVŠTÍVIT -->
-      <section id="kv-najit" class="kv-visit" aria-labelledby="kv-visit-h">
-        <div class="kv-wrap kv-visit__grid">
-          <div class="kv-visit__hours">
-            <p class="kv-kicker">Otevírací doba</p>
-            <h2 id="kv-visit-h" class="kv-visit__h">Kdy máme otevřeno</h2>
-            <ul class="kv-hours">
-              {hodiny.map((h) => (
-                <li class="kv-hours__row"><span>{h.d}</span><span class="kv-hours__h">{h.h}</span></li>
+      <!-- ████ MANIFEST / ÚVODNÍK ████ -->
+      <section class="kv-credo" data-reveal>
+        <div class="kv-wrap kv-credo__grid">
+          <p class="kv-credo__no">01</p>
+          <blockquote class="kv-credo__q">
+            Žádná velká věda. <em>Dobré zrno,</em> trocha péče
+            a&nbsp;čas na to si sednout.
+          </blockquote>
+          <p class="kv-credo__by">— od&nbsp;rána do&nbsp;večera, malá kavárna na rohu</p>
+        </div>
+      </section>
+
+      <!-- ████ MENU — typografický rozkladový list ████ -->
+      <section id="kv-menu" class="kv-menu" aria-labelledby="kv-menu-h" data-reveal>
+        <span class="kv-menu__side" aria-hidden="true">N A &nbsp; P I T Í</span>
+        <div class="kv-wrap kv-menu__grid">
+          <header class="kv-menu__head">
+            <p class="kv-tag">Sekce II — co naléváme</p>
+            <h2 id="kv-menu-h" class="kv-menu__h">Menu</h2>
+            <p class="kv-menu__sub">Ceny v korunách. Rostlinné mléko bez příplatku.</p>
+          </header>
+
+          <div class="kv-menu__col kv-menu__col--a">
+            <h3 class="kv-menu__cat"><span class="kv-menu__cat-no">a</span> Espresso bar</h3>
+            <ul class="kv-list">
+              {espresso.map((i) => (
+                <li class="kv-row"><span class="kv-row__n">{i.n}</span><span class="kv-row__dots" aria-hidden="true"></span><span class="kv-row__p">{i.p}</span></li>
               ))}
             </ul>
           </div>
-          <div class="kv-visit__where">
-            <p class="kv-kicker">Kde nás najdete</p>
-            <p class="kv-visit__addr">Krajinská 9<br />České Budějovice</p>
-            <figure class="kv-shot kv-visit__photo">
-              <Image
-                src={fotoVchod}
-                alt="Vchod do kavárny s posezením u okna, útulná uliční fasáda"
-                widths={[480, 720, 1000]}
-                sizes="(max-width: 880px) 100vw, 520px"
-                format="webp"
-                quality={74}
-                loading="lazy"
-                decoding="async"
-              />
+
+          <figure class="kv-menu__plate">
+            <Image
+              src={fotoEspresso}
+              alt="Šálek espresa s krémovou cremou na dřevěném stole"
+              widths={[360, 560, 760]}
+              sizes="(max-width: 900px) 70vw, 340px"
+              format="webp" quality={75} loading="lazy" decoding="async"
+            />
+            <figcaption>fig. 01 — espresso, 55 Kč</figcaption>
+          </figure>
+
+          <div class="kv-menu__col kv-menu__col--b">
+            <h3 class="kv-menu__cat"><span class="kv-menu__cat-no">b</span> K tomu</h3>
+            <ul class="kv-list">
+              {ktomu.map((i) => (
+                <li class="kv-row"><span class="kv-row__n">{i.n}</span><span class="kv-row__dots" aria-hidden="true"></span><span class="kv-row__p">{i.p}</span></li>
+              ))}
+            </ul>
+            <p class="kv-menu__small">Sezónní nabídku najdete na tabuli ve dveřích.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ████ ZRNO — fotokoláž + reportáž ████ -->
+      <section id="kv-zrno" class="kv-zrno" aria-labelledby="kv-zrno-h" data-reveal>
+        <div class="kv-wrap kv-zrno__grid">
+          <div class="kv-zrno__collage">
+            <figure class="kv-zrno__big">
+              <Image src={fotoZrno} alt="Detail kávových zrn a přípravy kávy, mlýnek a páka s mletou kávou" widths={[420, 640, 880]} sizes="(max-width: 900px) 80vw, 440px" format="webp" quality={75} loading="lazy" decoding="async" />
+              <figcaption>fig. 02 — výběr & příprava</figcaption>
+            </figure>
+            <figure class="kv-zrno__small">
+              <Image src={fotoSalek} alt="Detail šálku kávy s mléčnou pěnou na keramickém talířku" widths={[300, 460, 620]} sizes="(max-width: 900px) 50vw, 240px" format="webp" quality={75} loading="lazy" decoding="async" />
+              <figcaption>fig. 03 — výsledek</figcaption>
+            </figure>
+          </div>
+          <div class="kv-zrno__text">
+            <p class="kv-tag">Sekce III — naše zrno</p>
+            <h2 id="kv-zrno-h" class="kv-zrno__h">Pražíme po&nbsp;malých dávkách, ať&nbsp;je&nbsp;čerstvé</h2>
+            <p class="kv-zrno__p">
+              Měníme nabídku podle sezóny a podle toho, co zrovna chutná nám. Když nevíte,
+              dáme vám ochutnat a poradíme podle toho, jak pijete kávu doma.
+            </p>
+            <p class="kv-zrno__p kv-zrno__p--note">Zrno si můžete odnést i v&nbsp;balíčku domů.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ████ GALERIE — nástěnka / kontaktní list ████ -->
+      <section class="kv-board" aria-labelledby="kv-board-h" data-reveal>
+        <div class="kv-wrap kv-board__head">
+          <h2 id="kv-board-h" class="kv-board__h">Jak&nbsp;to&nbsp;u&nbsp;nás vypadá</h2>
+          <p class="kv-board__lead">Pár záběrů na atmosféru. Nejlíp ji ale poznáte, když&nbsp;se&nbsp;stavíte.</p>
+        </div>
+        <div class="kv-wrap kv-board__stage">
+          <figure class="kv-pin kv-pin--1">
+            <span class="kv-tape" aria-hidden="true"></span>
+            <Image src={fotoInterier} alt="Útulný interiér kavárny s dřevěnými stoly a měkkým denním světlem" widths={[420, 640, 860]} sizes="(max-width: 900px) 80vw, 420px" format="webp" quality={75} loading="lazy" decoding="async" />
+            <figcaption>interiér</figcaption>
+          </figure>
+          <figure class="kv-pin kv-pin--2">
+            <span class="kv-tape" aria-hidden="true"></span>
+            <Image src={fotoVitrina} alt="Vitrína s domácími dorty a koláči připravenými k podání" widths={[360, 520, 700]} sizes="(max-width: 900px) 60vw, 320px" format="webp" quality={75} loading="lazy" decoding="async" />
+            <figcaption>vitrína</figcaption>
+          </figure>
+          <figure class="kv-pin kv-pin--3">
+            <span class="kv-tape" aria-hidden="true"></span>
+            <Image src={fotoToast} alt="Avokádový toast naservírovaný k lehkému obědu" widths={[320, 480, 640]} sizes="(max-width: 900px) 55vw, 280px" format="webp" quality={75} loading="lazy" decoding="async" />
+            <figcaption>k obědu</figcaption>
+          </figure>
+          <figure class="kv-pin kv-pin--4">
+            <span class="kv-tape" aria-hidden="true"></span>
+            <Image src={fotoKolac} alt="Domácí koláč na talířku v útulné kavárně" widths={[320, 480, 640]} sizes="(max-width: 900px) 55vw, 260px" format="webp" quality={75} loading="lazy" decoding="async" />
+            <figcaption>domácí koláč</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ████ NAVŠTÍVIT — tiráž / kolofón ████ -->
+      <section id="kv-najit" class="kv-visit" aria-labelledby="kv-visit-h" data-reveal>
+        <div class="kv-wrap kv-visit__grid">
+          <div class="kv-visit__col">
+            <p class="kv-tag">Sekce IV — najdete nás</p>
+            <h2 id="kv-visit-h" class="kv-visit__h">Krajinská&nbsp;9<br />České&nbsp;Budějovice</h2>
+            <ul class="kv-hours">
+              {hodiny.map((h) => (
+                <li class="kv-hours__row"><span class="kv-hours__d">{h.d}</span><span class="kv-hours__dots" aria-hidden="true"></span><span class="kv-hours__h">{h.h}</span></li>
+              ))}
+            </ul>
+          </div>
+          <div class="kv-visit__media">
+            <figure class="kv-visit__photo">
+              <Image src={fotoVchod} alt="Vchod do kavárny s posezením u okna, útulná uliční fasáda" widths={[480, 720, 1000]} sizes="(max-width: 900px) 92vw, 540px" format="webp" quality={75} loading="lazy" decoding="async" />
             </figure>
             <div class="kv-map" role="img" aria-label="Orientační poloha kavárny">
-              <svg viewBox="0 0 320 150" aria-hidden="true">
-                <rect width="320" height="150" class="kv-map__bg"/>
-                <path d="M0 96 H320 M120 0 V150 M0 40 H210" class="kv-map__road"/>
-                <circle cx="120" cy="96" r="7" class="kv-map__pin"/>
-                <circle cx="120" cy="96" r="2.4" class="kv-map__pindot"/>
+              <svg viewBox="0 0 320 120" aria-hidden="true">
+                <rect width="320" height="120" class="kv-map__bg"/>
+                <path d="M0 78 H320 M126 0 V120 M0 34 H214" class="kv-map__road"/>
+                <circle cx="126" cy="78" r="8" class="kv-map__pin"/>
+                <circle cx="126" cy="78" r="2.6" class="kv-map__pindot"/>
               </svg>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- GALERIE -->
-      <section class="kv-gallery" aria-labelledby="kv-gallery-h">
-        <div class="kv-wrap">
-          <header class="kv-ghead">
-            <p class="kv-kicker">Ukázky</p>
-            <h2 id="kv-gallery-h" class="kv-gallery__h">Jak to u nás vypadá</h2>
-            <p class="kv-ghead__lead">Pár záběrů na atmosféru. Nejlíp ji ale poznáte, když se stavíte.</p>
-          </header>
-          <ul class="kv-gallery__grid">
-            {galerie.map((g) => (
-              <li class="kv-gcard">
-                <div class="kv-gcard__art">
-                  <Image
-                    class="kv-gcard__photo"
-                    src={g.img}
-                    alt={g.alt}
-                    widths={[400, 600, 800]}
-                    sizes="(max-width: 880px) 100vw, 360px"
-                    format="webp"
-                    quality={74}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <span class="kv-gcard__n">{g.n}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <!-- KONTAKT -->
-      <section class="kv-contact" aria-labelledby="kv-contact-h">
-        <div class="kv-wrap">
-          <div class="kv-contact__panel">
-            <div>
-              <p class="kv-kicker kv-kicker--light">Ozvěte se</p>
-              <h2 id="kv-contact-h" class="kv-contact__h">Rezervace, dort na objednávku nebo jen dotaz?</h2>
-              <p class="kv-contact__lead">Napište nebo zavolejte. Na větší skupinu i dort na objednávku se rádi domluvíme dopředu.</p>
-            </div>
-            <div class="kv-contact__details">
-              <a class="kv-crow" href="tel:+420777456789"><span class="kv-crow__l">Telefon</span><span class="kv-crow__v">+420 777 456 789</span></a>
-              <a class="kv-crow" href="mailto:kavarna.zrnko@example.cz"><span class="kv-crow__l">E-mail</span><span class="kv-crow__v">kavarna.zrnko@example.cz</span></a>
-              <a class="kv-btn kv-btn--solid kv-contact__btn" href="tel:+420777456789">Zavolat</a>
-              <p class="kv-contact__demo">Demo ukázka webu od Mossven.</p>
-            </div>
+      <!-- ████ KONTAKT — závěrečný rozklad ████ -->
+      <section class="kv-end" aria-labelledby="kv-end-h" data-reveal>
+        <div class="kv-wrap kv-end__inner">
+          <p class="kv-tag kv-tag--light">Ozvěte se</p>
+          <h2 id="kv-end-h" class="kv-end__h">Rezervace, dort na&nbsp;objednávku,<br /><em>nebo jen dotaz?</em></h2>
+          <p class="kv-end__lead">Napište nebo zavolejte. Na větší skupinu i dort na objednávku se rádi domluvíme dopředu.</p>
+          <div class="kv-end__rows">
+            <a class="kv-crow" href="tel:+420777456789"><span class="kv-crow__l">Telefon</span><span class="kv-crow__v">+420 777 456 789</span></a>
+            <a class="kv-crow" href="mailto:kavarna.zrnko@example.cz"><span class="kv-crow__l">E-mail</span><span class="kv-crow__v">kavarna.zrnko@example.cz</span></a>
           </div>
+          <a class="kv-btn kv-btn--cream kv-end__btn" href="tel:+420777456789">Zavolat</a>
+          <p class="kv-end__demo">Demo ukázka webu od Mossven.</p>
         </div>
       </section>
     </main>
 
     <footer class="kv-foot">
       <div class="kv-wrap kv-foot__inner">
-        <div>
-          <span class="kv-brand__name">Kavárna Zrnko</span>
-          <p class="kv-foot__tag">Malá kavárna s vlastním výběrem zrna.</p>
-        </div>
-        <p class="kv-foot__note">Demo web vytvořený jako ukázka řešení od <a class="kv-foot__link" href="/">Mossven</a>.</p>
+        <span class="kv-foot__name">Kavárna Zrnko</span>
+        <p class="kv-foot__tag">Malá kavárna s vlastním výběrem zrna.</p>
+        <p class="kv-foot__note">Demo web jako ukázka řešení od <a class="kv-foot__link" href="/">Mossven</a>.</p>
       </div>
     </footer>
 
     <style is:global>
-      /* Kavárna Zrnko - samostatná demo stránka, vše prefixováno .kv- */
+      /* ═══ Kavárna Zrnko — editorial redesign, vše prefixováno .kv- ═══ */
       .kv-body {
-        --kv-cream: #f4ecdc; --kv-cream-2: #ece0cb; --kv-panel: #fbf5ea;
-        --kv-espresso: #271a11; --kv-soft: #6f5a47; --kv-faint: #9b8a76;
-        --kv-crema: #cf9a52; --kv-clay: #bb472a; --kv-line: rgba(39,26,17,.14); --kv-line-soft: rgba(39,26,17,.07);
-        --ff-display: "Bricolage Grotesque", system-ui, sans-serif;
+        --paper: #f1e6d2; --paper-2: #e8d9bd; --panel: #faf3e6;
+        --ink: #25180f; --ink-soft: #6c5742; --faint: #9a886f;
+        --clay: #b5402a; --crema: #c2843a; --cream: #f6eedd;
+        --line: rgba(37,24,15,.20); --line-soft: rgba(37,24,15,.10);
+        --ff-display: "Fraunces", Georgia, serif;
         --ff-body: "Instrument Sans", system-ui, sans-serif;
-        --kv-ease: cubic-bezier(.22,.61,.36,1); --kv-maxw: 1140px;
-        margin: 0; font-family: var(--ff-body); color: var(--kv-espresso);
-        background-color: var(--kv-cream);
-        background-image: radial-gradient(1100px 600px at 82% -16%, rgba(207,154,82,.16), transparent 60%);
+        --ff-mono: "Spline Sans Mono", ui-monospace, monospace;
+        --ease: cubic-bezier(.22,.61,.36,1); --maxw: 1180px;
+        margin: 0; font-family: var(--ff-body); color: var(--ink);
+        background-color: var(--paper);
+        background-image: radial-gradient(1200px 640px at 88% -18%, rgba(194,132,58,.20), transparent 62%);
         line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
       }
       .kv-body *, .kv-body *::before, .kv-body *::after { box-sizing: border-box; }
-      .kv-wrap { max-width: var(--kv-maxw); margin: 0 auto; padding: 0 26px; }
-      .kv-body a:not(.kv-btn) { color: inherit; }
-      .kv-body a { text-decoration: none; }
-      .kv-body h1, .kv-body h2, .kv-body h3 { font-family: var(--ff-display); margin: 0; line-height: 1.02; letter-spacing: -.02em; font-weight: 700; }
+      .kv-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(20px,4vw,40px); width: 100%; }
+      .kv-body a { text-decoration: none; color: inherit; }
+      .kv-body h1, .kv-body h2, .kv-body h3 { font-family: var(--ff-display); margin: 0; font-weight: 400; }
       .kv-body p { margin: 0; }
-      .kv-kicker { font-family: var(--ff-body); font-size: .72rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--kv-clay); }
-      .kv-kicker--light { color: var(--kv-crema); }
-      .kv-body a:focus-visible, .kv-body button:focus-visible { outline: 3px solid var(--kv-clay); outline-offset: 3px; border-radius: 3px; }
+      .kv-body em { font-style: italic; }
+      .kv-body a:focus-visible, .kv-body button:focus-visible { outline: 3px solid var(--clay); outline-offset: 4px; border-radius: 2px; }
 
-      .kv-btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 600; font-size: .95rem; padding: .85em 1.5em; border-radius: 999px; cursor: pointer; border: 2px solid transparent; transition: transform .16s var(--kv-ease), background-color .2s, color .2s; }
-      .kv-btn--solid { background: var(--kv-clay); color: #fdf3ea; }
-      .kv-btn--solid:hover { transform: translateY(-2px); background: #a83d22; }
-      .kv-btn--line { background: transparent; color: var(--kv-espresso); border-color: var(--kv-espresso); }
-      .kv-btn--line:hover { background: var(--kv-espresso); color: var(--kv-cream); transform: translateY(-2px); }
-      .kv-btn--ghost { background: transparent; color: var(--kv-espresso); border-color: var(--kv-line); font-size: .84rem; padding: .6em 1.05em; }
-      .kv-btn--ghost:hover { border-color: var(--kv-clay); color: var(--kv-clay); }
+      /* tisková textura */
+      .kv-grain { position: fixed; inset: 0; }
+      .kv-body::before { content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .045;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-      .kv-top { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--kv-cream) 86%, transparent); backdrop-filter: blur(9px); border-bottom: 1px solid var(--kv-line-soft); }
-      .kv-top__inner { display: flex; align-items: center; gap: 18px; height: 62px; }
-      .kv-brand { display: inline-flex; align-items: center; gap: .55em; }
-      .kv-brand__mark { width: 20px; height: 20px; border-radius: 50%; flex: none; background: radial-gradient(circle at 36% 30%, var(--kv-crema), var(--kv-clay) 75%); box-shadow: inset 0 0 0 2px var(--kv-cream); }
-      .kv-brand__name { font-family: var(--ff-display); font-weight: 800; font-size: 1.16rem; letter-spacing: -.01em; }
-      .kv-top__hours { font-size: .74rem; letter-spacing: .04em; color: var(--kv-soft); padding-left: 18px; border-left: 1px solid var(--kv-line); }
-      .kv-top__cta { margin-left: auto; }
+      .kv-tag { font-family: var(--ff-mono); font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--clay); }
+      .kv-tag--light { color: var(--crema); }
+      .kv-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--clay); display: inline-block; }
 
-      /* HERO */
-      .kv-hero { padding: clamp(40px,6vw,84px) 0 clamp(36px,5vw,68px); }
-      .kv-hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px,4vw,56px); align-items: center; }
-      .kv-eyebrow { font-size: .8rem; font-weight: 600; letter-spacing: .04em; color: var(--kv-soft); margin-bottom: 1.1rem; }
-      .kv-hero__title { font-size: clamp(2.6rem,7vw,4.7rem); font-weight: 800; line-height: .98; }
-      .kv-hero__sub { margin-top: 1.3rem; font-size: clamp(1.04rem,1.5vw,1.2rem); color: var(--kv-soft); max-width: 30em; }
-      .kv-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.9rem; }
+      /* ── tlačítka ── */
+      .kv-btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-weight: 500; font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; padding: .9em 1.5em; border-radius: 999px; cursor: pointer; border: 1.5px solid transparent; transition: transform .16s var(--ease), background-color .2s, color .2s; }
+      .kv-btn--solid { background: var(--clay); color: var(--cream); }
+      .kv-btn--solid:hover { transform: translateY(-2px); background: #9c3320; }
+      .kv-btn--line { background: transparent; color: var(--ink); border-color: var(--ink); }
+      .kv-btn--line:hover { background: var(--ink); color: var(--cream); transform: translateY(-2px); }
+      .kv-btn--cream { background: var(--cream); color: var(--ink); }
+      .kv-btn--cream:hover { transform: translateY(-2px); background: #fff; }
 
-      /* MENU */
-      .kv-menu { padding: clamp(30px,4vw,60px) 0; }
-      .kv-menu__card { background: var(--kv-panel); border: 1px solid var(--kv-line); border-radius: 16px; padding: clamp(26px,4vw,52px); box-shadow: 0 30px 60px -38px rgba(39,26,17,.5); position: relative; }
-      .kv-menu__card::before { content: ""; position: absolute; inset: 10px; border: 1px solid var(--kv-line-soft); border-radius: 10px; pointer-events: none; }
-      .kv-menu__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
-      .kv-menu__head h2 { font-size: clamp(2rem,4vw,3rem); }
-      .kv-menu__note { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--kv-soft); }
-      .kv-menu__cols { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px,5vw,72px); position: relative; }
-      .kv-menu__cat { font-size: 1.15rem; color: var(--kv-clay); margin-bottom: 10px; }
+      /* ── MASTHEAD ── */
+      .kv-mast { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1.5px solid var(--ink); }
+      .kv-mast__row { display: flex; align-items: center; gap: 18px; height: 58px; }
+      .kv-mast__brand { font-family: var(--ff-display); font-weight: 600; font-size: 1.18rem; letter-spacing: -.01em; }
+      .kv-mast__nav { display: flex; gap: 22px; margin: 0 auto; font-family: var(--ff-mono); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; }
+      .kv-mast__nav a { position: relative; padding: 2px 0; color: var(--ink-soft); transition: color .2s; }
+      .kv-mast__nav a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -2px; height: 1.5px; background: var(--clay); transition: right .25s var(--ease); }
+      .kv-mast__nav a:hover { color: var(--ink); }
+      .kv-mast__nav a:hover::after { right: 0; }
+      .kv-mast__meta { font-family: var(--ff-mono); font-size: .72rem; letter-spacing: .04em; color: var(--faint); }
+
+      /* ── COVER / HERO ── */
+      .kv-cover { position: relative; padding: clamp(28px,5vw,64px) 0 0; }
+      .kv-cmark { position: absolute; width: 22px; height: 22px; opacity: .5; pointer-events: none; }
+      .kv-cmark::before, .kv-cmark::after { content: ""; position: absolute; background: var(--ink); }
+      .kv-cmark::before { width: 100%; height: 1.5px; top: 0; }
+      .kv-cmark::after { width: 1.5px; height: 100%; left: 0; }
+      .kv-cmark--tl { top: 14px; left: 14px; }
+      .kv-cmark--tr { top: 14px; right: 14px; transform: scaleX(-1); }
+      .kv-cmark--bl { bottom: 80px; left: 14px; transform: scaleY(-1); }
+      .kv-cmark--br { bottom: 80px; right: 14px; transform: scale(-1); }
+      .kv-cover__grid { display: grid; grid-template-columns: 1.06fr .94fr; gap: clamp(20px,3vw,44px); align-items: center; }
+      .kv-dateline { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-family: var(--ff-mono); font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); padding-bottom: 14px; border-bottom: 1.5px solid var(--line); margin-bottom: clamp(18px,3vw,30px); }
+      .kv-cover__h { font-weight: 400; line-height: .9; letter-spacing: -.02em; }
+      .kv-cover__h span { display: block; }
+      .kv-cover__l1 { font-size: clamp(3.2rem,11vw,7.6rem); }
+      .kv-cover__l2 { font-size: clamp(3.2rem,11vw,7.6rem); margin-left: clamp(20px,7vw,1.4em); }
+      .kv-cover__l2 em { color: var(--clay); }
+      .kv-cover__l3 { font-size: clamp(3.2rem,11vw,7.6rem); font-style: italic; font-weight: 500; color: var(--clay); }
+      .kv-cover__lead { position: relative; margin-top: clamp(20px,3vw,30px); max-width: 30em; font-size: 1.08rem; color: var(--ink-soft); }
+      .kv-drop { float: left; font-family: var(--ff-display); font-weight: 600; font-size: 3.1rem; line-height: .72; padding: 6px 10px 0 0; color: var(--clay); }
+      .kv-cover__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.7rem; }
+
+      .kv-cover__art { position: relative; }
+      .kv-cover__fig { margin: 0; position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 40px 80px -44px rgba(37,24,15,.7); transform: rotate(1.4deg); }
+      .kv-cover__fig img { display: block; width: 100%; height: auto; aspect-ratio: 4/5; object-fit: cover; }
+      .kv-cover__cap { position: absolute; left: 12px; bottom: 12px; font-family: var(--ff-mono); font-size: .7rem; letter-spacing: .03em; color: var(--cream); background: rgba(37,24,15,.66); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); padding: 4px 9px; border-radius: 3px; }
+      .kv-seal { position: absolute; left: -52px; bottom: -38px; width: clamp(108px,13vw,150px); height: clamp(108px,13vw,150px); display: grid; place-items: center; filter: drop-shadow(0 10px 18px rgba(37,24,15,.28)); }
+      .kv-seal svg { width: 100%; height: 100%; animation: kv-spin 22s linear infinite; }
+      .kv-seal__txt { font-family: var(--ff-mono); font-size: 12.5px; letter-spacing: .02em; text-transform: uppercase; fill: var(--ink); }
+      .kv-seal__bean { position: absolute; width: 28%; aspect-ratio: 1/1.35; border-radius: 50%; background: radial-gradient(circle at 38% 30%, var(--crema), var(--clay) 78%); box-shadow: inset 0 0 0 2px var(--paper); }
+      .kv-seal__bean::after { content: ""; position: absolute; inset: 18% 46% 18% 46%; border-radius: 50%; background: var(--paper); transform: rotate(14deg); }
+      @keyframes kv-spin { to { transform: rotate(360deg); } }
+
+      /* ── ticker ── */
+      .kv-ticker { overflow: hidden; margin-top: clamp(26px,4vw,46px); background: color-mix(in srgb, var(--paper-2) 55%, var(--panel)); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+      /* Šířka pásu = obsah (max-content), ne viewport. Dvě identické skupiny,
+         posun 0 → -50% odpovídá přesně jedné skupině → smyčka je neviditelná. */
+      .kv-ticker__track { display: flex; width: max-content; padding: 8px 0; will-change: transform; animation: kv-marq 46s linear infinite; }
+      .kv-ticker__group { display: flex; align-items: center; flex: 0 0 auto; }
+      .kv-ticker__item, .kv-ticker__sep { margin-right: clamp(17px,2vw,28px); white-space: nowrap; }
+      .kv-ticker__item { font-family: var(--ff-mono); font-weight: 500; font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+      .kv-ticker__sep { color: var(--crema); opacity: .55; font-size: .56rem; transform: translateY(-.5px); }
+      @keyframes kv-marq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+      /* ── CREDO ── */
+      .kv-credo { padding: clamp(56px,9vw,120px) 0; }
+      .kv-credo__grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(20px,4vw,52px); align-items: start; }
+      .kv-credo__no { font-family: var(--ff-mono); font-size: 1rem; color: var(--clay); padding-top: .8rem; }
+      .kv-credo__q { grid-column: 2; margin: 0; font-family: var(--ff-display); font-weight: 400; font-size: clamp(2rem,5.4vw,4.1rem); line-height: 1.04; letter-spacing: -.015em; max-width: 16ch; }
+      .kv-credo__q em { color: var(--clay); }
+      .kv-credo__by { grid-column: 2; margin-top: 1.4rem; font-family: var(--ff-mono); font-size: .82rem; letter-spacing: .04em; color: var(--ink-soft); text-transform: uppercase; }
+
+      /* ── MENU ── */
+      .kv-menu { position: relative; padding: clamp(40px,6vw,84px) 0; border-top: 1.5px solid var(--line); }
+      .kv-menu__side { position: absolute; left: clamp(-4px,1vw,18px); top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: var(--ff-mono); font-size: .74rem; letter-spacing: .3em; color: var(--faint); text-transform: uppercase; pointer-events: none; }
+      .kv-menu__grid { display: grid; grid-template-columns: 1.08fr .84fr; grid-template-areas: "head head" "cola plate" "colb plate"; gap: clamp(22px,3vw,44px) clamp(28px,5vw,72px); }
+      .kv-menu__head { grid-area: head; max-width: 32em; }
+      .kv-menu__h { font-size: clamp(3rem,9vw,6.4rem); line-height: .92; letter-spacing: -.02em; margin: .2rem 0 .4rem; }
+      .kv-menu__sub { color: var(--ink-soft); font-size: .98rem; }
+      .kv-menu__col--a { grid-area: cola; }
+      .kv-menu__col--b { grid-area: colb; }
+      .kv-menu__cat { display: flex; align-items: baseline; gap: .5em; font-size: 1.5rem; font-style: italic; color: var(--clay); margin-bottom: 10px; }
+      .kv-menu__cat-no { font-family: var(--ff-mono); font-style: normal; font-size: .8rem; width: 1.7em; height: 1.7em; display: inline-grid; place-items: center; border: 1.5px solid var(--clay); border-radius: 50%; flex: none; }
       .kv-list { list-style: none; margin: 0; padding: 0; }
-      .kv-row { display: flex; align-items: baseline; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--kv-line-soft); }
-      .kv-row__n { font-weight: 500; }
-      .kv-row__dots { flex: 1; border-bottom: 2px dotted var(--kv-line); transform: translateY(-3px); }
-      .kv-row__p { font-family: var(--ff-display); font-weight: 700; font-variant-numeric: tabular-nums; }
-      .kv-menu__small { margin-top: 14px; font-size: .86rem; color: var(--kv-soft); }
+      .kv-row { display: flex; align-items: baseline; gap: 8px; padding: 11px 0; border-bottom: 1px solid var(--line-soft); }
+      .kv-row__n { font-family: var(--ff-display); font-size: 1.16rem; }
+      .kv-row__dots { flex: 1; border-bottom: 1.5px dotted var(--line); transform: translateY(-4px); }
+      .kv-row__p { font-family: var(--ff-mono); font-weight: 500; font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+      .kv-menu__small { margin-top: 14px; font-family: var(--ff-mono); font-size: .78rem; color: var(--ink-soft); }
+      .kv-menu__plate { grid-area: plate; margin: 0; align-self: stretch; position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 34px 64px -42px rgba(37,24,15,.6); transform: rotate(-1.6deg); }
+      .kv-menu__plate img { display: block; width: 100%; height: 100%; object-fit: cover; min-height: 100%; }
+      .kv-menu__plate figcaption { position: absolute; left: 10px; bottom: 10px; font-family: var(--ff-mono); font-size: .68rem; color: var(--cream); background: rgba(37,24,15,.66); padding: 3px 8px; border-radius: 3px; }
 
-      /* ZRNO */
-      .kv-beans { padding: clamp(44px,6vw,84px) 0; }
-      .kv-beans__inner { display: grid; grid-template-columns: auto 1fr; gap: clamp(20px,3vw,40px); align-items: center; max-width: 60rem; }
-      .kv-beans__h { font-size: clamp(1.6rem,3.2vw,2.4rem); margin-top: .7rem; }
-      .kv-beans__p { margin-top: 1rem; color: var(--kv-soft); font-size: 1.04rem; }
+      /* ── ZRNO ── */
+      .kv-zrno { padding: clamp(48px,7vw,100px) 0; }
+      .kv-zrno__grid { display: grid; grid-template-columns: 1fr .92fr; gap: clamp(28px,5vw,64px); align-items: center; }
+      .kv-zrno__collage { position: relative; padding: 18px 30px 44px 0; }
+      .kv-zrno__big { margin: 0; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 36px 70px -44px rgba(37,24,15,.6); transform: rotate(-2deg); position: relative; }
+      .kv-zrno__big img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; }
+      .kv-zrno__big figcaption, .kv-zrno__small figcaption { position: absolute; bottom: 9px; left: 9px; font-family: var(--ff-mono); font-size: .66rem; color: var(--cream); background: rgba(37,24,15,.66); padding: 3px 8px; border-radius: 3px; }
+      .kv-zrno__small { margin: 0; position: absolute; right: 0; bottom: 0; width: 46%; border-radius: 4px; overflow: hidden; border: 3px solid var(--paper); box-shadow: 0 24px 44px -28px rgba(37,24,15,.6); transform: rotate(3deg); }
+      .kv-zrno__small img { display: block; width: 100%; height: auto; aspect-ratio: 1/1; object-fit: cover; }
+      .kv-zrno__h { font-size: clamp(1.9rem,4.6vw,3.4rem); line-height: 1.02; letter-spacing: -.015em; margin: .7rem 0 0; }
+      .kv-zrno__p { margin-top: 1.1rem; color: var(--ink-soft); font-size: 1.06rem; max-width: 32em; }
+      .kv-zrno__p--note { font-family: var(--ff-display); font-style: italic; color: var(--clay); font-size: 1.16rem; }
 
-      /* VISIT */
-      .kv-visit { padding: clamp(44px,6vw,84px) 0; }
-      .kv-visit__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,4vw,52px); }
-      .kv-visit__h, .kv-gallery__h, .kv-contact__h { font-size: clamp(1.6rem,3.2vw,2.4rem); margin-top: .7rem; }
-      .kv-hours { list-style: none; margin: 1.2rem 0 0; padding: 0; }
-      .kv-hours__row { display: flex; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--kv-line-soft); font-size: 1.05rem; }
-      .kv-hours__h { font-family: var(--ff-display); font-weight: 700; }
-      .kv-visit__addr { font-family: var(--ff-display); font-weight: 700; font-size: 1.5rem; margin-top: .9rem; line-height: 1.15; }
-      .kv-map { margin-top: 1.1rem; border: 1px solid var(--kv-line); border-radius: 12px; overflow: hidden; }
+      /* ── BOARD / nástěnka ── */
+      .kv-board { padding: clamp(40px,6vw,80px) 0 clamp(56px,8vw,110px); border-top: 1.5px solid var(--line); }
+      .kv-board__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; margin-bottom: clamp(24px,4vw,44px); }
+      .kv-board__h { font-size: clamp(2.4rem,7vw,5rem); line-height: .92; letter-spacing: -.02em; }
+      .kv-board__lead { max-width: 26em; color: var(--ink-soft); }
+      .kv-board__stage { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 22px; }
+      .kv-pin { margin: 0; position: relative; background: var(--panel); padding: 10px 10px 0; border: 1px solid var(--line); box-shadow: 0 26px 50px -34px rgba(37,24,15,.6); transition: transform .25s var(--ease), box-shadow .25s; }
+      .kv-pin img { display: block; width: 100%; height: auto; object-fit: cover; }
+      .kv-pin figcaption { font-family: var(--ff-display); font-style: italic; font-size: 1.02rem; padding: 8px 4px 12px; color: var(--ink); }
+      .kv-tape { position: absolute; top: -11px; left: 50%; transform: translateX(-50%) rotate(-3deg); width: 78px; height: 22px; background: rgba(194,132,58,.34); border: 1px solid rgba(194,132,58,.5); border-radius: 1px; }
+      .kv-pin--1 { grid-column: 1 / 6; grid-row: 1 / span 17; transform: rotate(-2.4deg); z-index: 2; }
+      .kv-pin--2 { grid-column: 6 / 10; grid-row: 3 / span 14; transform: rotate(2deg); z-index: 3; }
+      .kv-pin--3 { grid-column: 9 / 13; grid-row: 1 / span 12; transform: rotate(-1.5deg); z-index: 4; }
+      .kv-pin--4 { grid-column: 6 / 11; grid-row: 15 / span 12; transform: rotate(2.6deg); z-index: 5; }
+      .kv-pin:hover { transform: rotate(0) translateY(-4px); box-shadow: 0 34px 60px -30px rgba(37,24,15,.65); z-index: 9; }
+
+      /* ── VISIT ── */
+      .kv-visit { padding: clamp(48px,7vw,100px) 0; border-top: 1.5px solid var(--line); }
+      .kv-visit__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(28px,5vw,64px); align-items: center; }
+      .kv-visit__h { font-size: clamp(2.4rem,6vw,4.4rem); line-height: .95; letter-spacing: -.02em; margin: .6rem 0 0; }
+      .kv-hours { list-style: none; margin: clamp(22px,3vw,34px) 0 0; padding: 0; }
+      .kv-hours__row { display: flex; align-items: baseline; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
+      .kv-hours__d { font-family: var(--ff-body); font-weight: 500; font-size: 1.02rem; }
+      .kv-hours__dots { flex: 1; border-bottom: 1.5px dotted var(--line); transform: translateY(-4px); }
+      .kv-hours__h { font-family: var(--ff-mono); font-size: 1rem; font-variant-numeric: tabular-nums; }
+      .kv-visit__media { display: grid; gap: 14px; }
+      .kv-visit__photo { margin: 0; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 56px -40px rgba(37,24,15,.6); }
+      .kv-visit__photo img { display: block; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; }
+      .kv-map { border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
       .kv-map svg { display: block; width: 100%; height: auto; }
-      .kv-map__bg { fill: var(--kv-cream-2); }
-      .kv-map__road { fill: none; stroke: var(--kv-line); stroke-width: 6; }
-      .kv-map__pin { fill: var(--kv-clay); }
-      .kv-map__pindot { fill: var(--kv-panel); }
+      .kv-map__bg { fill: var(--paper-2); }
+      .kv-map__road { fill: none; stroke: var(--line); stroke-width: 6; }
+      .kv-map__pin { fill: var(--clay); }
+      .kv-map__pindot { fill: var(--panel); }
 
-      /* GALERIE */
-      .kv-gallery { padding: clamp(44px,6vw,84px) 0; }
-      .kv-ghead { max-width: 40rem; margin: 0 auto clamp(24px,3vw,40px); text-align: center; }
-      .kv-ghead__lead { margin-top: .8rem; color: var(--kv-soft); }
-      .kv-gallery__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-      .kv-gcard { background: var(--kv-panel); border: 1px solid var(--kv-line); border-radius: 14px; overflow: hidden; transition: transform .2s var(--kv-ease); }
-      .kv-gcard:hover { transform: translateY(-4px); }
-      .kv-gcard__art { aspect-ratio: 4/3; overflow: hidden; background: linear-gradient(160deg, var(--kv-cream), var(--kv-cream-2)); border-bottom: 1px solid var(--kv-line-soft); }
-      .kv-gcard__n { display: block; padding: 12px 16px; font-family: var(--ff-display); font-weight: 700; }
+      /* ── END / kontakt ── */
+      .kv-end { padding: clamp(20px,3vw,44px) 0 clamp(56px,7vw,100px); }
+      .kv-end__inner { background: var(--ink); color: var(--cream); border-radius: 6px; padding: clamp(34px,6vw,76px); position: relative; overflow: hidden; }
+      .kv-end__inner::after { content: ""; position: absolute; right: -80px; top: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(194,132,58,.3), transparent 68%); }
+      .kv-end__h { font-size: clamp(2.2rem,6vw,4.6rem); line-height: .98; letter-spacing: -.02em; margin: 1rem 0; color: var(--cream); position: relative; }
+      .kv-end__h em { color: var(--crema); }
+      .kv-end__lead { max-width: 34em; color: #d8c6b1; position: relative; }
+      .kv-end__rows { display: flex; flex-wrap: wrap; gap: 12px; margin: clamp(24px,3vw,36px) 0 0; position: relative; }
+      .kv-crow { flex: 1 1 240px; display: flex; flex-direction: column; gap: 3px; padding: 16px 18px; border: 1px solid rgba(246,238,221,.2); border-radius: 5px; transition: border-color .2s, background-color .2s; }
+      .kv-crow:hover { border-color: var(--crema); background: rgba(246,238,221,.05); }
+      .kv-crow__l { font-family: var(--ff-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--crema); }
+      .kv-crow__v { font-family: var(--ff-display); font-size: 1.32rem; }
+      .kv-end__btn { margin-top: 20px; position: relative; }
+      .kv-end__demo { margin-top: 14px; font-family: var(--ff-mono); font-size: .72rem; color: #b59c82; position: relative; }
 
-      /* CONTACT */
-      .kv-contact { padding: clamp(20px,3vw,40px) 0 clamp(50px,6vw,90px); }
-      .kv-contact__panel { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(26px,4vw,52px); background: var(--kv-espresso); color: var(--kv-cream); border-radius: 22px; padding: clamp(28px,4vw,52px); }
-      .kv-contact__h { color: #fbf3e8; }
-      .kv-contact__lead { margin-top: 1rem; color: #d8c6b1; max-width: 26em; }
-      .kv-contact__details { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
-      .kv-crow { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border: 1px solid rgba(244,236,220,.18); border-radius: 12px; transition: border-color .2s, background-color .2s; }
-      .kv-crow:hover { border-color: var(--kv-crema); background: rgba(244,236,220,.05); }
-      .kv-crow__l { font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--kv-crema); }
-      .kv-crow__v { font-family: var(--ff-display); font-weight: 700; font-size: 1.16rem; }
-      .kv-contact__btn { margin-top: 4px; }
-      .kv-contact__demo { color: #b59c82; font-size: .78rem; margin-top: 6px; }
+      /* ── FOOTER ── */
+      .kv-foot { border-top: 1.5px solid var(--ink); padding: 30px 0; }
+      .kv-foot__inner { display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: baseline; }
+      .kv-foot__name { font-family: var(--ff-display); font-weight: 600; font-size: 1.16rem; }
+      .kv-foot__tag { color: var(--ink-soft); font-size: .92rem; }
+      .kv-foot__note { margin-left: auto; font-family: var(--ff-mono); font-size: .76rem; color: var(--ink-soft); }
+      .kv-foot__link { color: var(--clay); border-bottom: 1.5px solid var(--clay); }
 
-      /* FOOTER */
-      .kv-foot { border-top: 1px solid var(--kv-line); padding: 32px 0; }
-      .kv-foot__inner { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; }
-      .kv-foot__tag { color: var(--kv-soft); font-size: .92rem; margin-top: 2px; }
-      .kv-foot__note { color: var(--kv-soft); font-size: .92rem; }
-      .kv-foot__link { color: var(--kv-clay); font-weight: 600; border-bottom: 2px solid var(--kv-clay); }
+      /* ── reveal ── */
+      [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+      [data-reveal].kv-in { opacity: 1; transform: none; }
 
-      /* FOTOGRAFIE (sdílené) */
-      .kv-shot { position: relative; margin: 0; overflow: hidden; background: var(--kv-panel); border: 1px solid var(--kv-line); border-radius: 14px; box-shadow: 0 20px 40px -30px rgba(39,26,17,.5); }
-      .kv-shot img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; }
-      .kv-shot__cap { position: absolute; left: 10px; bottom: 10px; font-family: var(--ff-display); font-weight: 700; font-size: .78rem; color: var(--kv-espresso); background: rgba(251,245,234,.88); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--kv-line-soft); }
-
-      /* HERO foto (nahrazuje ilustrovaný šálek) */
-      .kv-herofig { margin: 0; border-radius: 18px; overflow: hidden; border: 1px solid var(--kv-line); box-shadow: 0 36px 70px -40px rgba(39,26,17,.6); transform: rotate(-.6deg); }
-      .kv-herofig img { display: block; width: 100%; height: auto; aspect-ratio: 5/4; object-fit: cover; }
-
-      /* MENU fotopruh */
-      .kv-menustrip { list-style: none; margin: clamp(18px,2.5vw,28px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
-      .kv-menustrip__item { margin: 0; }
-      .kv-menustrip .kv-shot img { aspect-ratio: 1/1; }
-
-      /* ZRNO foto */
-      .kv-beans__inner { grid-template-columns: .82fr 1.18fr; max-width: 64rem; }
-      .kv-beans__photo img { aspect-ratio: 4/3; }
-
-      /* GALERIE foto */
-      .kv-gcard__photo { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-      /* VCHOD foto u lokality */
-      .kv-visit__photo { margin-top: 1.1rem; border-radius: 12px; }
-      .kv-visit__photo img { aspect-ratio: 16/10; }
-
-      @media (max-width: 880px) {
-        .kv-hero__grid { grid-template-columns: 1fr; }
-        .kv-herofig { order: -1; transform: none; max-width: 480px; margin-inline: auto; }
-        .kv-menustrip { grid-template-columns: repeat(3,1fr); }
-        .kv-beans__photo { max-width: 480px; }
-        .kv-menu__cols { grid-template-columns: 1fr; gap: 28px; }
+      /* ── responzivní ── */
+      @media (max-width: 900px) {
+        .kv-cover__grid { grid-template-columns: 1fr; gap: 40px; }
+        .kv-cover__art { max-width: 460px; }
+        .kv-seal { left: auto; right: -20px; bottom: -30px; }
+        .kv-menu__grid { grid-template-columns: 1fr; grid-template-areas: "head" "cola" "plate" "colb"; }
+        .kv-menu__plate { transform: rotate(-1deg); max-height: 360px; }
+        .kv-menu__side { display: none; }
+        .kv-zrno__grid { grid-template-columns: 1fr; }
+        .kv-zrno__collage { max-width: 480px; }
         .kv-visit__grid { grid-template-columns: 1fr; }
-        .kv-gallery__grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; }
-        .kv-contact__panel { grid-template-columns: 1fr; }
-        .kv-beans__inner { grid-template-columns: 1fr; }
       }
-      @media (max-width: 600px) { .kv-top__hours { display: none; } .kv-foot__inner { flex-direction: column; align-items: flex-start; } }
-      @media (prefers-reduced-motion: reduce) { .kv-body * { animation: none !important; transition: none !important; } }
+      @media (max-width: 760px) {
+        .kv-mast__nav { display: none; }
+        .kv-board__stage { display: flex; flex-direction: column; gap: 26px; }
+        .kv-pin { transform: none !important; width: 100%; max-width: 420px; }
+        .kv-pin:nth-child(even) { align-self: flex-end; }
+        .kv-credo__grid { grid-template-columns: 1fr; }
+        .kv-credo__q, .kv-credo__by { grid-column: 1; }
+      }
+      @media (max-width: 600px) { .kv-mast__meta { display: none; } .kv-foot__note { margin-left: 0; } }
+      @media (prefers-reduced-motion: reduce) {
+        .kv-body * { animation: none !important; transition: none !important; }
+        [data-reveal] { opacity: 1; transform: none; }
+      }
     </style>
+
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll("[data-reveal]");
+        if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          els.forEach(function (el) { el.classList.add("kv-in"); });
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("kv-in"); io.unobserve(e.target); } });
+        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+        els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>
