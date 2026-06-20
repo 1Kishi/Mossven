@@ -12,25 +12,25 @@ const team = [
   {
     img: teamKlara,
     n: "Klára",
-    focus: "Střihy a přirozené barvy",
-    line: "Má ráda, když střih sedne tak, že ho doma zvládnete jednou rukou.",
-    book: "Dámské i pánské střihy, jemné změny barvy a zakrytí šedin.",
+    focus: "Přirozené střihy a jemné barvení",
+    line: "Má ráda střihy, které doma zvládnete upravit bez dlouhého stylingu.",
+    book: "dámské i pánské střihy, jemné změny barvy a zakrytí šedin.",
     sw: "var(--luma-coral)",
   },
   {
     img: teamNela,
     n: "Nela",
     focus: "Balayage, blond a tónování",
-    line: "Blond je pro ni řemeslo, řeší ho tak, aby hezky přerůstal.",
-    book: "Balayage, melír, přechody do blond a tónování.",
+    line: "Blond je pro ni řemeslo — řeší ho tak, aby odrost působil jemně a barva dlouho vypadala dobře.",
+    book: "balayage, melír, přechody do blond a tónování.",
     sw: "var(--luma-copper)",
   },
   {
     img: teamEva,
     n: "Eva",
     focus: "Společenské a svatební účesy",
-    line: "Před velkým dnem ráda uklidní a připraví účes, který vydrží do rána.",
-    book: "Svatební a společenské účesy, zkoušky účesu, drdoly a vlny.",
+    line: "Umí uklidnit před velkým dnem a připravit účes, který vydrží až do rána.",
+    book: "svatební a společenské účesy, zkoušky účesu, drdoly a vlny.",
     sw: "var(--luma-magenta)",
   },
 ];
@@ -38,7 +38,7 @@ const team = [
 
 <Luma
   title="Tým | Studio Luma"
-  description="Poznejte kadeřnice Studia Luma: Klára (střihy a přirozené barvy), Nela (balayage a blond) a Eva (společenské a svatební účesy)."
+  description="Poznejte kadeřnice Studia Luma: Klára (přirozené střihy a jemné barvení), Nela (balayage a blond) a Eva (společenské a svatební účesy)."
   active="tym"
   accent="coral"
 >
@@ -68,7 +68,7 @@ const team = [
             <h2>{m.n}</h2>
             <p class="luma-member__focus">{m.focus}</p>
             <p class="luma-member__line">{m.line}</p>
-            <p class="luma-member__book"><span>Nejčastěji u ní objednáte</span>{m.book}</p>
+            <p class="luma-member__book"><span>Nejčastěji se k ní objednáte na</span>{m.book}</p>
           </div>
         </article>
       ))}

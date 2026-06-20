@@ -15,6 +15,28 @@
 
 ## 2026-06-20
 
+### Natural-Czech copy pass on demo pages (kadeřnictví, trenér, truhlář)
+Fixed phrasing that read as slightly literal/AI-ish per native-speaker review. Studio Luma
+team (`tym.astro`): reworked Klára/Nela/Eva `focus`/`line`/`book` strings and changed the
+member label to "Nejčastěji se k ní objednáte na" (book items lowercased to fit); updated the
+page meta description for Klára. Kadeřnictví: hero now "Střih, který drží tvar, a barva, která
+vám sedne i po odchodu ze salonu." (`index.astro`); home + galerie heading "Styl, který
+poznáte na první pohled"; team focus chip on home → "Přirozené střihy a jemné barvení";
+kontakt H1 "Pojďme se objednat" → "Domluvme termín". Sluzby: "Pro každou, kdo…" → "Pro
+každého, kdo… drží tvar", and color promise softened from "jistě a bez poškození vlasů" to
+"s ohledem na kondici vlasů a co nejšetrnějším postupem". Trenér (`trener.astro`): meter label
+"tvůj postup" → "váš postup" (tone consistency), "nezačínala z formy" → "ve formě", ceny note
+reworded. Truhlář (`truhlar.astro`): "staré dvířka" → "stará dvířka", hero em "řezaný přesně."
+→ "který sedí přesně.", "opravy ze dřeva" → "opravy dřevěného nábytku" (hero sub + meta).
+
+**Touched:** `src/pages/ukazky/kadernictvi/{tym,index,galerie,kontakt,sluzby}.astro`,
+`src/pages/ukazky/trener.astro`, `src/pages/ukazky/truhlar.astro`
+
+**Note:** Text-only edits inside existing template/JS literals. `astro check`/build couldn't run
+in this sandbox (missing `@rollup/rollup-linux-x64-gnu` native binary — platform issue, not these
+changes). Verified by grep: all 15 old phrases gone, new phrases present. trener.astro edited via
+`python3` (Edit-tool truncation guard, per earlier note).
+
 ### Upgraded landing showcase previews to each demo's hero photo
 The three single-page cards in `Showcase.astro` (Dílna Vorel, Kavárna Zrnko, Forma) now use
 the demo's own hero image as the browser-frame preview, matching the Studio Luma multi-page
