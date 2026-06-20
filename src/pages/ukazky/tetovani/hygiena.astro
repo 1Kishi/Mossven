@@ -78,6 +78,13 @@ const contraindications = [
         <p class="hr-hyg__lede">Stejný postup u prvního i pátého klienta v ten den. Bez výjimek a bez zkratek.</p>
       </div>
 
+      <div class="hr-hyg__board hr-anim" role="img" aria-label="Stav provozu: sterilizace autoklávem 134 °C, cyklus kontrolován, jednorázový materiál, provoz v pořádku">
+        <span class="hr-hyg__bcell"><b class="hr-mono">Sterilizace</b>autokláv · 134 °C</span>
+        <span class="hr-hyg__bcell"><b class="hr-mono">Cyklus</b>kontrolováno ✓</span>
+        <span class="hr-hyg__bcell"><b class="hr-mono">Materiál</b>jednorázový</span>
+        <span class="hr-hyg__bcell hr-hyg__bcell--ok"><span class="hr-hyg__dot" aria-hidden="true"></span>PROVOZ OK</span>
+      </div>
+
       <div class="hr-hyg__grid">
         {protocol.map((s, i) => (
           <article class="hr-hyg__card hr-anim" data-delay={String((i % 3) + 1)}>
@@ -143,8 +150,17 @@ const contraindications = [
     .hr-hyg__sig { font-size: 0.74rem; color: var(--hr-amber); }
     .hr-hyg__lede { font-family: var(--hr-ff-display); font-weight: 600; font-size: clamp(1.2rem, 2.6vw, 1.8rem); color: var(--hr-on-bone); margin: 0; max-width: 30ch; letter-spacing: -0.01em; line-height: 1.1; }
 
+    /* procedurální stavová deska */
+    .hr-hyg__board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 1.4rem; border: 1px solid var(--hr-on-bone); border-radius: var(--hr-r); overflow: hidden; background: var(--hr-on-bone); }
+    .hr-hyg__bcell { display: flex; flex-direction: column; gap: 0.18rem; padding: 0.85rem 1rem; background: #EFF0EE; font-size: 0.92rem; color: var(--hr-on-bone); }
+    .hr-hyg__bcell b { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--hr-on-bone-soft); font-weight: 500; }
+    .hr-hyg__bcell--ok { flex-direction: row; align-items: center; justify-content: center; gap: 0.55em; background: var(--hr-on-bone); color: var(--hr-bone); font-family: var(--hr-ff-mono); font-size: 0.74rem; letter-spacing: 0.16em; }
+    .hr-hyg__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hr-amber); animation: hr-hgpulse 2.4s var(--hr-ease) infinite; }
+    @keyframes hr-hgpulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--hr-amber) 60%, transparent); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+    @media (prefers-reduced-motion: reduce) { .hr-hyg__dot { animation: none; } }
+
     .hr-hyg__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .hr-hyg__card { background: #EFF0EE; border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); padding: 1.6rem 1.5rem 1.8rem; display: flex; flex-direction: column; }
+    .hr-hyg__card { background: #EFF0EE; border: 1px solid var(--hr-line-b); border-top: 2px solid var(--hr-on-bone); border-radius: var(--hr-r); padding: 1.6rem 1.5rem 1.8rem; display: flex; flex-direction: column; }
     .hr-hyg__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; }
     .hr-hyg__icon { color: var(--hr-on-bone); width: 34px; height: 34px; display: inline-flex; }
     .hr-hyg__icon svg { width: 34px; height: 34px; }
@@ -175,6 +191,7 @@ const contraindications = [
 
     @media (max-width: 900px) {
       .hr-hyg__grid { grid-template-columns: repeat(2, 1fr); }
+      .hr-hyg__board { grid-template-columns: repeat(2, 1fr); }
       .hr-warn__grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {

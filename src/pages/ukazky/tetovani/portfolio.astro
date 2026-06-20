@@ -81,15 +81,16 @@ const works = [
       </div>
 
       <div class="hr-gal__wall" id="hr-wall">
-        {works.map((w) => (
+        {works.map((w, i) => (
           <article
-            class:list={["hr-work", w.size && `hr-work--${w.size}`]}
+            class:list={["hr-work", w.size && `hr-work--${w.size}`, { "hr-work--metal": w.cats.includes("piercing") }]}
             data-cats={w.cats}
             tabindex="0"
           >
             <div class="hr-work__art">
               <Image src={w.img} alt={w.alt} widths={[400, 700, 1000]} sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 25vw" format="webp" quality={74} loading="lazy" decoding="async" />
             </div>
+            <span class="hr-work__code hr-mono" aria-hidden="true">HROT-{String(i + 1).padStart(2, "0")}</span>
             <span class:list={["hr-work__tag hr-mono", `is-${w.tag === "zahojeno" ? "healed" : w.tag === "čerstvé" ? "fresh" : w.tag === "flash" ? "flash" : w.tag === "konzultace" ? "consult" : "studio"}`]}>{w.tag}</span>
             <div class="hr-work__meta">
               <span class="hr-work__cat hr-mono">{w.cat}</span>
@@ -178,6 +179,17 @@ const works = [
     .hr-work__art { position: absolute; inset: 0; }
     .hr-work__art :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.92) contrast(1.04); transition: transform 0.5s var(--hr-ease), filter 0.4s var(--hr-ease); }
     .hr-work:hover .hr-work__art :global(img) { transform: scale(1.05); filter: saturate(1.04) contrast(1.04); }
+
+    /* katalogový kód (signature) */
+    .hr-work__code { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 3; font-size: 0.56rem; letter-spacing: 0.14em; color: var(--hr-bone); background: color-mix(in srgb, var(--hr-ink) 62%, transparent); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); padding: 0.3em 0.5em; border-radius: 2px; border: 1px solid var(--hr-line-d); }
+
+    /* piercing = chladnější, kovové */
+    .hr-work--metal { border-color: color-mix(in srgb, var(--hr-steel) 55%, var(--hr-line-b)); }
+    .hr-work--metal .hr-work__art :global(img) { filter: saturate(0.5) contrast(1.08) brightness(1.06); }
+    .hr-work--metal:hover .hr-work__art :global(img) { filter: saturate(0.66) contrast(1.08) brightness(1.06); }
+    .hr-work--metal .hr-work__code { background: var(--hr-steel); color: var(--hr-ink); border-color: transparent; }
+    .hr-work--metal .hr-work__cat { color: var(--hr-steel-2); }
+    .hr-work--metal .hr-work__tag.is-fresh { background: var(--hr-steel-2); color: var(--hr-ink); }
 
     .hr-work__tag { position: absolute; top: 0.7rem; left: 0.7rem; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3em 0.6em; border-radius: 2px; z-index: 3; }
     .hr-work__tag.is-healed { background: var(--hr-purple); color: var(--hr-bone); }

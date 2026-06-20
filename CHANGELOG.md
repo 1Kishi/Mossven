@@ -15,6 +15,96 @@
 
 ## 2026-06-20
 
+### Ateliér Hrot — gothic mood shift (cold blackwork-editorial, layout-level retune)
+Shifted the whole tattoo site from warm "clean premium" to cold gothic / underground European
+atelier / cathedral-meets-steel, by retuning the shared layout `_layout/Hrot.astro` (tokens +
+global components) so all 7 pages change at once — no per-page concept/copy changes.
+
+- **Palette → cold:** matte black `#0C0C0D`, charcoal `#151517`, graphite `#1E1E22`, cooler bone
+  `#E7E4DB`, steel grays, slate "healed". The warm amber accent is retired — `--hr-amber` is now an
+  alias to cold steel `#9DA2A4`, so every existing per-page reference (hero stamp, portfolio codes,
+  hygiene labels, chooser) turns cold automatically. A **restrained oxblood `--hr-red #7E1C20`** is
+  the only saturated accent, used sparingly (scroll bar, active-nav tick/marker, brand point,
+  label incision, phead corner crosshairs). Body gets a cathedral vignette + a fixed **grain overlay**.
+- **Sharper UI:** global radius `0`; buttons get a **blade-cut corner** (clip-path) and an uppercase
+  condensed face; solid button is now bone-on-ink (crisp) instead of amber.
+- **Typography:** added **Oswald** as `--hr-ff-cond` — a condensed editorial accent for section
+  labels, nav, footer keys and the vertical label; IBM Plex Mono kept for technical codes; Bricolage
+  for headlines. `.hr-label` is now condensed uppercase with a red incision tick (recurring signature).
+- **Nav refined:** condensed uppercase links, red active marker + dot, steel hover underline.
+- **Signature motifs:** red incision label tick, phead corner registration crosshairs, needle line
+  (existing), catalog codes (existing) — a coherent archival/ritual language.
+- **Services (`sluzby.astro`):** tattoo vs piercing now visually distinct disciplines — tattoo items
+  read ink-heavy (higher-contrast image, red category incision); piercing reads cold/metallic
+  (desaturated image, steel number/category, steel inner frame).
+
+**Touched:** `src/pages/ukazky/tetovani/_layout/Hrot.astro` (full retune, 25 KB → written via outputs
++ shell `cp`, the Write/Edit truncation workaround), `src/pages/ukazky/tetovani/sluzby.astro`.
+
+**Note:** Hrot.astro (25 KB) exceeds the ~24 KB file-tool truncation cap on this mount, so it was
+written to `outputs/` then `cp`-ed in (shell writes ARE visible to bash, file-tool edits aren't —
+the mount serves a stale snapshot). Layout validated from the mount via `@astrojs/compiler` = 0
+errors, `</html>` present, Oswald/grain/`--hr-red` all present. `sluzby.astro` edits verified via the
+Read tool (trivial class:list + CSS, matching existing patterns). Confirm visually with `npm run dev`.
+
+### Ateliér Hrot (tattoo) — harder-hitting pass (hero, portfolio, hygiene, contact)
+Pushed the tattoo demo from "good and clean" toward a studio-artifact feel, per feedback that it
+should hit harder (flash sheet / underground / black-ink editorial). Reused the existing `hr-`
+design system + tokens.
+
+- **Hero (`index.astro`):** dropped the 3-card stack for ONE brutally cropped blackwork image with
+  an inset vignette, a rotated amber **catalog stamp** (`HROT-04 / BLACKWORK / · HEALED ·`), a
+  measurement rule annotation, and a split mono caption (`FLASH 04 — paže` / `085 × 220 mm`).
+  Bumped headline to clamp(3rem,8.6vw,7.2rem), tighter leading/weight for more tension. Removed the
+  now-unused `imgNeedle` import + `heroStack`.
+- **Portfolio (`portfolio.astro`):** each work now carries a **catalog code** stamp
+  (`HROT-01…12`, signature element) and piercing works render **colder/metallic** (`hr-work--metal`:
+  desaturated image, steel code chip + steel cat color, steel "fresh" tag) to separate metal/piercing
+  from ink/tattoo. Kept the uneven flash-wall grid, fresh/healed tags, hover metadata + filters.
+- **Hygiene (`hygiena.astro`):** added a clinical **procedure board** status strip above the protocol
+  (Sterilizace autokláv 134 °C / Cyklus kontrolováno / Materiál jednorázový / pulsing "PROVOZ OK"),
+  and gave protocol cards a procedure-sheet top rule. Reduced-motion guard on the pulse.
+- **Contact (`kontakt.astro`):** the plain type `<select>` became a bold **service chooser** — three
+  selectable radio-cards (A Tetování / B Piercing / C Konzultace, piercing styled metallic via
+  `:has()`), framed as step "01 — Co chcete řešit?" then "02 — Detaily" over the existing
+  placement/size/reference fields, so it reads like a real booking flow. Reset handler updated to
+  uncheck radios.
+
+**Touched:** `src/pages/ukazky/tetovani/{index,portfolio,hygiena,kontakt}.astro`
+
+**Note:** The bash mount served a stale snapshot of these files (file-tool edits didn't propagate to
+the Linux mount; `wc`/`node` disagreed and showed truncated copies), so the @astrojs/compiler run
+hit stale content. Verified the TRUE files via the Read tool instead: all four are complete, end with
+`</Hrot>`, and the edited regions are well-formed; edits reuse patterns already compiling in these
+files (`class:list` object form, `:global`, `:has()` is plain CSS). Confirm visually with `npm run dev`.
+
+### Forma (trainer) v3 — premium calm-coach identity + page-wide progress system
+Biggest pass yet, to lift Forma from "weakest demo" to a distinct calm/technical coaching brand.
+
+- **Hero = split + custom training dashboard.** Left: oversized tight headline. Right: a real
+  "tréninková nástěnka" card — live dot, progress 0→100 bar with knob + scale + animated count-up
+  (0→62), "Příští trénink" row with day + Síla pill + 60:00 timer pill (blinking dot), a 7-bar mini
+  weekly rhythm, and coaching notes (✓ technika / ↑ +2,5 kg / ◷ 3×8).
+- **Recurring 0→100 system.** A fixed left **progress rail** with tick marks + a live %
+  readout, scroll-bound via a passive rAF handler (fills naturally to 100 at page end, never
+  resets; hidden < 1320px and under reduced-motion). Plus the dashed **milestone stepped line**
+  and the reveal-animated `.fo-track` bars in "Co spolu sledujeme" — one shared progress language.
+- **Program cards redesigned:** big outlined 01/02/03 over the photo, "best for" tag chips,
+  structured data chips (Délka / Formát / Cena, price chip in lime), hover lift + lime border glow.
+- **Weekly rhythm → training calendar:** 7 typed cells — Síla heavier (lime fill + left bar + 3
+  dots), Kondice mid, Mobilita/Lehce softer, Volno quiet/dashed; intensity dots + day notes.
+- **Brand texture:** faint measurement grid (masked) on the page, rubber-floor dot texture on the
+  dark week band, soft shadows, signature measurement-tick section labels ("Programy / 01" …),
+  more deliberate section spacing. No generic gradients.
+
+**Touched:** `src/pages/ukazky/trener.astro`
+
+**Note:** This file is now ~48 KB and the **file tools truncate writes to it at ~24 KB** (corrupting
+the tail — the long-standing issue noted earlier). Workaround used: write full content to the
+scratch `outputs/` dir (Write handles up to ~73 KB there), then `cp` to the repo path via shell.
+Validated via `@astrojs/compiler` transform() — 0 errors, no NUL, `</html>`/`</style>`/`</script>`
+all present. All 6 photo imports used. Confirm with `npm run dev`.
+
 ### Forma (trainer) v2 — warmer/human + a real progress visual system
 Pushed the trainer page past brutalist-fitness toward personal & trustworthy, keeping the bold
 condensed type and lime accent.

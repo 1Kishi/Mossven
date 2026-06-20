@@ -4,9 +4,11 @@
 // Mossven Layout. Všechny třídy mají prefix `hr-`, aby nekolidovaly s
 // globálními styly Mossven webu. Složka `_layout` (podtržítko) = neroutuje se.
 //
-// Identita: ostrá, atmosférická, editorial, lehce underground, ale klinicky
-// čistá. Kontrast syrové tetovací kultury a sterilní hygieny. Tmavé editorial
-// zóny střídají kostěné (bone) portfolio a ocelové (steel) klinické sekce.
+// Identita v2 (gotický redesign): chladná, ostrá, blackwork-editorial,
+// podzemní evropský ateliér — matná čerň, grafit, kostěná, ocelová šeď,
+// střídmý hluboký krvavě rudý akcent. Katedrála a ocel. Méně tepla, víc
+// tísně, rituální přesnost. Ostré hrany (radius 0), nožové řezy, vlasové
+// linky, registrační kříže a katalogové kódy jako podpisový jazyk.
 
 interface Props {
   title: string;
@@ -38,13 +40,14 @@ const nav = [
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Oswald:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body class="hr-body">
     <a class="hr-skip" href="#hr-main">Přeskočit na obsah</a>
 
+    <div class="hr-grain" aria-hidden="true"></div>
     <div class="hr-progress" id="hr-progress" aria-hidden="true"></div>
 
     <header class="hr-nav" id="hr-top">
@@ -52,9 +55,9 @@ const nav = [
         <a class="hr-brand" href={base} aria-label="Ateliér Hrot: úvod">
           <span class="hr-brand__mark" aria-hidden="true">
             <svg viewBox="0 0 32 32" width="30" height="30" fill="none">
-              <circle cx="16" cy="7" r="4.2" stroke="var(--hr-amber)" stroke-width="2" />
+              <circle cx="16" cy="7" r="4.2" stroke="var(--hr-steel)" stroke-width="2" />
               <line x1="16" y1="11" x2="16" y2="24" stroke="var(--hr-bone)" stroke-width="2" />
-              <path d="M16 24 L11 32 L21 32 Z" fill="var(--hr-amber)" />
+              <path d="M16 24 L11 32 L21 32 Z" fill="var(--hr-red)" />
             </svg>
           </span>
           <span class="hr-brand__name">ATELIÉR&nbsp;HROT</span>
@@ -105,7 +108,7 @@ const nav = [
           <span class="hr-foot__name">ATELIÉR&nbsp;HROT</span>
           <p class="hr-foot__tag">Autorské tetování, piercing a konzultace. Ostré linky, čistá práce, bezpečný průběh. Lokální ateliér v Brně.</p>
           <div class="hr-foot__sig" aria-hidden="true">
-            <svg viewBox="0 0 200 40" fill="none"><path d="M4 28 C 40 8, 70 34, 110 18 S 168 10, 188 22" stroke="var(--hr-amber)" stroke-width="1.5" stroke-linecap="round"/><path d="M188 22 L200 20 L196 26 Z" fill="var(--hr-amber)"/></svg>
+            <svg viewBox="0 0 200 40" fill="none"><path d="M4 28 C 40 8, 70 34, 110 18 S 168 10, 188 22" stroke="var(--hr-steel)" stroke-width="1.5" stroke-linecap="round"/><path d="M188 22 L200 20 L196 26 Z" fill="var(--hr-red)"/></svg>
           </div>
         </div>
 
@@ -182,34 +185,39 @@ const nav = [
       .hr-body *, .hr-body *::before, .hr-body *::after { box-sizing: border-box; }
       .hr-body { margin: 0; }
 
-      /* ============ TOKENY ============ */
+      /* ============ TOKENY (gotický chladný systém) ============ */
       :root {
-        --hr-ink: #11100E;
-        --hr-ink-2: #1A1815;
-        --hr-shadow-paper: #2A2520;
-        --hr-bone: #E8DED0;
-        --hr-bone-2: #DDD1BF;
-        --hr-steel: #A7AAA6;
-        --hr-steel-2: #C3C6C1;
-        --hr-purple: #5E4B8B;
-        --hr-amber: #C47A2C;
-        --hr-amber-soft: #D8954A;
-        --hr-blood: #7B1E24;
+        --hr-ink: #0C0C0D;          /* matná čerň */
+        --hr-ink-2: #151517;        /* uhlový panel */
+        --hr-graphite: #1E1E22;     /* zdvižený grafit */
+        --hr-shadow-paper: #050506;
+        --hr-bone: #E7E4DB;         /* chladnější kostěná */
+        --hr-bone-2: #D3D0C7;
+        --hr-steel: #8C9197;        /* studená ocel */
+        --hr-steel-2: #B7BBBE;
+        --hr-steel-d: #5B5F64;
+        --hr-purple: #454B55;       /* studená břidlice (zahojeno) */
+        --hr-red: #7E1C20;          /* střídmá hluboká krev — rituální akcent */
+        --hr-red-soft: #9A2A2C;
+        --hr-blood: #7E1C20;
+        --hr-amber: #9DA2A4;        /* alias: dřív teplý akcent → nyní studený ocelový signál */
+        --hr-amber-soft: #BFC2C3;
 
-        --hr-ink-soft: #B7AE9F;     /* světlý text na tmavém */
-        --hr-ink-faint: #7C766C;
-        --hr-on-bone: #2A2520;      /* tmavý text na kostěném */
-        --hr-on-bone-soft: #5C544A;
+        --hr-ink-soft: #A6A39B;     /* světlý text na tmavém */
+        --hr-ink-faint: #6C6960;
+        --hr-on-bone: #18181A;      /* tmavý text na kostěném */
+        --hr-on-bone-soft: #54575B;
 
-        --hr-line-d: rgba(232, 222, 208, 0.16);   /* linky na tmavém */
-        --hr-line-b: rgba(42, 37, 32, 0.16);      /* linky na kostěném */
+        --hr-line-d: rgba(231, 228, 219, 0.14);   /* linky na tmavém */
+        --hr-line-b: rgba(20, 20, 22, 0.20);      /* linky na kostěném */
 
         --hr-ff-display: "Bricolage Grotesque", "Arial Narrow", sans-serif;
         --hr-ff-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
         --hr-ff-mono: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+        --hr-ff-cond: "Oswald", "Arial Narrow", sans-serif;   /* kondenzovaný editorial akcent */
 
         --hr-maxw: 1240px;
-        --hr-r: 3px;
+        --hr-r: 0px;                /* ostré hrany */
         --hr-ease: cubic-bezier(0.2, 0.6, 0.2, 1);
       }
 
@@ -217,12 +225,22 @@ const nav = [
       .hr-body {
         font-family: var(--hr-ff-body);
         color: var(--hr-bone);
-        background: var(--hr-ink);
+        background-color: var(--hr-ink);
+        background-image:
+          radial-gradient(120% 80% at 50% -10%, #161618 0%, transparent 55%),
+          radial-gradient(100% 60% at 50% 120%, #0a0a0b 0%, transparent 60%);
         line-height: 1.62;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
         overflow-x: hidden;
       }
+      /* zrno / prach — jemná textura přes celou stránku */
+      .hr-grain {
+        position: fixed; inset: 0; z-index: 400; pointer-events: none; opacity: 0.05;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      @media (prefers-reduced-motion: reduce) { .hr-grain { display: none; } }
       .hr-wrap { width: min(var(--hr-maxw), 92vw); margin-inline: auto; }
 
       a { color: inherit; }
@@ -232,108 +250,111 @@ const nav = [
       .hr-body h1, .hr-body h2, .hr-body h3, .hr-body h4 {
         font-family: var(--hr-ff-display);
         font-weight: 800;
-        line-height: 0.98;
-        letter-spacing: -0.02em;
+        line-height: 0.96;
+        letter-spacing: -0.025em;
         margin: 0;
       }
       .hr-display {
         font-family: var(--hr-ff-display);
         font-weight: 800;
         letter-spacing: -0.03em;
-        line-height: 0.92;
+        line-height: 0.9;
       }
-      /* technický popisek (mono) */
+      /* sekční popisek — kondenzovaný editorial akcent s rudou incizí */
       .hr-label {
-        font-family: var(--hr-ff-mono);
-        font-size: 0.72rem;
+        font-family: var(--hr-ff-cond);
+        font-size: 0.82rem;
         font-weight: 500;
-        letter-spacing: 0.22em;
+        letter-spacing: 0.32em;
         text-transform: uppercase;
-        color: var(--hr-amber);
-        display: inline-flex; align-items: center; gap: 0.6em;
+        color: var(--hr-steel-2);
+        display: inline-flex; align-items: center; gap: 0.7em;
       }
       .hr-label::before {
-        content: ""; width: 22px; height: 1px; background: currentColor; flex: none;
+        content: ""; width: 20px; height: 2px; background: var(--hr-red); flex: none;
       }
+      .is-bone .hr-label, .is-bone-2 .hr-label, .is-steel .hr-label { color: var(--hr-on-bone-soft); }
       .hr-label--bare::before { display: none; }
       .hr-lede { font-size: clamp(1.05rem, 1.6vw, 1.22rem); color: var(--hr-ink-soft); max-width: 58ch; }
 
       .hr-mono { font-family: var(--hr-ff-mono); }
 
-      /* ============ TLAČÍTKA ============ */
+      /* ============ TLAČÍTKA (ostrá, nožový řez) ============ */
       .hr-btn {
         display: inline-flex; align-items: center; gap: 0.6em;
-        font-family: var(--hr-ff-mono); font-weight: 500; font-size: 0.84rem;
-        letter-spacing: 0.06em;
-        padding: 0.95em 1.5em; border-radius: var(--hr-r);
+        font-family: var(--hr-ff-cond); font-weight: 600; font-size: 0.92rem;
+        letter-spacing: 0.14em; text-transform: uppercase;
+        padding: 0.95em 1.6em; border-radius: var(--hr-r);
         border: 1px solid transparent; text-decoration: none; cursor: pointer;
-        line-height: 1; position: relative; overflow: hidden;
+        line-height: 1; position: relative;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
         transition: transform 0.2s var(--hr-ease), background 0.2s var(--hr-ease), color 0.2s var(--hr-ease), border-color 0.2s var(--hr-ease);
       }
-      .hr-btn--solid { background: var(--hr-amber); color: var(--hr-ink); }
-      .hr-btn--solid:hover { background: var(--hr-amber-soft); transform: translateY(-2px); }
-      .hr-btn--ghost { background: transparent; color: var(--hr-bone); border-color: var(--hr-line-d); }
-      .hr-btn--ghost:hover { border-color: var(--hr-amber); color: var(--hr-amber); transform: translateY(-2px); }
+      .hr-btn--solid { background: var(--hr-bone); color: var(--hr-ink); }
+      .hr-btn--solid:hover { background: #fff; transform: translateY(-2px); }
+      .hr-btn--ghost { background: transparent; color: var(--hr-bone); border-color: var(--hr-steel-d); }
+      .hr-btn--ghost:hover { border-color: var(--hr-steel-2); color: #fff; transform: translateY(-2px); }
       .hr-btn--dark { background: var(--hr-ink); color: var(--hr-bone); }
       .hr-btn--dark:hover { background: var(--hr-shadow-paper); transform: translateY(-2px); }
       /* na kostěném pozadí */
-      .is-bone .hr-btn--ghost, .is-steel .hr-btn--ghost { color: var(--hr-on-bone); border-color: var(--hr-line-b); }
-      .is-bone .hr-btn--ghost:hover, .is-steel .hr-btn--ghost:hover { border-color: var(--hr-amber); color: var(--hr-amber); }
+      .is-bone .hr-btn--solid, .is-bone-2 .hr-btn--solid, .is-steel .hr-btn--solid { background: var(--hr-ink); color: var(--hr-bone); }
+      .is-bone .hr-btn--solid:hover, .is-bone-2 .hr-btn--solid:hover, .is-steel .hr-btn--solid:hover { background: #000; }
+      .is-bone .hr-btn--ghost, .is-steel .hr-btn--ghost, .is-bone-2 .hr-btn--ghost { color: var(--hr-on-bone); border-color: var(--hr-line-b); }
+      .is-bone .hr-btn--ghost:hover, .is-steel .hr-btn--ghost:hover, .is-bone-2 .hr-btn--ghost:hover { border-color: var(--hr-ink); color: var(--hr-ink); }
       .hr-btn__arrow { transition: transform 0.2s var(--hr-ease); }
       .hr-btn:hover .hr-btn__arrow { transform: translateX(3px); }
 
       /* ============ SKIP / PROGRESS ============ */
       .hr-skip {
-        position: absolute; left: 12px; top: -60px; z-index: 300;
-        background: var(--hr-amber); color: var(--hr-ink); font-family: var(--hr-ff-mono);
+        position: absolute; left: 12px; top: -60px; z-index: 500;
+        background: var(--hr-bone); color: var(--hr-ink); font-family: var(--hr-ff-mono);
         padding: 0.6em 1em; border-radius: var(--hr-r); text-decoration: none; font-size: 0.85rem;
         transition: top 0.2s var(--hr-ease);
       }
       .hr-skip:focus { top: 12px; }
       .hr-progress {
         position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 200;
-        background: linear-gradient(90deg, var(--hr-amber), var(--hr-blood));
+        background: var(--hr-red);
         transform: scaleX(0); transform-origin: 0 50%;
       }
 
       /* ============ NAVIGACE ============ */
       .hr-nav {
         position: sticky; top: 0; z-index: 100;
-        background: color-mix(in srgb, var(--hr-ink) 88%, transparent);
-        backdrop-filter: blur(10px) saturate(1.2);
+        background: color-mix(in srgb, var(--hr-ink) 90%, transparent);
+        backdrop-filter: blur(12px) saturate(1.1);
         border-bottom: 1px solid var(--hr-line-d);
       }
-      .hr-nav__inner { display: flex; align-items: center; gap: 1.2rem; height: 76px; }
+      .hr-nav__inner { display: flex; align-items: center; gap: 1.2rem; height: 74px; }
       .hr-brand { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--hr-bone); }
       .hr-brand__mark { display: inline-flex; }
-      .hr-brand__name { font-family: var(--hr-ff-display); font-weight: 800; font-size: 1.12rem; letter-spacing: 0.02em; }
+      .hr-brand__name { font-family: var(--hr-ff-display); font-weight: 800; font-size: 1.12rem; letter-spacing: 0.04em; }
       .hr-nav__links { display: flex; gap: 0.1rem; margin-left: auto; }
       .hr-nav__link {
         text-decoration: none; color: var(--hr-ink-soft);
-        font-family: var(--hr-ff-mono); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.02em;
-        padding: 0.55em 0.7em; position: relative;
+        font-family: var(--hr-ff-cond); font-weight: 500; font-size: 0.94rem; letter-spacing: 0.14em; text-transform: uppercase;
+        padding: 0.55em 0.8em; position: relative;
         transition: color 0.2s var(--hr-ease);
       }
       .hr-nav__idx {
-        font-size: 0.6rem; color: var(--hr-ink-faint); margin-right: 0.4em; vertical-align: 0.15em;
+        font-family: var(--hr-ff-mono); font-size: 0.58rem; color: var(--hr-ink-faint); margin-right: 0.45em; vertical-align: 0.18em;
         transition: color 0.2s var(--hr-ease);
       }
       .hr-nav__link:hover { color: var(--hr-bone); }
-      .hr-nav__link:hover .hr-nav__idx { color: var(--hr-amber); }
-      /* Hrotová linka jako aktivní značka */
+      .hr-nav__link:hover .hr-nav__idx { color: var(--hr-red-soft); }
       .hr-nav__link.is-active { color: var(--hr-bone); }
-      .hr-nav__link.is-active .hr-nav__idx { color: var(--hr-amber); }
+      .hr-nav__link.is-active .hr-nav__idx { color: var(--hr-red); }
       .hr-nav__link::after {
-        content: ""; position: absolute; left: 0.7em; bottom: 0.45em; height: 1px; width: 0;
-        background: var(--hr-amber); transition: width 0.28s var(--hr-ease);
+        content: ""; position: absolute; left: 0.8em; bottom: 0.4em; height: 1px; width: 0;
+        background: var(--hr-steel-2); transition: width 0.28s var(--hr-ease);
       }
-      .hr-nav__link:hover::after { width: calc(100% - 1.4em); }
-      .hr-nav__link.is-active::after { width: calc(100% - 1.4em); }
+      .hr-nav__link:hover::after { width: calc(100% - 1.6em); }
+      .hr-nav__link.is-active::after { width: calc(100% - 1.6em); background: var(--hr-red); }
       .hr-nav__link.is-active::before {
-        content: ""; position: absolute; right: 0.2em; bottom: 0.42em;
-        border-left: 5px solid var(--hr-amber); border-top: 3px solid transparent; border-bottom: 3px solid transparent;
+        content: ""; position: absolute; left: 0.1em; top: 50%; transform: translateY(-50%);
+        width: 4px; height: 4px; background: var(--hr-red);
       }
-      .hr-nav__cta { margin-left: 0.8rem; padding: 0.75em 1.1em; }
+      .hr-nav__cta { margin-left: 0.8rem; padding: 0.7em 1.2em; }
 
       .hr-burger {
         display: none; margin-left: auto; width: 46px; height: 46px;
@@ -348,16 +369,16 @@ const nav = [
       .hr-mobile { border-top: 1px solid var(--hr-line-d); background: var(--hr-ink-2); }
       .hr-mobile__nav { display: flex; flex-direction: column; padding: 0.8rem 4vw 1.4rem; gap: 0.1rem; }
       .hr-mobile__link {
-        text-decoration: none; color: var(--hr-bone); font-family: var(--hr-ff-mono); font-weight: 500; font-size: 1rem;
+        text-decoration: none; color: var(--hr-bone); font-family: var(--hr-ff-cond); font-weight: 500; font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase;
         padding: 0.85em 0.4em; border-bottom: 1px solid var(--hr-line-d); display: flex; align-items: baseline; gap: 0.8em;
       }
-      .hr-mobile__idx { font-size: 0.68rem; color: var(--hr-ink-faint); }
-      .hr-mobile__link.is-active { color: var(--hr-amber); }
-      .hr-mobile__link.is-active .hr-mobile__idx { color: var(--hr-amber); }
+      .hr-mobile__idx { font-family: var(--hr-ff-mono); font-size: 0.68rem; color: var(--hr-ink-faint); }
+      .hr-mobile__link.is-active { color: var(--hr-bone); }
+      .hr-mobile__link.is-active .hr-mobile__idx { color: var(--hr-red); }
       .hr-mobile__cta { margin-top: 1rem; justify-content: center; }
 
       /* ============ ZÓNY / SEKCE ============ */
-      .hr-section { padding: clamp(3.5rem, 8vw, 6.5rem) 0; position: relative; }
+      .hr-section { padding: clamp(3.8rem, 8.5vw, 7rem) 0; position: relative; }
       .is-dark { background: var(--hr-ink); color: var(--hr-bone); }
       .is-ink2 { background: var(--hr-ink-2); color: var(--hr-bone); }
       .is-bone { background: var(--hr-bone); color: var(--hr-on-bone); }
@@ -371,7 +392,7 @@ const nav = [
       /* tečkovaná „flash sheet" textura jako pozadí tmavých zón */
       .hr-grid-tex {
         background-image: radial-gradient(var(--hr-line-d) 1px, transparent 1px);
-        background-size: 26px 26px;
+        background-size: 22px 22px;
       }
 
       /* společná sekční hlavička */
@@ -381,14 +402,22 @@ const nav = [
       .hr-shead--end { margin-left: auto; text-align: right; }
       .hr-shead--end .hr-label { flex-direction: row-reverse; }
 
-      /* hlavička podstránky */
-      .hr-phead { position: relative; padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(2rem, 4vw, 3rem); overflow: hidden; }
-      .hr-phead__inner { position: relative; z-index: 1; }
-      .hr-phead h1 { font-size: clamp(2.6rem, 8vw, 5.6rem); }
+      /* hlavička podstránky — archivní list s rohovými kříži */
+      .hr-phead { position: relative; padding: clamp(3.8rem, 8vw, 6.5rem) 0 clamp(2rem, 4vw, 3rem); overflow: hidden; }
+      .hr-phead__inner { position: relative; z-index: 1; padding-top: 1.4rem; border-top: 1px solid var(--hr-line-d); }
+      .hr-phead__inner::before, .hr-phead__inner::after {
+        content: ""; position: absolute; top: -5px; width: 9px; height: 9px; pointer-events: none;
+        background:
+          linear-gradient(var(--hr-red), var(--hr-red)) center / 100% 1px no-repeat,
+          linear-gradient(var(--hr-red), var(--hr-red)) center / 1px 100% no-repeat;
+      }
+      .hr-phead__inner::before { left: -2px; }
+      .hr-phead__inner::after { right: -2px; }
+      .hr-phead h1 { font-size: clamp(2.8rem, 8.4vw, 6rem); letter-spacing: -0.035em; }
       .hr-phead__sub { margin-top: 1.3rem; font-size: clamp(1.05rem, 1.7vw, 1.25rem); color: var(--hr-ink-soft); max-width: 60ch; }
       .hr-phead__num {
         position: absolute; right: -1vw; top: 0; font-family: var(--hr-ff-display); font-weight: 800;
-        font-size: clamp(8rem, 26vw, 22rem); line-height: 0.7; color: var(--hr-ink-2);
+        font-size: clamp(8rem, 26vw, 22rem); line-height: 0.7; color: var(--hr-graphite);
         z-index: 0; pointer-events: none; user-select: none; letter-spacing: -0.04em;
       }
 
@@ -399,7 +428,7 @@ const nav = [
       /* svislý popisek na desktopu */
       .hr-vlabel {
         writing-mode: vertical-rl; text-orientation: mixed;
-        font-family: var(--hr-ff-mono); font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+        font-family: var(--hr-ff-cond); font-size: 0.78rem; letter-spacing: 0.34em; text-transform: uppercase;
         color: var(--hr-ink-faint);
       }
 
@@ -409,14 +438,14 @@ const nav = [
         display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2.6rem;
         padding: clamp(3rem, 6vw, 4.5rem) 0 2.6rem;
       }
-      .hr-foot__name { font-family: var(--hr-ff-display); font-weight: 800; font-size: 1.5rem; letter-spacing: 0.02em; }
+      .hr-foot__name { font-family: var(--hr-ff-display); font-weight: 800; font-size: 1.5rem; letter-spacing: 0.04em; }
       .hr-foot__tag { color: var(--hr-ink-soft); max-width: 40ch; margin: 0.9rem 0 1.2rem; font-size: 0.95rem; }
       .hr-foot__sig { width: 180px; opacity: 0.9; }
-      .hr-foot__k { font-family: var(--hr-ff-mono); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--hr-ink-faint); display: block; margin-bottom: 1rem; }
+      .hr-foot__k { font-family: var(--hr-ff-cond); font-size: 0.8rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--hr-steel); display: block; margin-bottom: 1rem; }
       .hr-foot__col { display: flex; flex-direction: column; }
       .hr-foot__link { color: var(--hr-ink-soft); text-decoration: none; padding: 0.32em 0; font-size: 0.92rem; display: flex; gap: 0.7em; align-items: baseline; transition: color 0.2s var(--hr-ease); }
       .hr-foot__idx { font-family: var(--hr-ff-mono); font-size: 0.66rem; color: var(--hr-ink-faint); }
-      .hr-foot__link:hover { color: var(--hr-amber); }
+      .hr-foot__link:hover { color: var(--hr-bone); }
       .hr-foot__line { color: var(--hr-ink-soft); margin: 0 0 0.45rem; font-size: 0.92rem; }
       .hr-foot__bottom {
         display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; justify-content: space-between;
@@ -424,13 +453,13 @@ const nav = [
         font-family: var(--hr-ff-mono); font-size: 0.74rem; color: var(--hr-ink-faint);
       }
       .hr-foot__demo, .hr-foot__legal { margin: 0; }
-      .hr-foot__moss { color: var(--hr-amber); text-decoration: none; }
-      .hr-foot__moss:hover { text-decoration: underline; }
+      .hr-foot__moss { color: var(--hr-steel-2); text-decoration: none; border-bottom: 1px solid var(--hr-red); }
+      .hr-foot__moss:hover { color: var(--hr-bone); }
 
       /* ============ FOCUS ============ */
       .hr-body a:focus-visible, .hr-body button:focus-visible,
       .hr-body input:focus-visible, .hr-body textarea:focus-visible, .hr-body select:focus-visible {
-        outline: 2.5px solid var(--hr-amber); outline-offset: 3px; border-radius: 2px;
+        outline: 2.5px solid var(--hr-red-soft); outline-offset: 3px; border-radius: 0;
       }
 
       /* ============ MOTION ============ */

@@ -38,10 +38,35 @@ const hours = [
       <div class="hr-kont__formwrap hr-anim">
         <form class="hr-form" id="hr-form" novalidate>
           <div class="hr-form__head">
-            <span class="hr-mono hr-form__id">FORM · POPTÁVKA</span>
+            <span class="hr-mono hr-form__id">FORM · POPTÁVKA — HROT</span>
             <h2 class="hr-form__t">Poptávka termínu</h2>
           </div>
 
+          <fieldset class="hr-choose">
+            <legend class="hr-choose__lg hr-mono">01 — Co chcete řešit?</legend>
+            <div class="hr-choose__grid">
+              <label class="hr-opt">
+                <input type="radio" name="type" value="tetovani" required />
+                <span class="hr-opt__code hr-mono" aria-hidden="true">A</span>
+                <span class="hr-opt__t">Tetování</span>
+                <span class="hr-opt__p">Autorský návrh — fine-line, blackwork, ornament.</span>
+              </label>
+              <label class="hr-opt hr-opt--metal">
+                <input type="radio" name="type" value="piercing" />
+                <span class="hr-opt__code hr-mono" aria-hidden="true">B</span>
+                <span class="hr-opt__t">Piercing</span>
+                <span class="hr-opt__p">Sterilní aplikace, titanový šperk, jasné hojení.</span>
+              </label>
+              <label class="hr-opt">
+                <input type="radio" name="type" value="konzultace" />
+                <span class="hr-opt__code hr-mono" aria-hidden="true">C</span>
+                <span class="hr-opt__t">Konzultace</span>
+                <span class="hr-opt__p">Jen probrat motiv, cenu a termín. Zdarma.</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <p class="hr-choose__lg hr-choose__lg--2 hr-mono">02 — Detaily</p>
           <div class="hr-form__grid">
             <p class="hr-field">
               <label for="f-name">Jméno</label>
@@ -54,16 +79,6 @@ const hours = [
             <p class="hr-field">
               <label for="f-phone">Telefon</label>
               <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 …" />
-            </p>
-            <p class="hr-field">
-              <label for="f-type">Co chcete řešit?</label>
-              <select id="f-type" name="type" required>
-                <option value="" disabled selected>Vyberte…</option>
-                <option value="tetovani">Tetování</option>
-                <option value="piercing">Piercing</option>
-                <option value="konzultace">Konzultace</option>
-                <option value="uprava">Úprava / překrytí</option>
-              </select>
             </p>
             <p class="hr-field">
               <label for="f-place">Umístění na těle</label>
@@ -156,7 +171,9 @@ const hours = [
         if (!form.checkValidity()) { form.reportValidity(); return; }
         if (ok) (ok as HTMLElement).hidden = false;
         form.querySelectorAll("input, textarea, select").forEach((el) => {
-          (el as HTMLInputElement).value = "";
+          const f = el as HTMLInputElement;
+          if (f.type === "radio" || f.type === "checkbox") { f.checked = false; }
+          else { f.value = ""; }
         });
         if (ok) ok.scrollIntoView({ behavior: "smooth", block: "center" });
       });
@@ -173,6 +190,23 @@ const hours = [
     .hr-form__head { margin-bottom: 1.8rem; }
     .hr-form__id { font-size: 0.68rem; letter-spacing: 0.18em; color: var(--hr-amber); }
     .hr-form__t { font-size: clamp(1.6rem, 3.4vw, 2.4rem); margin-top: 0.5rem; }
+    /* CHOOSER — výběr služby (01) */
+    .hr-choose { border: 0; margin: 0 0 1.5rem; padding: 0; min-inline-size: 0; }
+    .hr-choose__lg { display: block; font-size: 0.7rem; letter-spacing: 0.16em; color: var(--hr-amber); margin: 0 0 0.8rem; padding: 0; }
+    .hr-choose__lg--2 { margin-top: 0.4rem; }
+    .hr-choose__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
+    .hr-opt { position: relative; display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem 1rem 1.1rem; background: #F7F2E9; border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); cursor: pointer; transition: border-color 0.2s var(--hr-ease), background 0.2s var(--hr-ease), transform 0.2s var(--hr-ease); }
+    .hr-opt:hover { border-color: var(--hr-amber); transform: translateY(-2px); }
+    .hr-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .hr-opt__code { width: 22px; height: 22px; display: grid; place-items: center; font-size: 0.66rem; border: 1px solid var(--hr-line-b); border-radius: 2px; color: var(--hr-on-bone-soft); }
+    .hr-opt__t { font-family: var(--hr-ff-display); font-weight: 700; font-size: 1.15rem; line-height: 1.1; }
+    .hr-opt__p { font-size: 0.8rem; color: var(--hr-on-bone-soft); margin: 0; }
+    .hr-opt:has(input:checked) { border-color: var(--hr-amber); background: color-mix(in srgb, var(--hr-amber) 12%, #F7F2E9); box-shadow: inset 0 0 0 1px var(--hr-amber); }
+    .hr-opt:has(input:checked) .hr-opt__code { background: var(--hr-amber); color: var(--hr-ink); border-color: var(--hr-amber); }
+    .hr-opt:has(input:focus-visible) { outline: 2px solid var(--hr-amber); outline-offset: 2px; }
+    .hr-opt--metal:has(input:checked) { border-color: var(--hr-steel); background: color-mix(in srgb, var(--hr-steel) 18%, #F7F2E9); box-shadow: inset 0 0 0 1px var(--hr-steel); }
+    .hr-opt--metal:has(input:checked) .hr-opt__code { background: var(--hr-steel); color: var(--hr-ink); border-color: var(--hr-steel); }
+
     .hr-form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
     .hr-field { margin: 0; display: flex; flex-direction: column; gap: 0.45rem; }
     .hr-field--full { grid-column: 1 / -1; }
@@ -219,6 +253,9 @@ const hours = [
 
     @media (max-width: 920px) {
       .hr-kont__grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .hr-choose__grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 520px) {
       .hr-form__grid { grid-template-columns: 1fr; }

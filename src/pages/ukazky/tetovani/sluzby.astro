@@ -85,7 +85,7 @@ const services = [
     <div class="hr-wrap">
       <div class="hr-svc__list">
         {services.map((s, i) => (
-          <article class="hr-svc__item hr-anim" data-delay={String((i % 3) + 1)}>
+          <article class:list={["hr-svc__item hr-anim", `hr-svc__item--${s.cat === "Piercing" ? "steel" : s.cat === "Tetování" ? "ink" : "neutral"}`]} data-delay={String((i % 3) + 1)}>
             <div class="hr-svc__left">
               <span class="hr-svc__n hr-display">{s.n}</span>
               <div class="hr-svc__art"><Image src={s.img} alt={s.alt} widths={[300, 500]} sizes="(max-width: 760px) 120px, 220px" format="webp" quality={74} loading="lazy" decoding="async" /></div>
@@ -158,6 +158,19 @@ const services = [
     .hr-svc__dur { color: var(--hr-amber) !important; font-size: 0.92rem; }
 
     .hr-svc__cta { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+    /* rozlišení disciplín: tetování = inkoust/exprese, piercing = ocel/sterilní */
+    .hr-svc__item--ink { padding-left: clamp(0px, 1.4vw, 1.4rem); border-left: 2px solid transparent; }
+    .hr-svc__item--ink .hr-svc__cat { color: var(--hr-red); }
+    .hr-svc__item--ink .hr-svc__cat::before { content: "▍ "; color: var(--hr-red); }
+    .hr-svc__item--ink .hr-svc__n { color: var(--hr-on-bone); }
+    .hr-svc__item--ink .hr-svc__art :global(img) { filter: saturate(0.96) contrast(1.12) brightness(0.95); }
+
+    .hr-svc__item--steel .hr-svc__n,
+    .hr-svc__item--steel .hr-svc__cat { color: var(--hr-steel-d); }
+    .hr-svc__item--steel .hr-svc__art { border-color: var(--hr-steel); box-shadow: inset 0 0 0 1px rgba(140,145,151,0.45); }
+    .hr-svc__item--steel .hr-svc__art :global(img) { filter: saturate(0.4) contrast(1.08) brightness(1.07); }
+    .hr-svc__item--steel .hr-svc__dur { color: var(--hr-steel-d) !important; }
 
     .hr-svnote__inner { max-width: 56ch; }
     .hr-svnote__inner h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0.8rem 0 1rem; }
