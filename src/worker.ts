@@ -134,18 +134,18 @@ async function sendNotification(
     ``,
     `Jméno / Name: ${lead.name}`,
     `E-mail: ${lead.email}`,
-    `Telefon: ${lead.phone || "—"}`,
+    `Telefon: ${lead.phone || "neuvedeno"}`,
     `Co potřebuje / Need: ${lead.need}`,
     `Rozpočet / Budget: ${lead.budget}`,
     `Termín / Timing: ${lead.project_timing}`,
     `Má web: ${lead.has_website ? "ano" : "ne"}`,
     `Má doménu: ${lead.has_domain ? "ano" : "ne"}`,
-    `Současný web: ${lead.current_url || "—"}`,
+    `Současný web: ${lead.current_url || "neuvedeno"}`,
     `Preferovaný kontakt: ${lead.preferred_contact}`,
     `Jazyk: ${lead.language}`,
     ``,
     `Zpráva / Message:`,
-    `${lead.message || "—"}`,
+    `${lead.message || "neuvedeno"}`,
   ].join("\n");
 
   const html = `
@@ -153,20 +153,20 @@ async function sendNotification(
 
     <p><strong>Jméno:</strong> ${escapeHtml(String(lead.name || ""))}</p>
     <p><strong>E-mail:</strong> ${escapeHtml(String(lead.email || ""))}</p>
-    <p><strong>Telefon:</strong> ${escapeHtml(String(lead.phone || "—"))}</p>
+    <p><strong>Telefon:</strong> ${escapeHtml(String(lead.phone || "neuvedeno"))}</p>
     <p><strong>Co potřebuje:</strong> ${escapeHtml(String(lead.need || ""))}</p>
     <p><strong>Rozpočet:</strong> ${escapeHtml(String(lead.budget || ""))}</p>
     <p><strong>Termín:</strong> ${escapeHtml(String(lead.project_timing || ""))}</p>
     <p><strong>Má web:</strong> ${lead.has_website ? "ano" : "ne"}</p>
     <p><strong>Má doménu:</strong> ${lead.has_domain ? "ano" : "ne"}</p>
-    <p><strong>Současný web:</strong> ${escapeHtml(String(lead.current_url || "—"))}</p>
+    <p><strong>Současný web:</strong> ${escapeHtml(String(lead.current_url || "neuvedeno"))}</p>
     <p><strong>Preferovaný kontakt:</strong> ${escapeHtml(String(lead.preferred_contact || ""))}</p>
     <p><strong>Jazyk:</strong> ${escapeHtml(String(lead.language || ""))}</p>
 
     <hr />
 
     <p><strong>Zpráva:</strong></p>
-    <p>${escapeHtml(String(lead.message || "—")).replace(/\n/g, "<br>")}</p>
+    <p>${escapeHtml(String(lead.message || "neuvedeno")).replace(/\n/g, "<br>")}</p>
   `;
 
   try {

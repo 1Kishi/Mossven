@@ -1,13 +1,23 @@
 ---
 // Ukázkový (demo) web pro fiktivního osobního trenéra „Forma".
-// Samostatná stránka — vlastní identita, nepoužívá Mossven Layout.
+// Samostatná stránka - vlastní identita, nepoužívá Mossven Layout.
 // Záměrně jiná struktura: programy + týdenní rytmus, ne grid+kroky.
 // Route: /ukazky/trener
+import { Image } from "astro:assets";
+
+// Fotografie tréninku (přes astro:assets: automatický webp, responzivní velikosti).
+// Jeden vizuální motiv: stejný trenér i klientka, světlé studio, klid a opora.
+import fotoHero from "./trener-one/trener-hero-koucink.png";
+import fotoTechnika from "./trener-one/trener-technika-cviku.png";
+import fotoSila from "./trener-one/trener-silovy-trenink.png";
+import fotoPlan from "./trener-one/trener-plan-tydne.png";
+import fotoZacatecnik from "./trener-one/trener-zacatecnik.png";
+import fotoPortret from "./trener-one/trener-portret.png";
 
 const programy = [
-  { kod: "01", nazev: "1:1 osobní trénink", delka: "60 min", format: "ve studiu", cena: "od 700 Kč", popis: "Trénink jen pro vás. Plán, technika a tempo podle toho, kde teď jste." },
-  { kod: "02", nazev: "Trénink ve dvojici", delka: "60 min", format: "ve studiu", cena: "od 500 Kč/os.", popis: "S parťákem nebo partnerkou. Levnější a o dost zábavnější." },
-  { kod: "03", nazev: "Plán na doma", delka: "4 týdny", format: "online", cena: "od 1 490 Kč", popis: "Rozpis na míru a opora přes zprávy. Když nestíháte do studia." },
+  { kod: "01", img: fotoSila, imgAlt: "Klientka cvičí vsedě s jednoručkami, trenér ji vede a hlídá provedení", nazev: "1:1 osobní trénink", delka: "60 min", format: "ve studiu", cena: "od 700 Kč", popis: "Trénink jen pro vás. Plán, technika a tempo podle toho, kde teď jste." },
+  { kod: "02", img: fotoTechnika, imgAlt: "Trenér opravuje techniku cviku a hlídá správné držení těla", nazev: "Trénink ve dvojici", delka: "60 min", format: "ve studiu", cena: "od 500 Kč/os.", popis: "S parťákem nebo partnerkou. Levnější a o dost zábavnější." },
+  { kod: "03", img: fotoPlan, imgAlt: "Otevřený zápisník s rozpisem tréninku, lahev s vodou a činka na lavici", nazev: "Plán na doma", delka: "4 týdny", format: "online", cena: "od 1 490 Kč", popis: "Rozpis na míru a opora přes zprávy. Když nestíháte do studia." },
 ];
 
 const tyden = [
@@ -33,8 +43,8 @@ const prokoho = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forma — osobní trénink bez drama</title>
-    <meta name="description" content="Osobní trénink na míru — síla, kondice a technika podle toho, kde teď jste. První trénink na zkoušku. Ukázkový web od Mossven." />
+    <title>Forma: osobní trénink bez drama</title>
+    <meta name="description" content="Osobní trénink na míru: síla, kondice a technika podle toho, kde teď jste. První trénink na zkoušku. Ukázkový web od Mossven." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -42,7 +52,7 @@ const prokoho = [
   <body class="fo-body">
     <header class="fo-top">
       <div class="fo-wrap fo-top__inner">
-        <a class="fo-brand" href="#fo-top" aria-label="Forma — domů">
+        <a class="fo-brand" href="#fo-top" aria-label="Forma, domů">
           <span class="fo-brand__name">FORMA</span>
           <span class="fo-brand__sub">osobní trénink</span>
         </a>
@@ -60,7 +70,7 @@ const prokoho = [
           </h1>
           <div class="fo-hero__row">
             <p class="fo-hero__sub">
-              Trénink na míru podle toho, kde teď jste — ne podle obrázku na internetu. Naučím vás
+              Trénink na míru podle toho, kde teď jste, ne podle obrázku na internetu. Naučím vás
               techniku, postavím plán a pohlídám, ať to dává smysl a vydrží.
             </p>
             <div class="fo-meter" aria-hidden="true">
@@ -73,6 +83,18 @@ const prokoho = [
             <a class="fo-btn fo-btn--solid" href="#fo-kontakt">Domluvit první trénink</a>
             <a class="fo-btn fo-btn--line" href="#fo-programy">Zobrazit programy</a>
           </div>
+          <figure class="fo-herofig">
+            <Image
+              src={fotoHero}
+              alt="Trenér klidně vede klientku u dřepu s kettlebellem ve světlém studiu, oba se usmívají"
+              widths={[600, 900, 1280, 1536]}
+              sizes="(max-width: 880px) 100vw, 1140px"
+              format="webp"
+              quality={76}
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
         </div>
       </section>
 
@@ -86,6 +108,18 @@ const prokoho = [
           <ul class="fo-programs__grid">
             {programy.map((p) => (
               <li class="fo-prog">
+                {p.img ? (
+                  <figure class="fo-prog__media">
+                    <Image src={p.img} alt={p.imgAlt} widths={[360, 520, 720]} sizes="(max-width: 880px) 100vw, 360px" format="webp" quality={74} loading="lazy" decoding="async" />
+                  </figure>
+                ) : (
+                  <div class="fo-prog__media fo-prog__media--duo" aria-hidden="true">
+                    <svg viewBox="0 0 170 104" xmlns="http://www.w3.org/2000/svg">
+                      <g class="fo-duo__b"><circle cx="108" cy="40" r="15" /><path d="M108 60c-18 0-30 13-32 32h64c-2-19-14-32-32-32Z" /></g>
+                      <g class="fo-duo__a"><circle cx="62" cy="40" r="15" /><path d="M62 60c-18 0-30 13-32 32h64c-2-19-14-32-32-32Z" /></g>
+                    </svg>
+                  </div>
+                )}
                 <span class="fo-prog__kod">{p.kod}</span>
                 <h3 class="fo-prog__nazev">{p.nazev}</h3>
                 <p class="fo-prog__popis">{p.popis}</p>
@@ -97,7 +131,7 @@ const prokoho = [
               </li>
             ))}
           </ul>
-          <p class="fo-programs__note">Ceny jsou orientační, jednotlivý vstup. U permanentek vyjde trénink levněji — řekneme si konkrétně podle počtu.</p>
+          <p class="fo-programs__note">Ceny jsou orientační, jednotlivý vstup. U permanentek vyjde trénink levněji, řekneme si konkrétně podle počtu.</p>
         </div>
       </section>
 
@@ -116,13 +150,17 @@ const prokoho = [
               </li>
             ))}
           </ol>
-          <p class="fo-week__note">Ukázkový rozvrh. Skutečný plán sestavíme podle vašich možností a cíle — klidně jen 2× týdně.</p>
+          <p class="fo-week__note">Ukázkový rozvrh. Skutečný plán sestavíme podle vašich možností a cíle, klidně jen 2× týdně.</p>
         </div>
       </section>
 
       <!-- PRO KOHO -->
       <section class="fo-section fo-who" aria-labelledby="fo-who-h">
         <div class="fo-wrap fo-who__inner">
+          <figure class="fo-who__photo">
+            <Image src={fotoZacatecnik} alt="Trenér v klidu navádí začínající klientku do protažení na podložce, oba se usmívají" widths={[460, 700, 980]} sizes="(max-width: 880px) 100vw, 480px" format="webp" quality={74} loading="lazy" decoding="async" />
+          </figure>
+          <div class="fo-who__col">
           <header class="fo-head fo-head--left">
             <p class="fo-kicker">Pro koho to je</p>
             <h2 id="fo-who-h" class="fo-head__title">Nemusíte být fit, abyste začali</h2>
@@ -133,12 +171,17 @@ const prokoho = [
               <li class="fo-who__item"><span class="fo-who__bar" aria-hidden="true"></span><span>{x}</span></li>
             ))}
           </ul>
+          </div>
         </div>
       </section>
 
       <!-- KONTAKT -->
       <section id="fo-kontakt" class="fo-section fo-contact" aria-labelledby="fo-contact-h">
         <div class="fo-wrap">
+          <div class="fo-contact__inner">
+          <figure class="fo-contact__photo">
+            <Image src={fotoPortret} alt="Portrét osobního trenéra ve světlém studiu, klidný a vstřícný výraz" widths={[420, 640, 900]} sizes="(max-width: 880px) 100vw, 380px" format="webp" quality={76} loading="lazy" decoding="async" />
+          </figure>
           <div class="fo-contact__panel">
             <div>
               <p class="fo-kicker fo-kicker--lime">První trénink</p>
@@ -152,6 +195,7 @@ const prokoho = [
               <a class="fo-btn fo-btn--solid fo-contact__btn" href="tel:+420777567890">Domluvit trénink</a>
               <p class="fo-contact__demo">Demo ukázka webu od Mossven.</p>
             </div>
+          </div>
           </div>
         </div>
       </section>
@@ -168,7 +212,7 @@ const prokoho = [
     </footer>
 
     <style is:global>
-      /* Forma — samostatná demo stránka, vše prefixováno .fo- */
+      /* Forma - samostatná demo stránka, vše prefixováno .fo- */
       .fo-body {
         --fo-bg: #f3f4ef; --fo-panel: #ffffff; --fo-ink: #15160f; --fo-char: #191b14;
         --fo-soft: #565a4d; --fo-faint: #8b8f80; --fo-lime: #b9e335; --fo-lime-deep: #7f9e16;
@@ -227,6 +271,10 @@ const prokoho = [
       }
       @keyframes fo-fill { to { width: 78%; } }
 
+      /* HERO photo band */
+      .fo-herofig { margin: clamp(28px,4vw,48px) 0 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--fo-line); background: var(--fo-panel); line-height: 0; box-shadow: 0 34px 64px -42px rgba(21,22,15,.55); }
+      .fo-herofig img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+
       /* SECTION shared */
       .fo-section { padding: clamp(48px,7vw,96px) 0; position: relative; }
       .fo-head { max-width: 40rem; margin: 0 auto clamp(28px,4vw,48px); text-align: center; }
@@ -238,8 +286,14 @@ const prokoho = [
 
       /* PROGRAMY */
       .fo-programs__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-      .fo-prog { background: var(--fo-panel); border: 1px solid var(--fo-line); border-radius: 10px; padding: clamp(22px,2.6vw,30px); display: flex; flex-direction: column; transition: transform .2s var(--fo-ease), box-shadow .2s; }
+      .fo-prog { background: var(--fo-panel); border: 1px solid var(--fo-line); border-radius: 10px; padding: clamp(22px,2.6vw,30px); display: flex; flex-direction: column; overflow: hidden; transition: transform .2s var(--fo-ease), box-shadow .2s; }
       .fo-prog:hover { transform: translateY(-5px); box-shadow: 0 24px 44px -28px rgba(21,22,15,.4); }
+      .fo-prog__media { margin: calc(-1 * clamp(22px,2.6vw,30px)) calc(-1 * clamp(22px,2.6vw,30px)) clamp(18px,2vw,22px); border-bottom: 1px solid var(--fo-line-soft); line-height: 0; }
+      .fo-prog__media img { display: block; width: 100%; height: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+      .fo-prog__media--duo { aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; background: var(--fo-char); }
+      .fo-prog__media--duo svg { width: 52%; height: auto; }
+      .fo-duo__a { fill: var(--fo-lime); }
+      .fo-duo__b { fill: var(--fo-lime-deep); opacity: .85; }
       .fo-prog__kod { font-family: var(--ff-display); font-weight: 800; font-size: 1.1rem; color: var(--fo-lime-deep); }
       .fo-prog__nazev { font-size: 1.7rem; font-weight: 800; margin: .3rem 0 .5rem; }
       .fo-prog__popis { color: var(--fo-soft); font-size: .96rem; font-family: var(--ff-body); }
@@ -261,12 +315,18 @@ const prokoho = [
       .fo-week__note { margin-top: 20px; text-align: center; color: var(--fo-faint); font-size: .9rem; }
 
       /* PRO KOHO */
-      .fo-who__inner { display: grid; grid-template-columns: .95fr 1.05fr; gap: clamp(28px,4vw,60px); align-items: center; }
+      .fo-who__inner { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(28px,4vw,60px); align-items: center; }
+      .fo-who__photo { margin: 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--fo-line); background: var(--fo-panel); line-height: 0; box-shadow: 0 28px 54px -40px rgba(21,22,15,.5); }
+      .fo-who__photo img { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+      .fo-who__col { display: grid; gap: clamp(18px,2.4vw,26px); }
       .fo-who__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
       .fo-who__item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: var(--fo-panel); border: 1px solid var(--fo-line); border-radius: 8px; font-size: 1.04rem; font-family: var(--ff-body); }
       .fo-who__bar { width: 6px; height: 26px; flex: none; border-radius: 2px; background: var(--fo-lime); }
 
       /* KONTAKT */
+      .fo-contact__inner { display: grid; grid-template-columns: .68fr 1fr; gap: clamp(20px,3vw,32px); align-items: stretch; }
+      .fo-contact__photo { margin: 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--fo-line); background: var(--fo-panel); line-height: 0; min-height: 100%; }
+      .fo-contact__photo img { display: block; width: 100%; height: 100%; min-height: 320px; object-fit: cover; object-position: center 22%; }
       .fo-contact__panel { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(26px,4vw,52px); background: var(--fo-ink); color: var(--fo-bg); border-radius: 14px; padding: clamp(28px,4vw,52px); }
       .fo-contact__title { color: #fff; }
       .fo-contact__lead { margin-top: 1rem; color: #c4c7bb; max-width: 26em; font-family: var(--ff-body); }
@@ -292,6 +352,8 @@ const prokoho = [
         .fo-programs__grid { grid-template-columns: 1fr; max-width: 440px; margin-inline: auto; }
         .fo-week__strip { grid-template-columns: repeat(4,1fr); }
         .fo-who__inner { grid-template-columns: 1fr; }
+        .fo-contact__inner { grid-template-columns: 1fr; }
+        .fo-contact__photo img { min-height: 260px; max-height: 360px; }
         .fo-contact__panel { grid-template-columns: 1fr; }
       }
       @media (max-width: 520px) { .fo-week__strip { grid-template-columns: repeat(2,1fr); } .fo-foot__inner { flex-direction: column; align-items: flex-start; } }

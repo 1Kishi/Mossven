@@ -1,12 +1,15 @@
 ---
-// "Ukázky" — showcase of demo sites Mossven has built, split into two
+// "Ukázky" - showcase of demo sites Mossven has built, split into two
 // categories: single-page "landing" sites (live) and multi-page sites.
-// Single-page previews are pure CSS/SVG; live multi-page demos can carry
-// a real screenshot/photo (e.g. Studio Luma's hero). Demos marked
-// "Připravujeme" stay non-linked until their pages exist.
+// Live demos use their own hero photo as the browser-frame preview; the
+// pure CSS/SVG art is kept as a fallback when a card has no img. Demos
+// marked "Připravujeme" stay non-linked until their pages exist.
 
 import { Image } from "astro:assets";
 import lumaHero from "../pages/ukazky/kadernictvi/hero-salon.png";
+import truhlarHero from "../pages/ukazky/truhlarstvi/truhlar-hero-workshop.png";
+import kavarnaHero from "../pages/ukazky/kavarna/kavarna-hero-kava-interier.png";
+import trenerHero from "../pages/ukazky/trener-one/trener-hero-koucink.png";
 
 const landing = [
   {
@@ -14,8 +17,9 @@ const landing = [
     url: "mossven.cz/ukazky/truhlar",
     tag: "demos.1t", tagFallback: "Truhlářství",
     h: "demos.1h", hFallback: "Dílna Vorel",
-    p: "demos.1p", pFallback: "Nábytek na míru — vestavěné skříně, stoly, kuchyňské prvky a opravy.",
-    prev: "wood", aria: "Otevřít ukázku — Dílna Vorel, truhlářství",
+    p: "demos.1p", pFallback: "Nábytek na míru: vestavěné skříně, stoly, kuchyňské prvky a opravy.",
+    prev: "wood", aria: "Otevřít ukázku: Dílna Vorel, truhlářství",
+    img: truhlarHero, imgAlt: "Náhled webu Dílna Vorel: pohled do truhlářské dílny",
     prob: "demos.1prob", probFallback: "Zákazník potřebuje ukázat práci, oblast působení a získat poptávky.",
     sol: "demos.1sol", solFallback: "Jednostránkový web s fotkami, službami, formulářem a mapou.",
     forr: "demos.1for", forFallback: "Truhláře, řemeslníky, instalatéry, elektrikáře.",
@@ -26,7 +30,8 @@ const landing = [
     tag: "demos.4t", tagFallback: "Kavárna",
     h: "demos.4h", hFallback: "Kavárna Zrnko",
     p: "demos.4p", pFallback: "Menu, otevírací doba a cesta k vám. Útulně a přehledně.",
-    prev: "cafe", aria: "Otevřít ukázku — Kavárna Zrnko",
+    prev: "cafe", aria: "Otevřít ukázku: Kavárna Zrnko",
+    img: kavarnaHero, imgAlt: "Náhled webu Kavárna Zrnko: šálek kávy v útulném interiéru",
     prob: "demos.4prob", probFallback: "Lidé hledají menu, otevírací dobu a cestu, nejčastěji z mobilu.",
     sol: "demos.4sol", solFallback: "Přehledná stránka s menu, otevírací dobou a mapou.",
     forr: "demos.4for", forFallback: "Kavárny, bistra, cukrárny, malé restaurace.",
@@ -37,7 +42,8 @@ const landing = [
     tag: "demos.5t", tagFallback: "Osobní trénink",
     h: "demos.5h", hFallback: "Forma",
     p: "demos.5p", pFallback: "Programy, týdenní rytmus a první trénink na zkoušku.",
-    prev: "fit", aria: "Otevřít ukázku — Forma, osobní trénink",
+    prev: "fit", aria: "Otevřít ukázku: Forma, osobní trénink",
+    img: trenerHero, imgAlt: "Náhled webu Forma: trenér vede klientku při tréninku ve studiu",
     prob: "demos.5prob", probFallback: "Klient chce vysvětlit programy a získat první rezervaci na zkoušku.",
     sol: "demos.5sol", solFallback: "Jednostránkový web s programy, rozvrhem a kontaktem.",
     forr: "demos.5for", forFallback: "Osobní trenéry, lektory, fyzioterapeuty.",
@@ -50,9 +56,9 @@ const multi = [
     url: "mossven.cz/ukazky/kadernictvi",
     tag: "demos.2t", tagFallback: "Kadeřnictví",
     h: "demos.2h", hFallback: "Studio Luma",
-    p: "demos.2p", pFallback: "Barva, střih, rezervace, galerie a tým — na více stránkách.",
-    prev: "salon", aria: "Otevřít ukázku — Studio Luma, kadeřnictví (vícestránkový web)",
-    img: lumaHero, imgAlt: "Náhled webu Studio Luma — interiér kadeřnictví",
+    p: "demos.2p", pFallback: "Barva, střih, rezervace, galerie a tým na více stránkách.",
+    prev: "salon", aria: "Otevřít ukázku: Studio Luma, kadeřnictví (vícestránkový web)",
+    img: lumaHero, imgAlt: "Náhled webu Studio Luma: interiér kadeřnictví",
     prob: "demos.2prob", probFallback: "Salon potřebuje ukázat práci, ceník, tým a umožnit rezervaci.",
     sol: "demos.2sol", solFallback: "Vícestránkový web s galerií, ceníkem, týmem a rezervací.",
     forr: "demos.2for", forFallback: "Kadeřnictví, kosmetiku, nehtová a barber studia.",
@@ -61,7 +67,7 @@ const multi = [
     url: "mossven.cz/ukazky/tetovani",
     tag: "demos.3t", tagFallback: "Tetování & piercing",
     h: "demos.3h", hFallback: "Ateliér Hrot",
-    p: "demos.3p", pFallback: "Portfolio, služby, ceník a hygiena — jako vícestránkový web.",
+    p: "demos.3p", pFallback: "Portfolio, služby, ceník a hygiena jako vícestránkový web.",
     prev: "ink",
     prob: "demos.3prob", probFallback: "Studio potřebuje portfolio, ceník a jasná pravidla hygieny.",
     sol: "demos.3sol", solFallback: "Vícestránkový web s portfoliem, službami a ceníkem.",
@@ -82,7 +88,7 @@ const multi = [
       <span class="ux-cat__num mono">01</span>
       <div>
         <h3 class="ux-cat__h" data-i18n="demos.cat1">Jednostránkové weby</h3>
-        <p class="ux-cat__s" data-i18n="demos.cat1s">Jedna stránka, jeden jasný cíl — ideální pro službu nebo živnost.</p>
+        <p class="ux-cat__s" data-i18n="demos.cat1s">Jedna stránka, jeden jasný cíl. Ideální pro službu nebo živnost.</p>
       </div>
     </div>
     <div class="ux-grid">
@@ -93,6 +99,12 @@ const multi = [
               <span class="ux-dot"></span><span class="ux-dot"></span><span class="ux-dot"></span>
               <span class="ux-url mono">{c.url}</span>
             </div>
+            {c.img ? (
+              <div class="ux-prev ux-prev--photo">
+                <Image class="ux-shot" src={c.img} alt={c.imgAlt} width={700} format="webp" quality={75} loading="lazy" decoding="async" />
+                <span class="ux-badge mono">DEMO</span>
+              </div>
+            ) : (
             <div class={`ux-prev ux-prev--${c.prev}`}>
               {c.prev === "wood" && (
                 <svg viewBox="0 0 220 130" aria-hidden="true" class="ux-art">
@@ -124,6 +136,7 @@ const multi = [
               )}
               <span class="ux-badge mono">DEMO</span>
             </div>
+            )}
           </div>
           <div class="ux-meta">
             <span class="kicker mono ux-tag" data-i18n={c.tag}>{c.tagFallback}</span>

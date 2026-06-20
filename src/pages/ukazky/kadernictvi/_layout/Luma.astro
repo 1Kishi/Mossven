@@ -1,6 +1,6 @@
 ---
 // Sdílený layout pro ukázkový (demo) vícestránkový web fiktivního
-// kadeřnictví „Studio Luma". Samostatná identita — nepoužívá Mossven Layout.
+// kadeřnictví „Studio Luma". Samostatná identita - nepoužívá Mossven Layout.
 // Všechny třídy mají prefix `luma-`, aby nedošlo ke konfliktu s globálními
 // styly Mossven webu (.section, .cta, .button apod.).
 // Soubor je ve složce s podtržítkem (_layout), takže ho Astro nebere jako routu.
@@ -9,7 +9,7 @@ interface Props {
   title: string;
   description: string;
   active: "uvod" | "sluzby" | "cenik" | "galerie" | "tym" | "blog" | "kontakt";
-  /** Akcentní barva headeru stránky — drží sérii vizuálně konzistentní, ale ne identickou. */
+  /** Akcentní barva headeru stránky, drží sérii vizuálně konzistentní, ale ne identickou. */
   accent?: "coral" | "copper" | "magenta" | "jade";
 }
 
@@ -47,7 +47,7 @@ const nav = [
 
     <header class="luma-nav" id="luma-top">
       <div class="luma-wrap luma-nav__inner">
-        <a class="luma-brand" href={base} aria-label="Studio Luma — úvod">
+        <a class="luma-brand" href={base} aria-label="Studio Luma: úvod">
           <span class="luma-brand__mark" aria-hidden="true">
             <svg viewBox="0 0 40 40" width="34" height="34">
               <path d="M8 30 C 14 12, 26 12, 32 30" fill="none" stroke="var(--luma-coral)" stroke-width="3" stroke-linecap="round" />
@@ -118,7 +118,7 @@ const nav = [
         <p class="luma-foot__demo">
           Demo web vytvořený jako ukázka řešení od <a href="/" class="luma-foot__mossven">Mossven</a>.
         </p>
-        <p class="luma-foot__year">© <span id="luma-yr"></span> Studio Luma — ukázka</p>
+        <p class="luma-foot__year">© <span id="luma-yr"></span> Studio Luma: ukázka</p>
       </div>
     </footer>
 

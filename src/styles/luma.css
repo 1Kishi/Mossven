@@ -1,21 +1,21 @@
 /* =====================================================================
-   Studio Luma — sdílený stylopis pro vícestránkovou demo ukázku.
-   Vše prefixováno .lm-, scope pod body.lm — nemíchá se s Mossven webem.
+   Studio Luma - sdílený stylopis pro vícestránkovou demo ukázku.
+   Vše prefixováno .lm-, scope pod body.lm - nemíchá se s Mossven webem.
    Route: /ukazky/kadernictvi/*
    ===================================================================== */
 
 .lm {
   /* --- Barevné swatche (paleta jako vzorník barev) --- */
-  --lm-ink: #1c1320;        /* hluboká aubergine — text */
+  --lm-ink: #1c1320;        /* hluboká aubergine - text */
   --lm-ink-soft: #5a4f5d;   /* tlumený text */
   --lm-faint: #8a7f8c;      /* popisky */
-  --lm-paper: #f8f1e9;      /* teplý papír — pozadí */
+  --lm-paper: #f8f1e9;      /* teplý papír - pozadí */
   --lm-paper-2: #f0e6da;    /* o stupeň tmavší papír */
   --lm-card: #fffaf4;       /* karty */
   --lm-coral: #ff5a3c;      /* nůžky / hlavní akcent */
   --lm-magenta: #e6186e;    /* kreativní barva */
   --lm-amber: #f6a623;      /* melír / fólie */
-  --lm-teal: #12a39a;       /* chladný kontrast — míchání barev */
+  --lm-teal: #12a39a;       /* chladný kontrast - míchání barev */
   --lm-plum: #6b2655;       /* hloubka */
   --lm-line: rgba(28,19,32,.14);
   --lm-line-soft: rgba(28,19,32,.07);

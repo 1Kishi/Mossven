@@ -17,7 +17,7 @@ import teamEva from "./Team/team-eva.png";
 const base = "/ukazky/kadernictvi";
 
 const services = [
-  { img: serviceHaircut, t: "Střih", p: "Dámský i pánský. Tvar, který drží i doma — bez denního boje s vlasy." },
+  { img: serviceHaircut, t: "Střih", p: "Dámský i pánský. Tvar, který drží i doma, bez denního boje s vlasy." },
   { img: serviceColor, t: "Barva", p: "Od přírodního tónu po výraznou změnu. Vždy s ohledem na kondici vlasů." },
   { img: serviceBalayage, t: "Balayage & melír", p: "Prosvětlení, které roste hezky a nepotřebuje časté korekce." },
 ];
@@ -38,13 +38,13 @@ const team = [
 const steps = [
   { n: "01", t: "Ozvete se", p: "Napíšete nebo zavoláte, co chcete řešit. Domluvíme termín i kadeřnici." },
   { n: "02", t: "Konzultace", p: "Na začátku návštěvy projdeme vlasy, představy a co je reálné." },
-  { n: "03", t: "Práce v křesle", p: "Střih, barva nebo péče — s vysvětlením, ať doma víte, jak na to." },
+  { n: "03", t: "Práce v křesle", p: "Střih, barva nebo péče, s vysvětlením, ať doma víte, jak na to." },
   { n: "04", t: "Domů s výsledkem", p: "Ukážeme, jak účes udržet, a rovnou naladíme další návštěvu." },
 ];
 ---
 
 <Luma
-  title="Studio Luma — kadeřnický ateliér v Českých Budějovicích"
+  title="Studio Luma: kadeřnický ateliér v Českých Budějovicích"
   description="Barva, střih a péče s rukopisem. Dámské i pánské střihy, balayage, společenské účesy a osobní konzultace. Objednejte se do Studia Luma. Ukázkový web od Mossven."
   active="uvod"
   accent="coral"
@@ -58,7 +58,7 @@ const steps = [
           Barva a střih,<br />které drží tvar<br /><span class="luma-hero__accent">i po odchodu</span> ze&nbsp;salonu.
         </h1>
         <p class="luma-lede luma-hero__sub luma-anim" data-delay="2">
-          Pracujeme s barvou, střihem i péčí o vlasy — a vždycky začínáme tím, že se
+          Pracujeme s barvou, střihem i péčí o vlasy a vždycky začínáme tím, že se
           domluvíme, co vám reálně sedne. Z křesla odejdete přesně s tím, co jsme vybrali.
         </p>
         <div class="luma-hero__cta luma-anim" data-delay="3">
@@ -87,7 +87,7 @@ const steps = [
       <div class="luma-head luma-anim">
         <p class="luma-eyebrow">Co u nás zvládneme</p>
         <h2>Tři věci, na kterých stojíme</h2>
-        <p class="luma-lede">Střih, barva a péče. Zbytek — společenské účesy, regenerace, tónování — najdete v kompletním přehledu služeb.</p>
+        <p class="luma-lede">Střih, barva a péče. Zbytek (společenské účesy, regenerace, tónování) najdete v kompletním přehledu služeb.</p>
       </div>
       <div class="luma-cards3">
         {services.map((s, i) => (
@@ -137,7 +137,7 @@ const steps = [
       <div class="luma-cards3">
         {team.map((m, i) => (
           <article class="luma-tcard luma-anim" data-delay={String(i + 1)}>
-            <div class="luma-tcard__img"><Image src={m.img} alt={`${m.n} — kadeřnice Studio Luma`} width={700} format="webp" quality={75} loading="lazy" decoding="async" /></div>
+            <div class="luma-tcard__img"><Image src={m.img} alt={`${m.n}, kadeřnice Studio Luma`} width={700} format="webp" quality={75} loading="lazy" decoding="async" /></div>
             <div class="luma-tcard__body">
               <h3>{m.n}</h3>
               <p>{m.f}</p>
@@ -177,7 +177,7 @@ const steps = [
         <div class="luma-cta__ribbon" aria-hidden="true"><Ribbon variant="header" /></div>
         <div class="luma-cta__text">
           <h2>Pojďme naladit váš příští účes</h2>
-          <p>Napište nám, co řešíte — barvu, střih, nebo jen že potřebujete změnu. Termín i kadeřnici doladíme spolu.</p>
+          <p>Napište nám, co řešíte: barvu, střih, nebo jen že potřebujete změnu. Termín i kadeřnici doladíme spolu.</p>
           <div class="luma-cta__btns">
             <a class="luma-btn luma-btn--solid" href={`${base}/kontakt`}>Objednat termín</a>
             <a class="luma-btn luma-btn--line" href={`${base}/cenik`}>Zobrazit ceník</a>

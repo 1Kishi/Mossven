@@ -21,7 +21,7 @@ const team = [
     img: teamNela,
     n: "Nela",
     focus: "Balayage, blond a tónování",
-    line: "Blond je pro ni řemeslo — řeší ho tak, aby hezky přerůstal.",
+    line: "Blond je pro ni řemeslo, řeší ho tak, aby hezky přerůstal.",
     book: "Balayage, melír, přechody do blond a tónování.",
     sw: "var(--luma-copper)",
   },
@@ -29,7 +29,7 @@ const team = [
     img: teamEva,
     n: "Eva",
     focus: "Společenské a svatební účesy",
-    line: "Před velkým dnem ráda uklidní — a připraví účes, který vydrží do rána.",
+    line: "Před velkým dnem ráda uklidní a připraví účes, který vydrží do rána.",
     book: "Svatební a společenské účesy, zkoušky účesu, drdoly a vlny.",
     sw: "var(--luma-magenta)",
   },
@@ -37,7 +37,7 @@ const team = [
 ---
 
 <Luma
-  title="Tým — Studio Luma"
+  title="Tým | Studio Luma"
   description="Poznejte kadeřnice Studia Luma: Klára (střihy a přirozené barvy), Nela (balayage a blond) a Eva (společenské a svatební účesy)."
   active="tym"
   accent="coral"
@@ -48,7 +48,7 @@ const team = [
       <p class="luma-eyebrow">Tým</p>
       <h1>Tři kadeřnice, tři rukopisy</h1>
       <p class="luma-phead__sub">
-        Každá z nás má svoje silné stránky. Klidně si vyberte podle toho, co řešíte —
+        Každá z nás má svoje silné stránky. Klidně si vyberte podle toho, co řešíte,
         nebo nám napište a poradíme, ke komu se objednat.
       </p>
     </div>
@@ -62,7 +62,7 @@ const team = [
         <article class="luma-member luma-anim" data-delay={String(i + 1)}>
           <div class="luma-member__img">
             <span class="luma-member__sw" style={`background:${m.sw}`} aria-hidden="true"></span>
-            <Image src={m.img} alt={`${m.n} — kadeřnice Studio Luma`} width={700} format="webp" quality={75} loading="lazy" decoding="async" />
+            <Image src={m.img} alt={`${m.n}, kadeřnice Studio Luma`} width={700} format="webp" quality={75} loading="lazy" decoding="async" />
           </div>
           <div class="luma-member__body">
             <h2>{m.n}</h2>

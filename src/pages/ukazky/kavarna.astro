@@ -1,8 +1,29 @@
 ---
 // Ukázkový (demo) web pro fiktivní kavárnu „Kavárna Zrnko".
-// Samostatná stránka — vlastní identita, nepoužívá Mossven Layout.
+// Samostatná stránka - vlastní identita, nepoužívá Mossven Layout.
 // Záměrně jiná struktura než ostatní ukázky: menu je hlavní obsah.
 // Route: /ukazky/kavarna
+
+import { Image } from "astro:assets";
+
+// Fotografie atmosféry, kávy a interiéru (přes astro:assets: automatický webp,
+// responzivní velikosti a lazy-loading, ať stránka zůstane svižná).
+import heroKava from "./kavarna/kavarna-hero-kava-interier.png";
+import fotoEspresso from "./kavarna/kavarna-espresso.png";
+import fotoKolac from "./kavarna/kavarna-domaci-kolac.png";
+import fotoToast from "./kavarna/kavarna-toast.png";
+import fotoZrno from "./kavarna/kavarna-zrno-detail.png";
+import fotoInterier from "./kavarna/kavarna-interier.png";
+import fotoSalek from "./kavarna/kavarna-salek-detail.png";
+import fotoVitrina from "./kavarna/kavarna-vitrina.png";
+import fotoVchod from "./kavarna/kavarna-vchod.png";
+
+// Malý fotopruh k menu (neúplný výčet, jen pro atmosféru).
+const menuFoto = [
+  { img: fotoEspresso, alt: "Šálek espresa s krémovou cremou na dřevěném stole", n: "Espresso" },
+  { img: fotoKolac, alt: "Domácí koláč na talířku v útulné kavárně", n: "Domácí koláč" },
+  { img: fotoToast, alt: "Avokádový toast naservírovaný k lehkému obědu", n: "Něco k tomu" },
+];
 
 const espresso = [
   { n: "Espresso", p: "55" },
@@ -25,9 +46,9 @@ const hodiny = [
   { d: "Neděle", h: "9:00 – 15:00" },
 ];
 const galerie = [
-  { n: "Interiér", t: "room" },
-  { n: "Šálek", t: "cup" },
-  { n: "Vitrína", t: "case" },
+  { n: "Interiér", img: fotoInterier, alt: "Útulný interiér kavárny s dřevěnými stoly a měkkým denním světlem" },
+  { n: "Šálek", img: fotoSalek, alt: "Detail šálku kávy s mléčnou pěnou na keramickém talířku" },
+  { n: "Vitrína", img: fotoVitrina, alt: "Vitrína s domácími dorty a koláči připravenými k podání" },
 ];
 ---
 
@@ -36,7 +57,7 @@ const galerie = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kavárna Zrnko — káva, co stojí za zastavení</title>
+    <title>Kavárna Zrnko: káva, co stojí za zastavení</title>
     <meta name="description" content="Malá kavárna s vlastním výběrem zrna. Espresso, filtr a poctivé dobroty. Stavte se na šálek. Ukázkový web od Mossven." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -45,7 +66,7 @@ const galerie = [
   <body class="kv-body">
     <header class="kv-top">
       <div class="kv-wrap kv-top__inner">
-        <a class="kv-brand" href="#kv-top" aria-label="Kavárna Zrnko — domů">
+        <a class="kv-brand" href="#kv-top" aria-label="Kavárna Zrnko, domů">
           <span class="kv-brand__mark" aria-hidden="true"></span>
           <span class="kv-brand__name">Kavárna&nbsp;Zrnko</span>
         </a>
@@ -63,31 +84,24 @@ const galerie = [
             <h1 id="kv-hero-title" class="kv-hero__title">Káva, co stojí<br />za zastavení.</h1>
             <p class="kv-hero__sub">
               Vybíráme zrno, které nám chutná, a děláme ho poctivě. Sedněte si na chvíli,
-              nebo si vezměte s sebou — espresso, filtr a něco dobrého k tomu.
+              nebo si vezměte s sebou: espresso, filtr a něco dobrého k tomu.
             </p>
             <div class="kv-hero__cta">
               <a class="kv-btn kv-btn--solid" href="#kv-najit">Stavte se</a>
               <a class="kv-btn kv-btn--line" href="#kv-menu">Zobrazit menu</a>
             </div>
           </div>
-          <figure class="kv-cupwrap" aria-hidden="true">
-            <svg class="kv-cup" viewBox="0 0 200 200" role="img" aria-label="Šálek kávy">
-              <defs>
-                <linearGradient id="kv-steam-grad" x1="0" y1="1" x2="0" y2="0">
-                  <stop offset="0" stop-color="#6f5a47" stop-opacity=".55" />
-                  <stop offset="1" stop-color="#6f5a47" stop-opacity="0" />
-                </linearGradient>
-              </defs>
-              <g class="kv-steam">
-                <path class="kv-steam__w" d="M76 84 q-7 -9 0 -18 q7 -9 0 -18 q-7 -8 0 -14" />
-                <path class="kv-steam__w" d="M92 86 q7 -10 0 -20 q-7 -9 0 -18 q7 -8 0 -14" />
-                <path class="kv-steam__w" d="M108 84 q-7 -9 0 -18 q7 -9 0 -18 q-7 -8 0 -14" />
-              </g>
-              <circle cx="92" cy="120" r="58" class="kv-cup__saucer" />
-              <path class="kv-cup__body" d="M52 96 h80 a6 6 0 0 1 6 6 v18 a40 40 0 0 1 -40 40 h-12 a40 40 0 0 1 -40 -40 v-18 a6 6 0 0 1 6 -6 z" />
-              <path class="kv-cup__handle" d="M138 104 a22 22 0 0 1 0 40" />
-              <ellipse cx="92" cy="101.5" rx="36" ry="5.5" class="kv-cup__crema" />
-            </svg>
+          <figure class="kv-herofig">
+            <Image
+              src={heroKava}
+              alt="Šálek kávy na dřevěném stole v útulném interiéru kavárny, měkké ranní světlo"
+              widths={[480, 720, 1040, 1400]}
+              sizes="(max-width: 880px) 100vw, 520px"
+              format="webp"
+              quality={74}
+              loading="eager"
+              decoding="async"
+            />
           </figure>
         </div>
       </section>
@@ -120,15 +134,43 @@ const galerie = [
               </div>
             </div>
           </div>
+          <ul class="kv-menustrip" aria-label="Ukázky z nabídky">
+            {menuFoto.map((f) => (
+              <li class="kv-menustrip__item">
+                <figure class="kv-shot">
+                  <Image
+                    src={f.img}
+                    alt={f.alt}
+                    widths={[360, 560, 760]}
+                    sizes="(max-width: 600px) 100vw, (max-width: 880px) 50vw, 340px"
+                    format="webp"
+                    quality={74}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption class="kv-shot__cap">{f.n}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
       <!-- ZRNO -->
       <section class="kv-beans" aria-labelledby="kv-beans-h">
         <div class="kv-wrap kv-beans__inner">
-          <div class="kv-beans__mark" aria-hidden="true">
-            <svg viewBox="0 0 80 80"><ellipse cx="40" cy="40" rx="22" ry="30" class="kv-bean"/><path d="M40 12 C 30 30, 30 50, 40 68" class="kv-bean__seam"/></svg>
-          </div>
+          <figure class="kv-shot kv-beans__photo">
+            <Image
+              src={fotoZrno}
+              alt="Detail kávových zrn a přípravy kávy, mlýnek a páka s mletou kávou"
+              widths={[420, 640, 880]}
+              sizes="(max-width: 880px) 100vw, 420px"
+              format="webp"
+              quality={74}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
           <div>
             <p class="kv-kicker">Naše zrno</p>
             <h2 id="kv-beans-h" class="kv-beans__h">Pražíme po malých dávkách, ať je čerstvé</h2>
@@ -155,6 +197,18 @@ const galerie = [
           <div class="kv-visit__where">
             <p class="kv-kicker">Kde nás najdete</p>
             <p class="kv-visit__addr">Krajinská 9<br />České Budějovice</p>
+            <figure class="kv-shot kv-visit__photo">
+              <Image
+                src={fotoVchod}
+                alt="Vchod do kavárny s posezením u okna, útulná uliční fasáda"
+                widths={[480, 720, 1000]}
+                sizes="(max-width: 880px) 100vw, 520px"
+                format="webp"
+                quality={74}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
             <div class="kv-map" role="img" aria-label="Orientační poloha kavárny">
               <svg viewBox="0 0 320 150" aria-hidden="true">
                 <rect width="320" height="150" class="kv-map__bg"/>
@@ -173,17 +227,23 @@ const galerie = [
           <header class="kv-ghead">
             <p class="kv-kicker">Ukázky</p>
             <h2 id="kv-gallery-h" class="kv-gallery__h">Jak to u nás vypadá</h2>
-            <p class="kv-ghead__lead"><strong>Ilustrační vizuály, ne fotografie.</strong> Jedná se pouze o demo ukázku.</p>
+            <p class="kv-ghead__lead">Pár záběrů na atmosféru. Nejlíp ji ale poznáte, když se stavíte.</p>
           </header>
           <ul class="kv-gallery__grid">
             {galerie.map((g) => (
-              <li class={`kv-gcard kv-gcard--${g.t}`}>
-                <div class="kv-gcard__art" role="img" aria-label={`Ilustrační ukázka — ${g.n}`}>
-                  <svg viewBox="0 0 200 150" aria-hidden="true" class="kv-gcard__svg">
-                    {g.t === "room" && (<g><path d="M30 120 H170 M40 120 V70 H160 V120 M70 120 V92 H100 V120"/><circle cx="135" cy="84" r="8"/></g>)}
-                    {g.t === "cup" && (<g><path d="M70 70 h60 v18 a30 30 0 0 1 -30 30 a30 30 0 0 1 -30 -30 z"/><path d="M130 76 a16 16 0 0 1 0 30"/><line x1="78" y1="56" x2="78" y2="46"/><line x1="100" y1="56" x2="100" y2="44"/><line x1="122" y1="56" x2="122" y2="46"/></g>)}
-                    {g.t === "case" && (<g><rect x="40" y="60" width="120" height="58" rx="3"/><line x1="40" y1="86" x2="160" y2="86"/><circle cx="70" cy="73" r="5"/><circle cx="105" cy="73" r="5"/><circle cx="140" cy="73" r="5"/></g>)}
-                  </svg>
+              <li class="kv-gcard">
+                <div class="kv-gcard__art">
+                  <Image
+                    class="kv-gcard__photo"
+                    src={g.img}
+                    alt={g.alt}
+                    widths={[400, 600, 800]}
+                    sizes="(max-width: 880px) 100vw, 360px"
+                    format="webp"
+                    quality={74}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <span class="kv-gcard__n">{g.n}</span>
               </li>
@@ -223,7 +283,7 @@ const galerie = [
     </footer>
 
     <style is:global>
-      /* Kavárna Zrnko — samostatná demo stránka, vše prefixováno .kv- */
+      /* Kavárna Zrnko - samostatná demo stránka, vše prefixováno .kv- */
       .kv-body {
         --kv-cream: #f4ecdc; --kv-cream-2: #ece0cb; --kv-panel: #fbf5ea;
         --kv-espresso: #271a11; --kv-soft: #6f5a47; --kv-faint: #9b8a76;
@@ -270,20 +330,6 @@ const galerie = [
       .kv-hero__sub { margin-top: 1.3rem; font-size: clamp(1.04rem,1.5vw,1.2rem); color: var(--kv-soft); max-width: 30em; }
       .kv-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.9rem; }
 
-      .kv-cupwrap { position: relative; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 240px; }
-      .kv-cup { width: min(78%, 320px); height: auto; }
-      .kv-cup__saucer { fill: none; stroke: var(--kv-line); stroke-width: 2; }
-      .kv-cup__body { fill: var(--kv-panel); stroke: var(--kv-espresso); stroke-width: 2.4; }
-      .kv-cup__handle { fill: none; stroke: var(--kv-espresso); stroke-width: 2.4; }
-      .kv-cup__crema { fill: var(--kv-crema); }
-      .kv-steam__w { fill: none; stroke: url(#kv-steam-grad); stroke-width: 3; stroke-linecap: round; opacity: .5; }
-      @media (prefers-reduced-motion: no-preference) {
-        .kv-steam__w { animation: kv-steam 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom; }
-        .kv-steam__w:nth-child(2) { animation-delay: .6s; }
-        .kv-steam__w:nth-child(3) { animation-delay: 1.1s; }
-      }
-      @keyframes kv-steam { 0% { opacity: 0; transform: translateY(5px) scaleY(.85); } 45% { opacity: .55; } 100% { opacity: 0; transform: translateY(-12px) scaleY(1.15); } }
-
       /* MENU */
       .kv-menu { padding: clamp(30px,4vw,60px) 0; }
       .kv-menu__card { background: var(--kv-panel); border: 1px solid var(--kv-line); border-radius: 16px; padding: clamp(26px,4vw,52px); box-shadow: 0 30px 60px -38px rgba(39,26,17,.5); position: relative; }
@@ -303,9 +349,6 @@ const galerie = [
       /* ZRNO */
       .kv-beans { padding: clamp(44px,6vw,84px) 0; }
       .kv-beans__inner { display: grid; grid-template-columns: auto 1fr; gap: clamp(20px,3vw,40px); align-items: center; max-width: 60rem; }
-      .kv-beans__mark { width: 84px; height: 84px; }
-      .kv-bean { fill: none; stroke: var(--kv-clay); stroke-width: 3; }
-      .kv-bean__seam { fill: none; stroke: var(--kv-clay); stroke-width: 3; }
       .kv-beans__h { font-size: clamp(1.6rem,3.2vw,2.4rem); margin-top: .7rem; }
       .kv-beans__p { margin-top: 1rem; color: var(--kv-soft); font-size: 1.04rem; }
 
@@ -331,9 +374,7 @@ const galerie = [
       .kv-gallery__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
       .kv-gcard { background: var(--kv-panel); border: 1px solid var(--kv-line); border-radius: 14px; overflow: hidden; transition: transform .2s var(--kv-ease); }
       .kv-gcard:hover { transform: translateY(-4px); }
-      .kv-gcard__art { aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg, var(--kv-cream), var(--kv-cream-2)); border-bottom: 1px solid var(--kv-line-soft); }
-      .kv-gcard__svg { width: 64%; height: 64%; }
-      .kv-gcard__svg * { fill: none; stroke: var(--kv-espresso); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: .8; }
+      .kv-gcard__art { aspect-ratio: 4/3; overflow: hidden; background: linear-gradient(160deg, var(--kv-cream), var(--kv-cream-2)); border-bottom: 1px solid var(--kv-line-soft); }
       .kv-gcard__n { display: block; padding: 12px 16px; font-family: var(--ff-display); font-weight: 700; }
 
       /* CONTACT */
@@ -356,9 +397,36 @@ const galerie = [
       .kv-foot__note { color: var(--kv-soft); font-size: .92rem; }
       .kv-foot__link { color: var(--kv-clay); font-weight: 600; border-bottom: 2px solid var(--kv-clay); }
 
+      /* FOTOGRAFIE (sdílené) */
+      .kv-shot { position: relative; margin: 0; overflow: hidden; background: var(--kv-panel); border: 1px solid var(--kv-line); border-radius: 14px; box-shadow: 0 20px 40px -30px rgba(39,26,17,.5); }
+      .kv-shot img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; }
+      .kv-shot__cap { position: absolute; left: 10px; bottom: 10px; font-family: var(--ff-display); font-weight: 700; font-size: .78rem; color: var(--kv-espresso); background: rgba(251,245,234,.88); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--kv-line-soft); }
+
+      /* HERO foto (nahrazuje ilustrovaný šálek) */
+      .kv-herofig { margin: 0; border-radius: 18px; overflow: hidden; border: 1px solid var(--kv-line); box-shadow: 0 36px 70px -40px rgba(39,26,17,.6); transform: rotate(-.6deg); }
+      .kv-herofig img { display: block; width: 100%; height: auto; aspect-ratio: 5/4; object-fit: cover; }
+
+      /* MENU fotopruh */
+      .kv-menustrip { list-style: none; margin: clamp(18px,2.5vw,28px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+      .kv-menustrip__item { margin: 0; }
+      .kv-menustrip .kv-shot img { aspect-ratio: 1/1; }
+
+      /* ZRNO foto */
+      .kv-beans__inner { grid-template-columns: .82fr 1.18fr; max-width: 64rem; }
+      .kv-beans__photo img { aspect-ratio: 4/3; }
+
+      /* GALERIE foto */
+      .kv-gcard__photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      /* VCHOD foto u lokality */
+      .kv-visit__photo { margin-top: 1.1rem; border-radius: 12px; }
+      .kv-visit__photo img { aspect-ratio: 16/10; }
+
       @media (max-width: 880px) {
         .kv-hero__grid { grid-template-columns: 1fr; }
-        .kv-cupwrap { order: -1; min-height: 180px; }
+        .kv-herofig { order: -1; transform: none; max-width: 480px; margin-inline: auto; }
+        .kv-menustrip { grid-template-columns: repeat(3,1fr); }
+        .kv-beans__photo { max-width: 480px; }
         .kv-menu__cols { grid-template-columns: 1fr; gap: 28px; }
         .kv-visit__grid { grid-template-columns: 1fr; }
         .kv-gallery__grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; }
