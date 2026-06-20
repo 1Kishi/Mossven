@@ -1,0 +1,51 @@
+---
+// Signature prvek ateliéru Hrot: „Hrotová linka" — tenká jehlová stopa,
+// která se zužuje do ostrého bodu. Není to dekorace, kóduje přesnost,
+// jehlu, tah a značku. Varianty mění roli linky na stránce.
+//   divider  – vodorovná vlasová linka přes celou šířku, končí hrotem + kapkou
+//   seam     – krátký spojovací úsek mezi kroky procesu
+//   needle   – malá svislá jehla pro detaily a popisky
+interface Props {
+  variant?: "divider" | "seam" | "needle";
+  class?: string;
+}
+const { variant = "divider", class: cls = "" } = Astro.props;
+const uid = "hr-nd-" + Math.random().toString(36).slice(2, 8);
+---
+
+{variant === "divider" && (
+  <svg class:list={["hr-needle hr-needle--divider", cls]} viewBox="0 0 1200 24" fill="none" aria-hidden="true" preserveAspectRatio="none">
+    <line x1="0" y1="12" x2="1086" y2="12" stroke="currentColor" stroke-width="1" class="hr-needle__line" pathLength="1" />
+    <path d="M1086 12 L1150 9.6 L1150 14.4 Z" fill="currentColor" class="hr-needle__tip" />
+    <circle cx="1168" cy="12" r="3.4" fill="currentColor" class="hr-needle__bead" />
+  </svg>
+)}
+
+{variant === "seam" && (
+  <svg class:list={["hr-needle hr-needle--seam", cls]} viewBox="0 0 24 120" fill="none" aria-hidden="true" preserveAspectRatio="none">
+    <line x1="12" y1="0" x2="12" y2="96" stroke="currentColor" stroke-width="1" class="hr-needle__line" pathLength="1" />
+    <path d="M12 96 L9.4 116 L14.6 116 Z" fill="currentColor" class="hr-needle__tip" />
+  </svg>
+)}
+
+{variant === "needle" && (
+  <svg class:list={["hr-needle hr-needle--needle", cls]} viewBox="0 0 14 64" fill="none" aria-hidden="true">
+    <circle cx="7" cy="6" r="3" fill="none" stroke="currentColor" stroke-width="1.4" />
+    <line x1="7" y1="9" x2="7" y2="52" stroke="currentColor" stroke-width="1.4" />
+    <path d="M7 52 L4.4 60 L9.6 60 Z" fill="currentColor" />
+  </svg>
+)}
+
+<style is:global>
+  .hr-needle { display: block; color: var(--hr-amber); }
+  .hr-needle--divider { width: 100%; height: 22px; }
+  .hr-needle--seam { width: 22px; height: 100%; }
+  .hr-needle__line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: hr-draw 1.1s var(--hr-ease) forwards; }
+  .hr-needle__tip, .hr-needle__bead { opacity: 0; animation: hr-fade .5s var(--hr-ease) .9s forwards; }
+  @keyframes hr-draw { to { stroke-dashoffset: 0; } }
+  @keyframes hr-fade { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hr-needle__line { stroke-dashoffset: 0 !important; animation: none !important; }
+    .hr-needle__tip, .hr-needle__bead { opacity: 1 !important; animation: none !important; }
+  }
+</style>

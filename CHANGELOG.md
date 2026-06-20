@@ -15,6 +15,70 @@
 
 ## 2026-06-20
 
+### Wired real photography into the Ateliér Hrot demo
+Jacob added 12 portfolio photos to `src/pages/ukazky/tetovani/` (matching the brief's suggested
+filenames). Swapped the placeholder SVG `Flash` motifs for the real photos via `astro:assets`
+`Image` (auto-webp, responsive `widths`/`sizes`, lazy except hero) on the image-led pages, and
+kept the SVG signature language (Needle line, schematic hygiene icons, map placeholder) where it
+carries meaning.
+
+- `portfolio.astro`: full rewrite of the wall — 12 photos mapped to categories/tags, filters and
+  hover-metadata intact; cards are now photo-cover with a dark gradient meta overlay; one landscape
+  shot (`fine-line`) set `--wide`, dramatic verticals (`backwork`, `ornament`, `flash-sheet`)
+  `--tall`, `blackwork` `--big`. Subtle `saturate(.92) contrast(1.04)` baseline, restores on hover.
+- `index.astro`: hero 3-card stack now uses real photos (studio / blackwork / piercing, with mono
+  caption codes) and the 4-up portfolio preview uses photos; SVG kept for the end-CTA arrow and the
+  hero needle divider.
+- `sluzby.astro`: each of the 6 service cards now shows a representative photo (cover, 1:1).
+- `Showcase.astro`: gave the Hrot multipage card a real hero preview (`portfolio-arm-piece-01`) via
+  the existing `c.img ? photo : svg` branch, matching the other live demo cards.
+- `Flash.astro`/`Needle.astro` remain (Needle in active use; Flash now only the home end-CTA arrow).
+
+**Touched:** `src/pages/ukazky/tetovani/{index,portfolio,sluzby}.astro`, `src/components/Showcase.astro`
+(+ 12 image assets added by Jacob under `src/pages/ukazky/tetovani/`)
+
+**Note:** Same sandbox build limit (missing rollup linux binary). Validated all four edited files
+through `@astrojs/compiler` `transform()` — 0 errors. Image files confirmed present (12×, ~1122×1402
+px). Confirm visually with `npm run dev` on Windows.
+
+### Added Ateliér Hrot — multipage tattoo/piercing demo (`/ukazky/tetovani`)
+New 7-page demo with a deliberately distinct identity from Studio Luma (kadeřnictví):
+dark editorial + bone/steel clinical zones, grotesque + mono type (Bricolage Grotesque /
+IBM Plex Sans / IBM Plex Mono), sharp 3px radii, mono technical labels, incision dividers —
+the opposite of the salon's warm-serif pastel softness. Signature "Hrotová linka" (needle-trail
+SVG ending in a sharp point) recurs as nav active mark, hover underline, scroll-progress bar,
+process connectors, and section dividers.
+
+- New route folder `src/pages/ukazky/tetovani/` with own `_layout/` (not the Mossven Layout),
+  all classes prefixed `hr-` to avoid collisions.
+- `_layout/Hrot.astro`: shared nav (Úvod/Portfolio/Služby/Ceník/Hygiena/Péče/Kontakt with
+  00–06 index + Hrot-line active state), studio-index footer, full token system + global CSS,
+  scroll-progress accent, IntersectionObserver reveals, mobile menu, reduced-motion support.
+- `_layout/Needle.astro`: signature needle-trail (divider/seam/needle variants).
+- `_layout/Flash.astro`: 12 line-art / blackwork flash motifs in SVG (serpent, moth, sprig,
+  mandala, dagger, ear, nose, crescent, arrow, eye, tray, inkcaps) — carries portfolio identity
+  instead of stock photos (no real tattoo photography available; honest for a demo).
+- Pages: `index` (hero thesis, Proč Hrot, portfolio preview, services, hygiene promise, 5-step
+  process, price preview, booking CTA), `portfolio` (JS-filtered flash-sheet wall: Vše/Jemné
+  linky/Blackwork/Ornament/Piercing/Zahojené/Flash + hover metadata + zahojeno/čerstvé tags),
+  `sluzby` (6 services with pro-koho/trvání/příprava spec blocks), `cenik` (printed rate-sheet
+  with dotted leaders + notes; demo prices), `hygiena` (steel/bone clinical protocol cards +
+  contraindication warning block, dried-blood accent), `pece` (tattoo/piercing tabs + healing
+  timeline + calm message block), `kontakt` (full booking form per spec + hours + map/IG
+  placeholders + expectations; demo submit handler).
+- Wired the existing Showcase "Ateliér Hrot" card live (added `href`/`aria` so it renders as a
+  live multipage demo instead of "Připravujeme").
+
+**Touched:** `src/pages/ukazky/tetovani/**` (new: `_layout/Hrot.astro`, `_layout/Needle.astro`,
+`_layout/Flash.astro`, `index.astro`, `portfolio.astro`, `sluzby.astro`, `cenik.astro`,
+`hygiena.astro`, `pece.astro`, `kontakt.astro`), `src/components/Showcase.astro`
+
+**Note:** Full `astro build` can't run in the sandbox (missing `@rollup/rollup-linux-x64-gnu`
+native binary — same platform issue noted in prior entries). Validated all 10 new files +
+Showcase through `@astrojs/compiler` `transform()` (0 errors). Confirm visually with
+`npm run dev` on Windows. All imagery is SVG/CSS (no external photo assets needed). Prices/
+contact details are fictional, marked as demo on the pages.
+
 ### Natural-Czech copy pass on demo pages (kadeřnictví, trenér, truhlář)
 Fixed phrasing that read as slightly literal/AI-ish per native-speaker review. Studio Luma
 team (`tym.astro`): reworked Klára/Nela/Eva `focus`/`line`/`book` strings and changed the

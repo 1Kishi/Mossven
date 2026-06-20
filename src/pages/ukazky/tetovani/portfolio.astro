@@ -1,0 +1,219 @@
+---
+import { Image } from "astro:assets";
+import Hrot from "./_layout/Hrot.astro";
+
+import imgFineLine from "./portfolio-fine-line-01.png";
+import imgBlackwork from "./portfolio-blackwork-01.png";
+import imgOrnament from "./portfolio-ornament-01.png";
+import imgEar from "./portfolio-piercing-ear-01.png";
+import imgArm from "./portfolio-arm-piece-01.png";
+import imgNose from "./portfolio-piercing-nose-01.png";
+import imgFlash from "./portfolio-flash-sheet-01.png";
+import imgHealed from "./portfolio-healed-tattoo-01.png";
+import imgSymbol from "./portfolio-small-symbol-01.jpg";
+import imgBack from "./portfolio-backwork-01.png";
+import imgStudio from "./portfolio-studio-detail-01.png";
+import imgNeedle from "./portfolio-detail-needle-01.png";
+
+const base = "/ukazky/tetovani";
+
+const filters = [
+  { key: "vse", label: "Vše" },
+  { key: "fine", label: "Jemné linky" },
+  { key: "blackwork", label: "Blackwork" },
+  { key: "ornament", label: "Ornament" },
+  { key: "piercing", label: "Piercing" },
+  { key: "healed", label: "Zahojené práce" },
+  { key: "flash", label: "Flash motivy" },
+];
+
+// img/alt: foto · cats: filtry · tag: stav · size: rozměr v mřížce
+const works = [
+  { img: imgFineLine, alt: "Jemné linkové tetování na předloktí", cat: "Jemná linka", loc: "předloktí", note: "Decentní linka vedená podél ruky.", cats: "fine", tag: "čerstvé", size: "wide" },
+  { img: imgBlackwork, alt: "Blackwork tetování na paži", cat: "Blackwork", loc: "paže", note: "Kontrastní plochy a ostrá silueta.", cats: "blackwork healed", tag: "zahojeno", size: "big" },
+  { img: imgOrnament, alt: "Ornamentální tetování na předloktí", cat: "Ornament", loc: "předloktí", note: "Symetrický ornament stavěný podle ruky.", cats: "ornament", tag: "konzultace", size: "tall" },
+  { img: imgEar, alt: "Piercing ucha s titanovým šperkem", cat: "Piercing", loc: "ucho · helix", note: "Titanový šperk, sterilní aplikace.", cats: "piercing", tag: "čerstvé", size: "" },
+  { img: imgArm, alt: "Ornamentální tetování na paži", cat: "Ornament", loc: "paže", note: "Větší ornament vedený podle svalu.", cats: "ornament fine healed", tag: "zahojeno", size: "" },
+  { img: imgNose, alt: "Piercing nosu", cat: "Piercing", loc: "nos · nostril", note: "Drobný titanový cvoček.", cats: "piercing", tag: "čerstvé", size: "" },
+  { img: imgFlash, alt: "Flash sheet s dostupnými motivy", cat: "Flash motiv", loc: "dostupné motivy", note: "List motivů k dispozici k zapíchnutí.", cats: "flash", tag: "flash", size: "tall" },
+  { img: imgHealed, alt: "Zahojené ornamentální tetování na klíční kosti", cat: "Ornament", loc: "klíční kost", note: "Zahojená práce s odstupem několika týdnů.", cats: "ornament healed", tag: "zahojeno", size: "" },
+  { img: imgSymbol, alt: "Drobný symbol tetovaný na hrudníku", cat: "Jemná linka", loc: "hrudník", note: "Malý symbol, čistý tah.", cats: "fine flash", tag: "čerstvé", size: "" },
+  { img: imgBack, alt: "Velké tetování podél páteře na zádech", cat: "Blackwork", loc: "záda · páteř", note: "Velká práce na víc sezení.", cats: "blackwork healed", tag: "zahojeno", size: "tall" },
+  { img: imgStudio, alt: "Detail drobné jemné práce", cat: "Jemná linka", loc: "hrudník", note: "Tenká linka, decentní umístění.", cats: "fine", tag: "čerstvé", size: "" },
+  { img: imgNeedle, alt: "Detail pracoviště v ateliéru", cat: "Detail", loc: "ateliér", note: "Pohled do pracovní zóny před zákrokem.", cats: "", tag: "studio", size: "" },
+];
+---
+
+<Hrot
+  title="Portfolio — Ateliér Hrot"
+  description="Vybrané tetování a piercing z ateliéru Hrot: jemné linky, blackwork, ornament, piercing, zahojené práce a flash motivy. Filtrovatelná galerie. Ukázkový web od Mossven."
+  active="portfolio"
+>
+  <!-- HLAVIČKA -->
+  <header class="hr-phead hr-grid-tex is-dark">
+    <span class="hr-phead__num" aria-hidden="true">01</span>
+    <div class="hr-wrap hr-phead__inner">
+      <p class="hr-label hr-anim is-in">Index prací</p>
+      <h1 class="hr-anim is-in" data-delay="1">Portfolio</h1>
+      <p class="hr-phead__sub hr-anim is-in" data-delay="2">
+        Ukázky tahů, kompozic a umístění. Část je čerstvá hned po zákroku,
+        část zhojená s odstupem. Flash motivy jsou k dispozici k zapíchnutí.
+      </p>
+    </div>
+  </header>
+
+  <!-- FILTRY + MŘÍŽKA -->
+  <section class="hr-section is-bone hr-gal" aria-label="Galerie prací">
+    <div class="hr-wrap">
+      <div class="hr-gal__bar hr-anim is-in">
+        <div class="hr-chips" role="tablist" aria-label="Filtr portfolia">
+          {filters.map((f, i) => (
+            <button
+              type="button"
+              class:list={["hr-chip hr-mono", { "is-active": i === 0 }]}
+              role="tab"
+              aria-selected={i === 0 ? "true" : "false"}
+              data-filter={f.key}
+            >{f.label}</button>
+          ))}
+        </div>
+        <p class="hr-gal__count hr-mono" aria-live="polite"><span id="hr-count">{works.length}</span> / {works.length} prací</p>
+      </div>
+
+      <div class="hr-gal__wall" id="hr-wall">
+        {works.map((w) => (
+          <article
+            class:list={["hr-work", w.size && `hr-work--${w.size}`]}
+            data-cats={w.cats}
+            tabindex="0"
+          >
+            <div class="hr-work__art">
+              <Image src={w.img} alt={w.alt} widths={[400, 700, 1000]} sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 25vw" format="webp" quality={74} loading="lazy" decoding="async" />
+            </div>
+            <span class:list={["hr-work__tag hr-mono", `is-${w.tag === "zahojeno" ? "healed" : w.tag === "čerstvé" ? "fresh" : w.tag === "flash" ? "flash" : w.tag === "konzultace" ? "consult" : "studio"}`]}>{w.tag}</span>
+            <div class="hr-work__meta">
+              <span class="hr-work__cat hr-mono">{w.cat}</span>
+              <span class="hr-work__loc">{w.loc}</span>
+              <p class="hr-work__note">{w.note}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="hr-gal__empty hr-mono" id="hr-empty" hidden>V této kategorii zatím nic není. Zkuste jiný filtr.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="hr-section is-ink2 hr-grid-tex hr-pcta" aria-labelledby="hr-pcta-h">
+    <div class="hr-wrap hr-pcta__inner hr-anim">
+      <div>
+        <p class="hr-label">Líbí se vám styl?</p>
+        <h2 id="hr-pcta-h">Pošlete referenci a&nbsp;pojďme nakreslit vaši verzi.</h2>
+      </div>
+      <a class="hr-btn hr-btn--solid" href={`${base}/kontakt`}>Domluvit konzultaci <span class="hr-btn__arrow">→</span></a>
+    </div>
+  </section>
+
+  <script>
+    const wall = document.getElementById("hr-wall");
+    const chips = Array.from(document.querySelectorAll(".hr-chip"));
+    const works = wall ? Array.from(wall.querySelectorAll(".hr-work")) : [];
+    const count = document.getElementById("hr-count");
+    const empty = document.getElementById("hr-empty");
+
+    function apply(filter: string) {
+      let shown = 0;
+      works.forEach((w) => {
+        const cats = (w.getAttribute("data-cats") || "").split(" ");
+        const match = filter === "vse" || cats.includes(filter);
+        (w as HTMLElement).style.display = match ? "" : "none";
+        if (match) shown++;
+      });
+      if (count) count.textContent = String(shown);
+      if (empty) (empty as HTMLElement).hidden = shown !== 0;
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chips.forEach((c) => { c.classList.remove("is-active"); c.setAttribute("aria-selected", "false"); });
+        chip.classList.add("is-active");
+        chip.setAttribute("aria-selected", "true");
+        apply(chip.getAttribute("data-filter") || "vse");
+      });
+    });
+  </script>
+
+  <style>
+    /* HLAVIČKA */
+    .hr-phead h1 { font-size: clamp(3rem, 12vw, 8rem); }
+
+    /* FILTR BAR */
+    .hr-gal__bar { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--hr-line-b); }
+    .hr-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .hr-chip {
+      font-size: 0.76rem; letter-spacing: 0.04em; color: var(--hr-on-bone-soft);
+      background: transparent; border: 1px solid var(--hr-line-b); border-radius: 999px;
+      padding: 0.5em 1em; cursor: pointer; position: relative;
+      transition: color 0.2s var(--hr-ease), border-color 0.2s var(--hr-ease), background 0.2s var(--hr-ease);
+    }
+    .hr-chip:hover { color: var(--hr-on-bone); border-color: var(--hr-amber); }
+    .hr-chip.is-active { color: var(--hr-ink); background: var(--hr-amber); border-color: var(--hr-amber); }
+    /* Hrotová linka jako ukazatel aktivního filtru */
+    .hr-chip.is-active::after {
+      content: ""; position: absolute; left: 50%; bottom: -1.2rem;
+      border-left: 5px solid var(--hr-amber); border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+      transform: translateX(-50%) rotate(90deg);
+    }
+    .hr-gal__count { font-size: 0.74rem; color: var(--hr-on-bone-soft); white-space: nowrap; }
+    .hr-gal__count #hr-count { color: var(--hr-amber); font-weight: 600; }
+
+    /* MŘÍŽKA — řízeně nepravidelná */
+    .hr-gal__wall { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 230px; gap: 1rem; grid-auto-flow: dense; }
+    .hr-work { position: relative; background: var(--hr-ink-2); border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); overflow: hidden; transition: transform 0.25s var(--hr-ease), box-shadow 0.25s var(--hr-ease); }
+    .hr-work:hover, .hr-work:focus-visible { transform: translateY(-4px); box-shadow: 0 26px 50px -28px rgba(17,16,14,0.7); outline: none; }
+    .hr-work--big { grid-column: span 2; grid-row: span 2; }
+    .hr-work--tall { grid-row: span 2; }
+    .hr-work--wide { grid-column: span 2; }
+    .hr-work__art { position: absolute; inset: 0; }
+    .hr-work__art :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.92) contrast(1.04); transition: transform 0.5s var(--hr-ease), filter 0.4s var(--hr-ease); }
+    .hr-work:hover .hr-work__art :global(img) { transform: scale(1.05); filter: saturate(1.04) contrast(1.04); }
+
+    .hr-work__tag { position: absolute; top: 0.7rem; left: 0.7rem; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3em 0.6em; border-radius: 2px; z-index: 3; }
+    .hr-work__tag.is-healed { background: var(--hr-purple); color: var(--hr-bone); }
+    .hr-work__tag.is-fresh { background: var(--hr-amber); color: var(--hr-ink); }
+    .hr-work__tag.is-flash { background: var(--hr-bone); color: var(--hr-ink); }
+    .hr-work__tag.is-consult { background: color-mix(in srgb, var(--hr-ink) 70%, transparent); color: var(--hr-bone); backdrop-filter: blur(3px); }
+    .hr-work__tag.is-studio { background: var(--hr-steel); color: var(--hr-ink); }
+
+    /* metadata — odhalení při hoveru, sharp slide */
+    .hr-work__meta {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem; z-index: 2;
+      background: linear-gradient(0deg, var(--hr-ink) 18%, color-mix(in srgb, var(--hr-ink) 78%, transparent) 65%, transparent);
+      color: var(--hr-bone); transform: translateY(calc(100% - 2.7rem));
+      transition: transform 0.32s var(--hr-ease);
+    }
+    .hr-work:hover .hr-work__meta, .hr-work:focus-visible .hr-work__meta, .hr-work:focus-within .hr-work__meta { transform: translateY(0); }
+    .hr-work__cat { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--hr-amber); display: block; }
+    .hr-work__loc { font-size: 0.9rem; color: var(--hr-bone); display: block; margin-top: 0.15rem; font-weight: 600; }
+    .hr-work__note { font-size: 0.84rem; color: var(--hr-ink-soft); margin: 0.5rem 0 0; }
+
+    .hr-gal__empty { margin-top: 2rem; color: var(--hr-on-bone-soft); }
+
+    /* CTA */
+    .hr-pcta__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .hr-pcta__inner h2 { font-size: clamp(1.7rem, 3.6vw, 2.6rem); margin-top: 0.7rem; max-width: 22ch; }
+
+    @media (max-width: 900px) {
+      .hr-gal__wall { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 210px; }
+      .hr-work--big { grid-column: span 2; grid-row: span 2; }
+      .hr-work--wide { grid-column: span 2; }
+      .hr-work--tall { grid-row: span 2; }
+    }
+    @media (max-width: 560px) {
+      .hr-gal__wall { grid-template-columns: 1fr; grid-auto-rows: 280px; }
+      .hr-work--big, .hr-work--wide, .hr-work--tall { grid-column: span 1; grid-row: span 1; }
+      .hr-work__meta { transform: translateY(0); }
+    }
+  </style>
+</Hrot>

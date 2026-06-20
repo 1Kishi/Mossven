@@ -1,0 +1,175 @@
+---
+import { Image } from "astro:assets";
+import Hrot from "./_layout/Hrot.astro";
+
+import imgArm from "./portfolio-arm-piece-01.png";
+import imgFineLine from "./portfolio-fine-line-01.png";
+import imgBlackwork from "./portfolio-blackwork-01.png";
+import imgEar from "./portfolio-piercing-ear-01.png";
+import imgFlash from "./portfolio-flash-sheet-01.png";
+import imgHealed from "./portfolio-healed-tattoo-01.png";
+
+const base = "/ukazky/tetovani";
+
+const services = [
+  {
+    n: "01", img: imgArm, alt: "Ornamentální autorské tetování na paži", cat: "Tetování",
+    t: "Autorské tetování",
+    p: "Návrh motivu podle stylu, umístění a velikosti. Konzultace řeší kompozici, čitelnost motivu i to, jak bude práce stárnout na kůži.",
+    who: "Pro toho, kdo chce originální motiv na míru, ne předlohu z katalogu.",
+    dur: "2–6 h podle rozsahu",
+    prep: "Přijďte najedení, vyspalí a střízliví. Vezměte reference stylu.",
+  },
+  {
+    n: "02", img: imgFineLine, alt: "Jemné linkové tetování na předloktí", cat: "Tetování",
+    t: "Fine-line tetování",
+    p: "Jemné linky, menší motivy a decentní práce s důrazem na čistotu tahu a správné umístění.",
+    who: "Pro milovníky drobných, tichých motivů a tenké linky.",
+    dur: "30–120 min",
+    prep: "U jemných linek myslete na umístění, kde tah pěkně zestárne.",
+  },
+  {
+    n: "03", img: imgBlackwork, alt: "Blackwork tetování na paži", cat: "Tetování",
+    t: "Blackwork a ornament",
+    p: "Výraznější motivy, kontrastní plochy, ornamentální prvky a práce, které staví na siluetě těla.",
+    who: "Pro toho, kdo chce silný vizuální dopad a plné černé plochy.",
+    dur: "3–8 h, často na víc sezení",
+    prep: "U větších ploch počítejte s rozdělením do více návštěv.",
+  },
+  {
+    n: "04", img: imgEar, alt: "Piercing ucha s titanovým šperkem", cat: "Piercing",
+    t: "Piercing",
+    p: "Aplikace piercingu se sterilním postupem, vhodným šperkem a jasnými instrukcemi pro hojení.",
+    who: "Pro první i další vpich — ucho, nos, obočí, ret, pupík.",
+    dur: "15–30 min",
+    prep: "Vybereme spolu šperk vhodný pro první aplikaci.",
+  },
+  {
+    n: "05", img: imgFlash, alt: "Flash sheet s návrhy motivů", cat: "Příprava",
+    t: "Konzultace",
+    p: "Krátké setkání před zákrokem, kde se řeší motiv, umístění, cena, čas, kontraindikace a péče.",
+    who: "Pro každého před prvním zákrokem — nezávazně a v klidu.",
+    dur: "20–40 min",
+    prep: "Přineste reference, představu velikosti a místo na těle.",
+  },
+  {
+    n: "06", img: imgHealed, alt: "Zahojené ornamentální tetování na klíční kosti", cat: "Úprava",
+    t: "Úprava nebo překrytí",
+    p: "Možnosti úprav starších motivů nebo návrh překrytí po osobní konzultaci.",
+    who: "Pro toho, kdo chce oživit nebo skrýt starší práci.",
+    dur: "podle rozsahu",
+    prep: "Pošlete předem fotku stávajícího motivu z více úhlů.",
+  },
+];
+---
+
+<Hrot
+  title="Služby — Ateliér Hrot"
+  description="Autorské tetování, fine-line, blackwork a ornament, piercing, konzultace a úprava či překrytí. Co služba obnáší, pro koho je, jak dlouho trvá a jak se připravit. Ukázkový web od Mossven."
+  active="sluzby"
+>
+  <header class="hr-phead hr-grid-tex is-dark">
+    <span class="hr-phead__num" aria-hidden="true">02</span>
+    <div class="hr-wrap hr-phead__inner">
+      <p class="hr-label hr-anim is-in">Co děláme</p>
+      <h1 class="hr-anim is-in" data-delay="1">Služby</h1>
+      <p class="hr-phead__sub hr-anim is-in" data-delay="2">
+        Tetování od jemné linky po ornament, piercing se sterilním postupem
+        a konzultace, která všechno odstartuje. U každé služby najdete, co obnáší,
+        pro koho je, jak dlouho trvá a jak se na ni připravit.
+      </p>
+    </div>
+  </header>
+
+  <section class="hr-section is-bone hr-svc" aria-label="Přehled služeb">
+    <div class="hr-wrap">
+      <div class="hr-svc__list">
+        {services.map((s, i) => (
+          <article class="hr-svc__item hr-anim" data-delay={String((i % 3) + 1)}>
+            <div class="hr-svc__left">
+              <span class="hr-svc__n hr-display">{s.n}</span>
+              <div class="hr-svc__art"><Image src={s.img} alt={s.alt} widths={[300, 500]} sizes="(max-width: 760px) 120px, 220px" format="webp" quality={74} loading="lazy" decoding="async" /></div>
+            </div>
+
+            <div class="hr-svc__body">
+              <span class="hr-svc__cat hr-mono">{s.cat}</span>
+              <h2 class="hr-svc__t">{s.t}</h2>
+              <p class="hr-svc__p">{s.p}</p>
+
+              <dl class="hr-svc__spec">
+                <div class="hr-svc__specrow">
+                  <dt class="hr-mono">Pro koho</dt>
+                  <dd>{s.who}</dd>
+                </div>
+                <div class="hr-svc__specrow">
+                  <dt class="hr-mono">Trvání</dt>
+                  <dd class="hr-mono hr-svc__dur">{s.dur}</dd>
+                </div>
+                <div class="hr-svc__specrow">
+                  <dt class="hr-mono">Příprava</dt>
+                  <dd>{s.prep}</dd>
+                </div>
+              </dl>
+
+              <div class="hr-svc__cta">
+                <a class="hr-btn hr-btn--ghost" href={`${base}/cenik`}>Ceník</a>
+                <a class="hr-btn hr-btn--solid" href={`${base}/kontakt`}>Domluvit konzultaci <span class="hr-btn__arrow">→</span></a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="hr-section is-ink2 hr-grid-tex hr-svnote" aria-labelledby="hr-svnote-h">
+    <div class="hr-wrap hr-svnote__inner hr-anim">
+      <p class="hr-label">Než se objednáte</p>
+      <h2 id="hr-svnote-h">Nevíte, do které služby spadá váš nápad?</h2>
+      <p class="hr-svnote__p">To je přesně to, co vyřešíme na konzultaci. Napište, co máte v hlavě, a my poradíme techniku, umístění i rozsah.</p>
+      <a class="hr-btn hr-btn--solid" href={`${base}/kontakt`}>Napsat ateliéru <span class="hr-btn__arrow">→</span></a>
+    </div>
+  </section>
+
+  <style>
+    .hr-phead h1 { font-size: clamp(3rem, 12vw, 8rem); }
+
+    .hr-svc__list { display: flex; flex-direction: column; }
+    .hr-svc__item {
+      display: grid; grid-template-columns: 220px 1fr; gap: clamp(1.5rem, 4vw, 3.5rem);
+      padding: clamp(2rem, 4vw, 3.2rem) 0; border-top: 1px solid var(--hr-line-b);
+    }
+    .hr-svc__item:first-child { border-top: 2px solid var(--hr-on-bone); }
+
+    .hr-svc__left { display: flex; flex-direction: column; gap: 1rem; }
+    .hr-svc__n { font-size: clamp(2.4rem, 5vw, 3.4rem); color: var(--hr-amber); line-height: 1; }
+    .hr-svc__art { border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); aspect-ratio: 1 / 1; overflow: hidden; }
+    .hr-svc__art :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.92) contrast(1.04); transition: transform 0.5s var(--hr-ease); }
+    .hr-svc__item:hover .hr-svc__art :global(img) { transform: scale(1.04); }
+
+    .hr-svc__cat { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--hr-amber); }
+    .hr-svc__t { font-size: clamp(1.7rem, 3.4vw, 2.6rem); margin: 0.7rem 0 0.9rem; }
+    .hr-svc__p { color: var(--hr-on-bone-soft); margin: 0 0 1.6rem; max-width: 60ch; font-size: 1.02rem; }
+
+    .hr-svc__spec { margin: 0 0 1.8rem; border-top: 1px solid var(--hr-line-b); }
+    .hr-svc__specrow { display: grid; grid-template-columns: 130px 1fr; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--hr-line-b); align-items: baseline; }
+    .hr-svc__specrow dt { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hr-on-bone-soft); margin: 0; }
+    .hr-svc__specrow dd { margin: 0; color: var(--hr-on-bone); }
+    .hr-svc__dur { color: var(--hr-amber) !important; font-size: 0.92rem; }
+
+    .hr-svc__cta { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+    .hr-svnote__inner { max-width: 56ch; }
+    .hr-svnote__inner h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0.8rem 0 1rem; }
+    .hr-svnote__p { color: var(--hr-ink-soft); margin: 0 0 1.8rem; }
+
+    @media (max-width: 760px) {
+      .hr-svc__item { grid-template-columns: 1fr; }
+      .hr-svc__left { flex-direction: row; align-items: center; }
+      .hr-svc__art { width: 120px; flex: none; aspect-ratio: 1 / 1; }
+    }
+    @media (max-width: 520px) {
+      .hr-svc__specrow { grid-template-columns: 1fr; gap: 0.2rem; }
+    }
+  </style>
+</Hrot>

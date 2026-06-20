@@ -1,0 +1,184 @@
+---
+import Hrot from "./_layout/Hrot.astro";
+
+const base = "/ukazky/tetovani";
+
+// jednoduché schematické značky (klinický rukopis)
+const protocol = [
+  {
+    code: "HX-01", t: "Sterilní postup",
+    p: "Nástroje, které přijdou do kontaktu s kůží, jsou sterilní a otevírají se až před vámi.",
+    points: ["Sterilní jehly a moduly", "Otevření obalu před klientem", "Kontrola před každým zákrokem"],
+    icon: "shield",
+  },
+  {
+    code: "HX-02", t: "Jednorázový materiál",
+    p: "Co je na jedno použití, se po zákroku likviduje. Nic se nepoužívá podruhé.",
+    points: ["Jehly a kalíšky na jedno použití", "Bariérové fólie a návleky", "Bezpečná likvidace ostrého odpadu"],
+    icon: "single",
+  },
+  {
+    code: "HX-03", t: "Dezinfekce prostoru",
+    p: "Pracovní plochy i křeslo se dezinfikují mezi klienty i během zákroku.",
+    points: ["Dezinfekce ploch a křesla", "Čistá pracovní zóna", "Oddělení čisté a použité strany"],
+    icon: "spray",
+  },
+  {
+    code: "HX-04", t: "Bezpečné šperky",
+    p: "Pro první aplikaci doporučujeme materiál, který tělo dobře snáší.",
+    points: ["Titan vhodný pro první vpich", "Správná velikost podle anatomie", "Doporučení podle místa"],
+    icon: "jewel",
+  },
+  {
+    code: "HX-05", t: "Rukavice a hygiena rukou",
+    p: "Po celou dobu zákroku pracujeme v rukavicích a s vydezinfikovanýma rukama.",
+    points: ["Rukavice po celý zákrok", "Výměna při přerušení", "Dezinfekce rukou mezi kroky"],
+    icon: "glove",
+  },
+  {
+    code: "HX-06", t: "Co dostanete po zákroku",
+    p: "Z ateliéru odcházíte s krytím a písemnými instrukcemi, ne s nejistotou.",
+    points: ["Ošetření a krytí čerstvé práce", "Písemné instrukce k péči", "Možnost se kdykoliv ozvat"],
+    icon: "doc",
+  },
+];
+
+const contraindications = [
+  "Nemoc, horečka nebo oslabená imunita",
+  "Podrážděná, spálená nebo poraněná kůže v místě",
+  "Čerstvé opálení v oblasti zákroku",
+  "Alkohol nebo jiné látky v krvi",
+  "Nejasný zdravotní stav bez konzultace",
+];
+---
+
+<Hrot
+  title="Hygiena — Ateliér Hrot"
+  description="Jak v ateliéru Hrot pracujeme: sterilní postup, jednorázový materiál, dezinfekce prostoru, bezpečné šperky a jasné instrukce. Kdy zákrok odložit. Hygiena jako základ každé práce. Ukázkový web od Mossven."
+  active="hygiena"
+>
+  <header class="hr-phead hr-grid-tex is-dark">
+    <span class="hr-phead__num" aria-hidden="true">04</span>
+    <div class="hr-wrap hr-phead__inner">
+      <p class="hr-label hr-anim is-in">Protokol čistoty</p>
+      <h1 class="hr-anim is-in" data-delay="1">Hygiena</h1>
+      <p class="hr-phead__sub hr-anim is-in" data-delay="2">
+        Hygiena není doplněk. Je to základ každé práce. Každý zákrok probíhá
+        s čistým pracovním místem, sterilními nástroji, jednorázovým materiálem
+        a jasnými instrukcemi pro péči po zákroku.
+      </p>
+    </div>
+  </header>
+
+  <!-- PROTOKOL -->
+  <section class="hr-section is-steel hr-hyg" aria-label="Hygienický protokol">
+    <div class="hr-wrap">
+      <div class="hr-hyg__intro hr-anim">
+        <span class="hr-mono hr-hyg__sig">// standardní postup ateliéru</span>
+        <p class="hr-hyg__lede">Stejný postup u prvního i pátého klienta v ten den. Bez výjimek a bez zkratek.</p>
+      </div>
+
+      <div class="hr-hyg__grid">
+        {protocol.map((s, i) => (
+          <article class="hr-hyg__card hr-anim" data-delay={String((i % 3) + 1)}>
+            <header class="hr-hyg__head">
+              <span class="hr-hyg__icon" aria-hidden="true">
+                {s.icon === "shield" && <svg viewBox="0 0 32 32" fill="none"><path d="M16 4 L27 9 V17 C27 24 22 28 16 30 C10 28 5 24 5 17 V9 Z" stroke="currentColor" stroke-width="1.6"/><path d="M11 16 l4 4 l7 -8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>}
+                {s.icon === "single" && <svg viewBox="0 0 32 32" fill="none"><path d="M6 26 L26 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="22" width="8" height="6" rx="1" transform="rotate(-45 7 25)" stroke="currentColor" stroke-width="1.6"/><path d="M20 8 l4 4" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="8" r="2" stroke="currentColor" stroke-width="1.6"/></svg>}
+                {s.icon === "spray" && <svg viewBox="0 0 32 32" fill="none"><rect x="11" y="12" width="9" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M11 16 h9" stroke="currentColor" stroke-width="1.6"/><path d="M11 9 h5 v3 h-5z" stroke="currentColor" stroke-width="1.6"/><path d="M21 7 h3 M21 10 h4 M21 13 h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>}
+                {s.icon === "jewel" && <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="18" r="8" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="18" r="2.5" fill="currentColor"/></svg>}
+                {s.icon === "glove" && <svg viewBox="0 0 32 32" fill="none"><path d="M9 14 V8 a1.6 1.6 0 0 1 3.2 0 V13 M12.2 13 V6 a1.6 1.6 0 0 1 3.2 0 V13 M15.4 13 V7 a1.6 1.6 0 0 1 3.2 0 V14 M18.6 14 V10 a1.6 1.6 0 0 1 3.2 0 V20 c0 4 -2 8 -7 8 c-4 0 -6 -3 -8 -6 l-2 -3 a1.8 1.8 0 0 1 2.8 -2.2 L9 18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>}
+                {s.icon === "doc" && <svg viewBox="0 0 32 32" fill="none"><path d="M8 4 h12 l5 5 v19 H8 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 4 v5 h5" stroke="currentColor" stroke-width="1.6"/><path d="M12 16 h9 M12 20 h9 M12 24 h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>}
+              </span>
+              <span class="hr-hyg__code hr-mono">{s.code}</span>
+            </header>
+            <h2 class="hr-hyg__t">{s.t}</h2>
+            <p class="hr-hyg__p">{s.p}</p>
+            <ul class="hr-hyg__check">
+              {s.points.map((pt) => <li>{pt}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- VAROVÁNÍ / KDY ODLOŽIT -->
+  <section class="hr-section is-dark hr-grid-tex hr-warn" aria-labelledby="hr-warn-h">
+    <div class="hr-wrap hr-warn__grid">
+      <div class="hr-warn__text hr-anim">
+        <p class="hr-label hr-warn__label">Kontraindikace</p>
+        <h2 id="hr-warn-h">Kdy zákrok raději odložíme.</h2>
+        <p class="hr-warn__lede">
+          Zákrok může být odložen při nemoci, podráždění kůže, čerstvém opálení,
+          alkoholu v krvi nebo nejasném zdravotním stavu. Není to komplikace —
+          je to ohled na vaše hojení a výsledek.
+        </p>
+        <p class="hr-warn__small hr-mono">Nejsme zdravotnické zařízení. Při pochybnostech o zdravotním stavu se poraďte s lékařem.</p>
+      </div>
+      <ul class="hr-warn__list hr-anim" data-delay="1">
+        {contraindications.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="hr-section is-bone hr-hygcta" aria-labelledby="hr-hygcta-h">
+    <div class="hr-wrap hr-hygcta__inner hr-anim">
+      <div>
+        <p class="hr-label">Klid v hlavě</p>
+        <h2 id="hr-hygcta-h">Máte otázku k průběhu nebo hojení? Ptejte se předem.</h2>
+      </div>
+      <div class="hr-hygcta__btns">
+        <a class="hr-btn hr-btn--ghost" href={`${base}/pece`}>Péče po zákroku</a>
+        <a class="hr-btn hr-btn--solid" href={`${base}/kontakt`}>Domluvit konzultaci <span class="hr-btn__arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hr-phead h1 { font-size: clamp(3rem, 12vw, 8rem); }
+
+    .hr-hyg__intro { display: flex; align-items: baseline; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.6rem; padding-bottom: 1.6rem; border-bottom: 1px solid var(--hr-line-b); }
+    .hr-hyg__sig { font-size: 0.74rem; color: var(--hr-amber); }
+    .hr-hyg__lede { font-family: var(--hr-ff-display); font-weight: 600; font-size: clamp(1.2rem, 2.6vw, 1.8rem); color: var(--hr-on-bone); margin: 0; max-width: 30ch; letter-spacing: -0.01em; line-height: 1.1; }
+
+    .hr-hyg__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .hr-hyg__card { background: #EFF0EE; border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); padding: 1.6rem 1.5rem 1.8rem; display: flex; flex-direction: column; }
+    .hr-hyg__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; }
+    .hr-hyg__icon { color: var(--hr-on-bone); width: 34px; height: 34px; display: inline-flex; }
+    .hr-hyg__icon svg { width: 34px; height: 34px; }
+    .hr-hyg__code { font-size: 0.66rem; letter-spacing: 0.14em; color: var(--hr-amber); border: 1px solid var(--hr-line-b); padding: 0.3em 0.55em; border-radius: 2px; }
+    .hr-hyg__t { font-size: 1.34rem; margin-bottom: 0.6rem; }
+    .hr-hyg__p { color: var(--hr-on-bone-soft); margin: 0 0 1.1rem; font-size: 0.94rem; }
+    .hr-hyg__check { list-style: none; margin: auto 0 0; padding: 1rem 0 0; border-top: 1px solid var(--hr-line-b); display: grid; gap: 0.55rem; }
+    .hr-hyg__check li { display: flex; align-items: flex-start; gap: 0.7em; font-size: 0.88rem; color: var(--hr-on-bone); }
+    .hr-hyg__check li::before { content: "✓"; color: var(--hr-amber); font-weight: 700; flex: none; font-size: 0.86rem; line-height: 1.5; }
+
+    /* VAROVÁNÍ */
+    .hr-warn { border-top: 3px solid var(--hr-blood); }
+    .hr-warn__grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+    .hr-warn__label { color: var(--hr-blood); }
+    .hr-warn__label::before { background: var(--hr-blood); }
+    .hr-warn__text h2 { font-size: clamp(1.9rem, 4vw, 3rem); margin: 0.8rem 0 1.1rem; }
+    .hr-warn__lede { color: var(--hr-ink-soft); font-size: 1.08rem; margin: 0 0 1.4rem; max-width: 52ch; }
+    .hr-warn__small { font-size: 0.74rem; color: var(--hr-ink-faint); max-width: 52ch; }
+    .hr-warn__list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--hr-line-d); border-radius: var(--hr-r); overflow: hidden; }
+    .hr-warn__list li { display: flex; align-items: flex-start; gap: 0.9em; padding: 1rem 1.3rem; border-bottom: 1px solid var(--hr-line-d); color: var(--hr-bone); font-size: 0.96rem; background: var(--hr-ink-2); }
+    .hr-warn__list li:last-child { border-bottom: 0; }
+    .hr-warn__list li::before { content: "!"; font-family: var(--hr-ff-mono); font-weight: 600; color: var(--hr-bone); background: var(--hr-blood); width: 20px; height: 20px; display: grid; place-items: center; border-radius: 2px; flex: none; font-size: 0.74rem; }
+
+    /* CTA */
+    .hr-hygcta__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .hr-hygcta__inner h2 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); margin-top: 0.7rem; max-width: 24ch; }
+    .hr-hygcta__btns { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+      .hr-hyg__grid { grid-template-columns: repeat(2, 1fr); }
+      .hr-warn__grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .hr-hyg__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</Hrot>

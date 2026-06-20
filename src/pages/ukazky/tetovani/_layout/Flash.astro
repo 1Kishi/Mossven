@@ -1,0 +1,145 @@
+---
+// Flash motivy ateliéru Hrot — čárová / blackwork kresba v SVG.
+// Nahrazuje generické fotky vlastním rukopisem (flash sheet), drží
+// identitu napříč portfoliem. `motif` vybírá kresbu, `tone` barvu tahu.
+interface Props {
+  motif: string;
+  class?: string;
+  tone?: "ink" | "bone" | "amber" | "purple" | "blood" | "steel";
+}
+const { motif, class: cls = "", tone = "ink" } = Astro.props;
+const toneVar: Record<string, string> = {
+  ink: "var(--hr-ink)",
+  bone: "var(--hr-bone)",
+  amber: "var(--hr-amber)",
+  purple: "var(--hr-purple)",
+  blood: "var(--hr-blood)",
+  steel: "var(--hr-steel)",
+};
+const c = toneVar[tone];
+---
+<svg class:list={["hr-flash", cls]} viewBox="0 0 200 240" fill="none" aria-hidden="true" style={`--fc:${c}`}>
+  {motif === "serpent" && (
+    <g stroke="var(--fc)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M100 38 c-44 8 -52 46 -18 60 c40 16 50 50 16 66 c-30 14 -28 44 6 50" />
+      <path d="M100 38 c10 -10 30 -8 34 6 c2 10 -8 16 -16 12" />
+      <circle cx="116" cy="44" r="2.2" fill="var(--fc)" stroke="none" />
+      <path d="M110 218 l-6 12 m6 -12 l8 10" />
+      <path d="M70 96 q14 -8 28 0 M88 158 q14 -8 28 0" stroke-width="2" opacity="0.6" />
+    </g>
+  )}
+  {motif === "moth" && (
+    <g stroke="var(--fc)" stroke-width="2.6" stroke-linejoin="round" fill="none">
+      <line x1="100" y1="58" x2="100" y2="172" />
+      <path d="M100 78 c-44 -34 -78 -10 -70 34 c6 30 44 34 70 16 z" fill="var(--fc)" opacity="0.92" stroke="none" />
+      <path d="M100 78 c44 -34 78 -10 70 34 c-6 30 -44 34 -70 16 z" fill="var(--fc)" opacity="0.92" stroke="none" />
+      <path d="M100 130 c-30 -6 -52 14 -46 40 c4 18 32 22 46 6 z" fill="var(--fc)" opacity="0.7" stroke="none" />
+      <path d="M100 130 c30 -6 52 14 46 40 c-4 18 -32 22 -46 6 z" fill="var(--fc)" opacity="0.7" stroke="none" />
+      <circle cx="100" cy="58" r="6" fill="var(--fc)" stroke="none" />
+      <path d="M100 54 l-12 -16 M100 54 l12 -16" />
+    </g>
+  )}
+  {motif === "sprig" && (
+    <g stroke="var(--fc)" stroke-width="2" stroke-linecap="round" fill="none">
+      <path d="M100 200 C 96 150 96 96 102 44" />
+      {[0,1,2,3,4,5].map((i) => (
+        <g>
+          <path d={`M${100 - (i%2===0?-1:1)} ${184 - i*26} q ${i%2===0?26:-26} -10 ${i%2===0?30:-30} -30`} />
+        </g>
+      ))}
+      <circle cx="102" cy="42" r="5" fill="var(--fc)" stroke="none" />
+    </g>
+  )}
+  {motif === "mandala" && (
+    <g stroke="var(--fc)" stroke-width="1.8" fill="none">
+      <circle cx="100" cy="120" r="58" />
+      <circle cx="100" cy="120" r="40" />
+      <circle cx="100" cy="120" r="22" />
+      <circle cx="100" cy="120" r="7" fill="var(--fc)" stroke="none" />
+      {Array.from({length:12}).map((_,i) => {
+        const a = (i*30)*Math.PI/180;
+        return <line x1={100+22*Math.cos(a)} y1={120+22*Math.sin(a)} x2={100+58*Math.cos(a)} y2={120+58*Math.sin(a)} />
+      })}
+      {Array.from({length:12}).map((_,i) => {
+        const a = (i*30+15)*Math.PI/180;
+        return <circle cx={100+49*Math.cos(a)} cy={120+49*Math.sin(a)} r="3" fill="var(--fc)" stroke="none" />
+      })}
+    </g>
+  )}
+  {motif === "dagger" && (
+    <g stroke="var(--fc)" stroke-width="2.6" stroke-linejoin="round" fill="none">
+      <path d="M100 30 L112 92 L100 104 L88 92 Z" fill="var(--fc)" opacity="0.9" stroke="none" />
+      <path d="M100 30 L112 92 L100 104 L88 92 Z" />
+      <line x1="100" y1="40" x2="100" y2="96" stroke="var(--hr-bone)" stroke-width="1.4" opacity="0.5" />
+      <line x1="74" y1="108" x2="126" y2="108" stroke-width="4" />
+      <rect x="94" y="108" width="12" height="86" rx="3" />
+      <circle cx="100" cy="204" r="8" />
+    </g>
+  )}
+  {motif === "ear" && (
+    <g stroke="var(--fc)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <path d="M76 70 c34 -28 70 -8 70 36 c0 34 -14 60 -40 76 c-18 12 -40 6 -42 -16" />
+      <path d="M92 96 c20 -16 40 -4 40 22 c0 20 -10 34 -26 42" />
+      <circle cx="84" cy="78" r="4.5" fill="var(--fc)" stroke="none" />
+      <circle cx="138" cy="104" r="4.5" fill="var(--fc)" stroke="none" />
+      <circle cx="92" cy="178" r="5.5" fill="none" stroke-width="2.4" />
+      <circle cx="92" cy="178" r="2" fill="var(--fc)" stroke="none" />
+    </g>
+  )}
+  {motif === "nose" && (
+    <g stroke="var(--fc)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <path d="M120 40 c-6 40 -18 70 -34 92 c-10 14 -8 30 10 36 c14 4 30 -2 36 -16" />
+      <path d="M86 150 c-12 6 -16 18 -6 26 c8 6 22 4 26 -6" />
+      <circle cx="78" cy="150" r="4.5" fill="var(--fc)" stroke="none" />
+    </g>
+  )}
+  {motif === "crescent" && (
+    <g stroke="var(--fc)" stroke-width="2.6" fill="none">
+      <path d="M120 60 a64 64 0 1 0 24 110 a50 50 0 1 1 -24 -110 z" fill="var(--fc)" opacity="0.9" stroke="none" />
+      <g stroke="var(--fc)" stroke-width="2">
+        <path d="M150 92 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3 z" fill="var(--fc)" stroke="none" />
+      </g>
+    </g>
+  )}
+  {motif === "arrow" && (
+    <g stroke="var(--fc)" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <line x1="100" y1="36" x2="100" y2="204" />
+      <path d="M100 36 l-12 22 M100 36 l12 22" />
+      <path d="M82 78 l18 -10 M82 96 l18 -10 M118 78 l-18 -10 M118 96 l-18 -10" stroke-width="1.8" opacity="0.7" />
+      <path d="M88 196 l12 12 l12 -12" />
+    </g>
+  )}
+  {motif === "eye" && (
+    <g stroke="var(--fc)" stroke-width="2.6" stroke-linejoin="round" fill="none">
+      <path d="M44 120 c30 -34 82 -34 112 0 c-30 34 -82 34 -112 0 z" />
+      <circle cx="100" cy="120" r="20" />
+      <circle cx="100" cy="120" r="8" fill="var(--fc)" stroke="none" />
+      <path d="M100 70 l0 -16 M62 84 l-10 -12 M138 84 l10 -12" stroke-width="2" opacity="0.7" />
+      <path d="M100 170 l0 14 M62 156 l-10 12 M138 156 l10 12" stroke-width="2" opacity="0.7" />
+    </g>
+  )}
+  {motif === "tray" && (
+    <g stroke="var(--fc)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <rect x="34" y="96" width="132" height="72" rx="4" />
+      <line x1="34" y1="116" x2="166" y2="116" opacity="0.5" />
+      <line x1="54" y1="126" x2="54" y2="158" /><line x1="66" y1="126" x2="66" y2="158" /><line x1="78" y1="126" x2="78" y2="158" />
+      <path d="M104 126 l0 32 M104 126 l-7 8 M104 126 l7 8" />
+      <circle cx="136" cy="142" r="11" /><circle cx="136" cy="142" r="3" fill="var(--fc)" stroke="none" />
+      <line x1="50" y1="84" x2="150" y2="84" stroke-width="1.4" opacity="0.5" />
+    </g>
+  )}
+  {motif === "inkcaps" && (
+    <g stroke="var(--fc)" stroke-width="2.4" fill="none">
+      {[60,108,156].map((y,ri) => [50,100,150].map((x,ci) => (
+        <g>
+          <path d={`M${x-15} ${y-12} h30 l-5 24 h-20 z`} />
+          <ellipse cx={x} cy={y-12} rx="15" ry="5" fill="var(--fc)" opacity={ri===0?0.85:ri===1?0.55:0.3} stroke="none" />
+        </g>
+      )))}
+    </g>
+  )}
+</svg>
+
+<style is:global>
+  .hr-flash { display: block; width: 100%; height: 100%; }
+</style>

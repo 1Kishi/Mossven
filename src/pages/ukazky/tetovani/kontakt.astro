@@ -1,0 +1,227 @@
+---
+import Hrot from "./_layout/Hrot.astro";
+import Needle from "./_layout/Needle.astro";
+
+const base = "/ukazky/tetovani";
+
+const hours = [
+  { d: "Pondělí", h: "zavřeno" },
+  { d: "Úterý", h: "11–19" },
+  { d: "Středa", h: "11–19" },
+  { d: "Čtvrtek", h: "11–19" },
+  { d: "Pátek", h: "11–19" },
+  { d: "Sobota", h: "10–16" },
+  { d: "Neděle", h: "zavřeno" },
+];
+---
+
+<Hrot
+  title="Kontakt a rezervace — Ateliér Hrot"
+  description="Domluvte si tetování, piercing nebo konzultaci v ateliéru Hrot v Brně. Napište, co řešíte, přidejte umístění, velikost a reference. Odpovídáme do 1–2 pracovních dnů. Ukázkový web od Mossven."
+  active="kontakt"
+>
+  <header class="hr-phead hr-grid-tex is-dark">
+    <span class="hr-phead__num" aria-hidden="true">06</span>
+    <div class="hr-wrap hr-phead__inner">
+      <p class="hr-label hr-anim is-in">Rezervace</p>
+      <h1 class="hr-anim is-in" data-delay="1">Kontakt</h1>
+      <p class="hr-phead__sub hr-anim is-in" data-delay="2">
+        Objednáváme se předem. Napište, co řešíte — u tetování pomůže přidat
+        velikost, místo na těle a pár referencí stylu. Ozveme se a doladíme termín.
+      </p>
+    </div>
+  </header>
+
+  <section class="hr-section is-bone hr-kont" aria-label="Kontaktní formulář a informace">
+    <div class="hr-wrap hr-kont__grid">
+      <!-- FORMULÁŘ -->
+      <div class="hr-kont__formwrap hr-anim">
+        <form class="hr-form" id="hr-form" novalidate>
+          <div class="hr-form__head">
+            <span class="hr-mono hr-form__id">FORM · POPTÁVKA</span>
+            <h2 class="hr-form__t">Poptávka termínu</h2>
+          </div>
+
+          <div class="hr-form__grid">
+            <p class="hr-field">
+              <label for="f-name">Jméno</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required placeholder="Jméno a příjmení" />
+            </p>
+            <p class="hr-field">
+              <label for="f-email">E-mail</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required placeholder="vy@example.cz" />
+            </p>
+            <p class="hr-field">
+              <label for="f-phone">Telefon</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 …" />
+            </p>
+            <p class="hr-field">
+              <label for="f-type">Co chcete řešit?</label>
+              <select id="f-type" name="type" required>
+                <option value="" disabled selected>Vyberte…</option>
+                <option value="tetovani">Tetování</option>
+                <option value="piercing">Piercing</option>
+                <option value="konzultace">Konzultace</option>
+                <option value="uprava">Úprava / překrytí</option>
+              </select>
+            </p>
+            <p class="hr-field">
+              <label for="f-place">Umístění na těle</label>
+              <input id="f-place" name="place" type="text" placeholder="např. předloktí, lýtko, ucho" />
+            </p>
+            <p class="hr-field">
+              <label for="f-size">Přibližná velikost</label>
+              <input id="f-size" name="size" type="text" placeholder="např. 8 × 12 cm" />
+            </p>
+            <p class="hr-field hr-field--full">
+              <label for="f-ref">Máte referenci nebo vlastní návrh?</label>
+              <input id="f-ref" name="ref" type="text" placeholder="Odkaz na inspiraci, styl, nebo popis" />
+            </p>
+            <p class="hr-field hr-field--full">
+              <label for="f-msg">Zpráva</label>
+              <textarea id="f-msg" name="message" rows="4" placeholder="Co máte v hlavě? Termínové možnosti, dotazy k hygieně…"></textarea>
+            </p>
+          </div>
+
+          <div class="hr-form__foot">
+            <button type="submit" class="hr-btn hr-btn--solid">Odeslat poptávku <span class="hr-btn__arrow">→</span></button>
+            <p class="hr-form__micro hr-mono">Odpovídáme obvykle do 1–2 pracovních dnů.</p>
+          </div>
+
+          <p class="hr-form__ok" id="hr-form-ok" role="status" hidden>
+            Díky! Tohle je ukázkový web, takže se poptávka nikam neodešle — ale takhle by to fungovalo. Ozvali bychom se do 1–2 pracovních dnů.
+          </p>
+        </form>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="hr-kont__side">
+        <div class="hr-side__block hr-anim" data-delay="1">
+          <span class="hr-mono hr-side__k">Ateliér</span>
+          <p class="hr-side__addr">Kožešnická 7<br />602 00 Brno</p>
+          <p class="hr-side__contact">
+            <a href="tel:+420770118240">+420 770 118 240</a><br />
+            <a href="mailto:atelier.hrot@example.cz">atelier.hrot@example.cz</a><br />
+            <a href="#" class="hr-side__ig">@atelier.hrot ↗</a>
+          </p>
+        </div>
+
+        <div class="hr-side__block hr-anim" data-delay="2">
+          <span class="hr-mono hr-side__k">Otevírací doba</span>
+          <dl class="hr-side__hours">
+            {hours.map((h) => (
+              <div class:list={["hr-side__hrow", { "is-off": h.h === "zavřeno" }]}>
+                <dt>{h.d}</dt>
+                <dd class="hr-mono">{h.h}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="hr-side__note">Pracujeme jen na objednání. Bez termínu nás nemusíte zastihnout.</p>
+        </div>
+
+        <!-- MAPA placeholder -->
+        <div class="hr-side__map hr-anim" data-delay="3" aria-label="Mapa: ukázkový náhled">
+          <div class="hr-map">
+            <svg viewBox="0 0 320 200" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+              <rect width="320" height="200" fill="#E6DCCD"/>
+              <path d="M0 60 H320 M0 130 H320 M90 0 V200 M210 0 V200" stroke="rgba(42,37,32,0.18)" stroke-width="2"/>
+              <path d="M0 95 C 80 80, 120 150, 320 110" stroke="rgba(94,75,139,0.45)" stroke-width="6" fill="none"/>
+              <circle cx="150" cy="100" r="9" fill="var(--hr-amber)"/>
+              <circle cx="150" cy="100" r="16" fill="none" stroke="var(--hr-amber)" stroke-width="2" opacity="0.6"/>
+            </svg>
+            <span class="hr-map__pin hr-mono">Kožešnická 7 · ukázková mapa</span>
+          </div>
+        </div>
+
+        <div class="hr-side__expect hr-anim" data-delay="3">
+          <span class="hr-mono hr-side__k">Než napíšete</span>
+          <div class="hr-side__needle" aria-hidden="true"><Needle variant="divider" /></div>
+          <ul class="hr-side__list">
+            <li>Připište umístění a přibližnou velikost.</li>
+            <li>Přidejte reference stylu nebo vlastní návrh.</li>
+            <li>U piercingu napište, o který typ jde.</li>
+            <li>Zmiňte termínové možnosti, ať to jde rychleji.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById("hr-form") as HTMLFormElement | null;
+    const ok = document.getElementById("hr-form-ok");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        if (ok) (ok as HTMLElement).hidden = false;
+        form.querySelectorAll("input, textarea, select").forEach((el) => {
+          (el as HTMLInputElement).value = "";
+        });
+        if (ok) ok.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+  </script>
+
+  <style>
+    .hr-phead h1 { font-size: clamp(3rem, 12vw, 8rem); }
+
+    .hr-kont__grid { display: grid; grid-template-columns: 1.4fr 0.9fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+
+    /* FORMULÁŘ */
+    .hr-form { background: #EFEADF; border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); padding: clamp(1.5rem, 3.5vw, 2.6rem); }
+    .hr-form__head { margin-bottom: 1.8rem; }
+    .hr-form__id { font-size: 0.68rem; letter-spacing: 0.18em; color: var(--hr-amber); }
+    .hr-form__t { font-size: clamp(1.6rem, 3.4vw, 2.4rem); margin-top: 0.5rem; }
+    .hr-form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .hr-field { margin: 0; display: flex; flex-direction: column; gap: 0.45rem; }
+    .hr-field--full { grid-column: 1 / -1; }
+    .hr-field label { font-family: var(--hr-ff-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--hr-on-bone-soft); }
+    .hr-field input, .hr-field select, .hr-field textarea {
+      font-family: var(--hr-ff-body); font-size: 0.98rem; color: var(--hr-on-bone);
+      background: #F7F2E9; border: 1px solid var(--hr-line-b); border-radius: var(--hr-r);
+      padding: 0.8em 0.9em; width: 100%; transition: border-color 0.2s var(--hr-ease), background 0.2s var(--hr-ease);
+    }
+    .hr-field input::placeholder, .hr-field textarea::placeholder { color: color-mix(in srgb, var(--hr-on-bone) 40%, transparent); }
+    .hr-field input:focus, .hr-field select:focus, .hr-field textarea:focus { outline: none; border-color: var(--hr-amber); background: #fff; }
+    .hr-field textarea { resize: vertical; }
+
+    .hr-form__foot { display: flex; align-items: center; gap: 1.2rem; margin-top: 1.8rem; flex-wrap: wrap; }
+    .hr-form__micro { font-size: 0.74rem; color: var(--hr-on-bone-soft); }
+    .hr-form__ok { margin: 1.4rem 0 0; padding: 1rem 1.2rem; border: 1px solid var(--hr-amber); border-left-width: 3px; border-radius: var(--hr-r); background: color-mix(in srgb, var(--hr-amber) 12%, transparent); color: var(--hr-on-bone); font-size: 0.92rem; }
+
+    /* SIDEBAR */
+    .hr-kont__side { display: flex; flex-direction: column; gap: 1.4rem; }
+    .hr-side__block, .hr-side__expect { background: var(--hr-bone-2); border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); padding: 1.5rem 1.6rem; }
+    .hr-side__k { display: block; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--hr-on-bone-soft); margin-bottom: 1rem; }
+    .hr-side__addr { font-family: var(--hr-ff-display); font-weight: 600; font-size: 1.3rem; margin: 0 0 0.8rem; color: var(--hr-on-bone); line-height: 1.2; }
+    .hr-side__contact { margin: 0; font-size: 0.95rem; line-height: 1.9; }
+    .hr-side__contact a { color: var(--hr-on-bone); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s var(--hr-ease), color 0.2s var(--hr-ease); }
+    .hr-side__contact a:hover { color: var(--hr-amber); border-color: var(--hr-amber); }
+    .hr-side__ig { color: var(--hr-amber) !important; }
+
+    .hr-side__hours { margin: 0; }
+    .hr-side__hrow { display: flex; justify-content: space-between; align-items: baseline; padding: 0.5rem 0; border-bottom: 1px solid var(--hr-line-b); }
+    .hr-side__hrow:last-of-type { border-bottom: 0; }
+    .hr-side__hrow dt { margin: 0; color: var(--hr-on-bone); font-size: 0.94rem; }
+    .hr-side__hrow dd { margin: 0; font-size: 0.86rem; color: var(--hr-amber); font-weight: 600; }
+    .hr-side__hrow.is-off dd { color: var(--hr-on-bone-soft); font-weight: 400; }
+    .hr-side__note { margin: 1rem 0 0; font-size: 0.82rem; color: var(--hr-on-bone-soft); }
+
+    .hr-map { position: relative; border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); overflow: hidden; aspect-ratio: 16 / 10; }
+    .hr-map svg { width: 100%; height: 100%; display: block; }
+    .hr-map__pin { position: absolute; left: 12px; bottom: 12px; background: var(--hr-ink); color: var(--hr-bone); font-size: 0.66rem; padding: 0.4em 0.7em; border-radius: 2px; }
+
+    .hr-side__needle { color: var(--hr-amber); margin: 0.4rem 0 1rem; }
+    .hr-side__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+    .hr-side__list li { display: flex; gap: 0.7em; font-size: 0.92rem; color: var(--hr-on-bone-soft); align-items: flex-start; }
+    .hr-side__list li::before { content: "›"; color: var(--hr-amber); font-weight: 700; flex: none; }
+
+    @media (max-width: 920px) {
+      .hr-kont__grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .hr-form__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</Hrot>

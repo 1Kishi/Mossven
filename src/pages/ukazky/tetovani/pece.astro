@@ -1,0 +1,212 @@
+---
+import Hrot from "./_layout/Hrot.astro";
+
+const base = "/ukazky/tetovani";
+
+const tattoo = {
+  do: [
+    "Držet v čistotě a mýt jemně čistýma rukama",
+    "Mazat tenkou vrstvou podle instrukcí",
+    "Nechat kůži dýchat, nepřekrývat zbytečně",
+    "Chránit před přímým sluncem",
+  ],
+  dont: [
+    "Neškrábat a nestrhávat stroupky",
+    "Nedřít ručníkem, jen jemně osušit",
+    "Nenamáčet dlouho ve vaně",
+    "Vyhnout se bazénu a sauně během hojení",
+  ],
+};
+
+const piercing = {
+  do: [
+    "Čistit podle doporučení (solný roztok)",
+    "Nechat šperk v klidu, zbytečně neotáčet",
+    "Sledovat okolí a reagovat na podráždění",
+    "Dbát na čistotu ložního prádla a ručníků",
+  ],
+  dont: [
+    "Nesahat na šperk špinavýma rukama",
+    "Neměnit šperk příliš brzy",
+    "Pozor na kosmetiku, vlasy a sprej v okolí",
+    "Nespat na čerstvém piercingu",
+  ],
+};
+
+const timeline = [
+  { d: "Den 0–2", t: "Čerstvá práce", p: "Krytí, mírné zarudnutí a citlivost jsou normální. Klid a čistota." },
+  { d: "Den 3–14", t: "Hojení", p: "Může se loupat nebo svědit. Neškrábat, mazat podle instrukcí." },
+  { d: "Týden 2–6", t: "Dohojení", p: "Povrch vypadá zhojený, kůže ještě pracuje. Stále chránit před sluncem." },
+];
+---
+
+<Hrot
+  title="Péče po zákroku — Ateliér Hrot"
+  description="Jak se starat o čerstvé tetování a piercing. Co dělat a čemu se vyhnout během hojení, orientační časová osa a kdy se ozvat. Ukázkový web od Mossven."
+  active="pece"
+>
+  <header class="hr-phead hr-grid-tex is-dark">
+    <span class="hr-phead__num" aria-hidden="true">05</span>
+    <div class="hr-wrap hr-phead__inner">
+      <p class="hr-label hr-anim is-in">Hojení krok za krokem</p>
+      <h1 class="hr-anim is-in" data-delay="1">Péče po zákroku</h1>
+      <p class="hr-phead__sub hr-anim is-in" data-delay="2">
+        Dobrý výsledek se z poloviny rozhoduje po zákroku. Níže je jednoduchý
+        návod zvlášť pro tetování a zvlášť pro piercing. Když si nejste jistí,
+        ozvěte se — lepší zeptat se včas.
+      </p>
+    </div>
+  </header>
+
+  <section class="hr-section is-bone hr-care" aria-label="Péče po zákroku">
+    <div class="hr-wrap">
+      <!-- TABY -->
+      <div class="hr-care__tabs" role="tablist" aria-label="Typ péče">
+        <button type="button" class="hr-care__tab is-active hr-mono" role="tab" aria-selected="true" aria-controls="panel-tattoo" id="tab-tattoo" data-tab="tattoo">Péče o tetování</button>
+        <button type="button" class="hr-care__tab hr-mono" role="tab" aria-selected="false" aria-controls="panel-piercing" id="tab-piercing" data-tab="piercing">Péče o piercing</button>
+        <span class="hr-care__ind" id="hr-care-ind" aria-hidden="true"></span>
+      </div>
+
+      <!-- PANEL: TETOVÁNÍ -->
+      <div class="hr-care__panel" id="panel-tattoo" role="tabpanel" aria-labelledby="tab-tattoo">
+        <div class="hr-care__cols">
+          <div class="hr-care__col hr-care__col--do">
+            <span class="hr-mono hr-care__k">Dělejte</span>
+            <ul class="hr-care__list">
+              {tattoo.do.map((x) => <li>{x}</li>)}
+            </ul>
+          </div>
+          <div class="hr-care__col hr-care__col--dont">
+            <span class="hr-mono hr-care__k">Vyhněte se</span>
+            <ul class="hr-care__list hr-care__list--dont">
+              {tattoo.dont.map((x) => <li>{x}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL: PIERCING -->
+      <div class="hr-care__panel" id="panel-piercing" role="tabpanel" aria-labelledby="tab-piercing" hidden>
+        <div class="hr-care__cols">
+          <div class="hr-care__col hr-care__col--do">
+            <span class="hr-mono hr-care__k">Dělejte</span>
+            <ul class="hr-care__list">
+              {piercing.do.map((x) => <li>{x}</li>)}
+            </ul>
+          </div>
+          <div class="hr-care__col hr-care__col--dont">
+            <span class="hr-mono hr-care__k">Vyhněte se</span>
+            <ul class="hr-care__list hr-care__list--dont">
+              {piercing.dont.map((x) => <li>{x}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ČASOVÁ OSA -->
+      <div class="hr-care__time hr-anim">
+        <span class="hr-mono hr-care__k">Orientační hojení</span>
+        <ol class="hr-care__timeline">
+          {timeline.map((s) => (
+            <li class="hr-care__tstep">
+              <span class="hr-mono hr-care__td">{s.d}</span>
+              <h3 class="hr-care__tt">{s.t}</h3>
+              <p class="hr-care__tp">{s.p}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- KLIDNÝ BLOK -->
+  <section class="hr-section is-ink2 hr-grid-tex hr-calm" aria-labelledby="hr-calm-h">
+    <div class="hr-wrap hr-calm__inner hr-anim">
+      <span class="hr-calm__quote" aria-hidden="true">„</span>
+      <h2 id="hr-calm-h" class="hr-calm__h">Když si nejste jistí, napište. Lepší je zeptat se včas než řešit problém pozdě.</h2>
+      <div class="hr-calm__cta">
+        <a class="hr-btn hr-btn--solid" href={`${base}/kontakt`}>Napsat ateliéru <span class="hr-btn__arrow">→</span></a>
+        <a class="hr-btn hr-btn--ghost" href={`${base}/hygiena`}>Pravidla hygieny</a>
+      </div>
+      <p class="hr-calm__small hr-mono">Při známkách infekce (silné zarudnutí, hnis, horečka) se obraťte na lékaře.</p>
+    </div>
+  </section>
+
+  <script>
+    const tabs = Array.from(document.querySelectorAll(".hr-care__tab"));
+    const panels: Record<string, HTMLElement | null> = {
+      tattoo: document.getElementById("panel-tattoo"),
+      piercing: document.getElementById("panel-piercing"),
+    };
+    const ind = document.getElementById("hr-care-ind");
+
+    function moveInd(btn: Element) {
+      if (!ind) return;
+      const el = btn as HTMLElement;
+      ind.style.width = el.offsetWidth + "px";
+      ind.style.transform = `translateX(${el.offsetLeft}px)`;
+    }
+
+    function activate(key: string, btn: Element) {
+      tabs.forEach((t) => { t.classList.remove("is-active"); t.setAttribute("aria-selected", "false"); });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-selected", "true");
+      Object.entries(panels).forEach(([k, p]) => { if (p) p.hidden = k !== key; });
+      moveInd(btn);
+    }
+
+    tabs.forEach((t) => {
+      t.addEventListener("click", () => activate(t.getAttribute("data-tab") || "tattoo", t));
+    });
+
+    const first = tabs.find((t) => t.classList.contains("is-active")) || tabs[0];
+    if (first) requestAnimationFrame(() => moveInd(first));
+    window.addEventListener("resize", () => {
+      const active = tabs.find((t) => t.classList.contains("is-active"));
+      if (active) moveInd(active);
+    });
+  </script>
+
+  <style>
+    .hr-phead h1 { font-size: clamp(2.6rem, 9vw, 6.5rem); }
+
+    /* TABY */
+    .hr-care__tabs { position: relative; display: inline-flex; gap: 0.4rem; padding: 0.35rem; background: var(--hr-bone-2); border: 1px solid var(--hr-line-b); border-radius: 999px; margin-bottom: 2.6rem; }
+    .hr-care__tab { position: relative; z-index: 1; border: 0; background: transparent; cursor: pointer; font-size: 0.82rem; letter-spacing: 0.03em; color: var(--hr-on-bone-soft); padding: 0.7em 1.3em; border-radius: 999px; transition: color 0.25s var(--hr-ease); }
+    .hr-care__tab.is-active { color: var(--hr-ink); }
+    .hr-care__ind { position: absolute; top: 0.35rem; left: 0; height: calc(100% - 0.7rem); background: var(--hr-amber); border-radius: 999px; z-index: 0; transition: transform 0.3s var(--hr-ease), width 0.3s var(--hr-ease); }
+
+    /* PANELY */
+    .hr-care__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .hr-care__col { background: #EFEADF; border: 1px solid var(--hr-line-b); border-radius: var(--hr-r); padding: 1.8rem; }
+    .hr-care__col--do { border-top: 3px solid var(--hr-amber); }
+    .hr-care__col--dont { border-top: 3px solid var(--hr-blood); }
+    .hr-care__k { display: block; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--hr-on-bone-soft); margin-bottom: 1.1rem; }
+    .hr-care__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem; }
+    .hr-care__list li { display: flex; align-items: flex-start; gap: 0.8em; font-size: 0.98rem; color: var(--hr-on-bone); }
+    .hr-care__list li::before { content: "✓"; color: var(--hr-amber); font-weight: 700; flex: none; }
+    .hr-care__list--dont li::before { content: "✕"; color: var(--hr-blood); }
+
+    /* ČASOVÁ OSA */
+    .hr-care__time { margin-top: 2.6rem; padding-top: 2.2rem; border-top: 1px solid var(--hr-line-b); }
+    .hr-care__timeline { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; counter-reset: step; }
+    .hr-care__tstep { border-top: 2px solid var(--hr-amber); padding-top: 1rem; }
+    .hr-care__td { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--hr-amber); }
+    .hr-care__tt { font-size: 1.2rem; margin: 0.5rem 0 0.4rem; }
+    .hr-care__tp { color: var(--hr-on-bone-soft); margin: 0; font-size: 0.92rem; }
+
+    /* KLIDNÝ BLOK */
+    .hr-calm__inner { max-width: 60ch; text-align: center; margin-inline: auto; position: relative; }
+    .hr-calm__quote { font-family: var(--hr-ff-display); font-weight: 800; font-size: 5rem; color: var(--hr-amber); display: block; line-height: 0.5; height: 2rem; }
+    .hr-calm__h { font-size: clamp(1.6rem, 4vw, 2.8rem); margin: 0 0 1.8rem; letter-spacing: -0.02em; }
+    .hr-calm__cta { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.6rem; }
+    .hr-calm__small { font-size: 0.74rem; color: var(--hr-ink-faint); }
+
+    @media (max-width: 640px) {
+      .hr-care__cols { grid-template-columns: 1fr; }
+      .hr-care__timeline { grid-template-columns: 1fr; }
+      .hr-care__tabs { display: flex; width: 100%; }
+      .hr-care__tab { flex: 1; }
+    }
+  </style>
+</Hrot>
