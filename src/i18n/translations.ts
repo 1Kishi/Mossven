@@ -4,7 +4,7 @@ export const translations: Record<Lang, Record<string, string>> = {
  cs:{
   "nav.services":"Co řeším","nav.demos":"Ukázky","nav.pricing":"Ceny","nav.process":"Jak to probíhá","nav.faq":"Časté dotazy","nav.contact":"Kontakt","nav.cta":"Chci nezávazně poradit",
   "demos.kicker":"Ukázkové weby","demos.h":"Naše práce podle typu webu.","demos.p":"Ukázkové stránky pro smyšlené místní podniky. Každá má vlastní vizuální tvář a obsah na míru oboru.",
-  "demos.live":"Prohlédnout ukázku","demos.soon":"Připravujeme","demos.soon2":"Brzy k dispozici",
+  "demos.live":"Prohlédnout ukázku","demos.soon":"Připravujeme","demos.soon2":"Brzy k dispozici","demos.soon3":"Připravuje se",
   "demos.lprob":"Problém","demos.lsol":"Řešení","demos.lfor":"Vhodné pro",
   "demos.cat1":"Jednostránkové weby","demos.cat1s":"Jedna stránka, jeden jasný cíl. Ideální pro službu nebo živnost.",
   "demos.cat2":"Vícestránkové weby","demos.cat2s":"Více sekcí: galerie, ceník, tým, blog. Pro obory, které potřebují víc prostoru.",
@@ -114,7 +114,7 @@ export const translations: Record<Lang, Record<string, string>> = {
  en:{
   "nav.services":"What I do","nav.demos":"Demos","nav.pricing":"Pricing","nav.process":"How it works","nav.faq":"FAQ","nav.contact":"Contact","nav.cta":"Get a free consultation",
   "demos.kicker":"Demo websites","demos.h":"Our work, by type of site.","demos.p":"Demo sites for fictional local businesses. Each has its own visual identity and content tailored to the field.",
-  "demos.live":"View the demo","demos.soon":"Coming soon","demos.soon2":"Available soon",
+  "demos.live":"View the demo","demos.soon":"Coming soon","demos.soon2":"Available soon","demos.soon3":"In preparation",
   "demos.lprob":"Problem","demos.lsol":"Solution","demos.lfor":"Good for",
   "demos.cat1":"Landing pages","demos.cat1s":"One page, one clear goal. Ideal for a service or sole trader.",
   "demos.cat2":"Multi-page websites","demos.cat2s":"More sections: gallery, pricing, team, blog. For fields that need more room.",

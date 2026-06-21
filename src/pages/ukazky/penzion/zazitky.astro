@@ -1,0 +1,198 @@
+---
+import Mlha from "./_layout/Mlha.astro";
+import Vrstevnice from "./_layout/Vrstevnice.astro";
+
+const base = "/ukazky/penzion";
+
+const features = [
+  {
+    code: "01", scene: "path", tag: "Každé ráno",
+    t: "Mlha nad loukou",
+    d: "Nejlepší část dne začíná dřív, než se podává snídaně. Mlha se drží mezi smrky a po louce se táhne k potoku. Půjčíme vám holínky a termosku s čajem — a zbytek je jen na vás a tichu. Mapku tří okruhů od dveří najdete v každém pokoji.",
+    meta: ["0,5–3 h", "Celý rok", "Bez průvodce"],
+  },
+  {
+    code: "02", scene: "sauna", tag: "Wellness", reverse: true,
+    t: "Sauna a studený pramen",
+    d: "Finská sauna z modřínového dřeva s výhledem do lesa, vyhřátá každý večer. Po ní otužení v kamenné nádrži, kterou plní pramenitá voda z kopce nad statkem. Večerní sauna je vždy rezervovaná jen pro jeden pokoj — nikdy se nepotkáte s cizími lidmi.",
+    meta: ["17:00–22:00", "Rezervace u recepce", "Ručníky v ceně"],
+  },
+  {
+    code: "03", scene: "breakfast", tag: "Snídaně",
+    t: "Stůl z toho, co je za kopcem",
+    d: "Snídani pečeme a skládáme ráno: kváskový chleba, máslo a sýry z Borových Lad, med od souseda, vejce ze dvora, domácí marmelády a kafe z pražírny v Sušici. Servírujeme pomalu do půl jedenácté ve společné jídelně u krbu, nebo na tácu do pokoje.",
+    meta: ["8:00–10:30", "V ceně pobytu", "I bezlepkově"],
+  },
+  {
+    code: "04", scene: "night", tag: "Po setmění", reverse: true,
+    t: "Zimní ticho a hvězdy",
+    d: "Kvilda je jedno z nejtmavších míst v Česku. Za jasné noci je nad statkem vidět Mléčná dráha pouhým okem. V zimě půjčujeme běžky i sněžnice rovnou ode dveří a večer rozsvěcíme lucerny podél cesty k sauně. Ticho pod sněhem je tu skoro hmatatelné.",
+    meta: ["Bezměsíčné noci", "Běžky k zapůjčení", "Lucerny v ceně"],
+  },
+];
+
+const more = [
+  { code: "05", scene: "reading", t: "Čítárna a gramofon", d: "Pokoj s krbem, dvě stě knih, deskový přehrávač a křesla, ze kterých se nechce vstát. Otevřeno nonstop." },
+  { code: "06", scene: "forest", t: "Houby a byliny", d: "Na podzim vyrazíme s košíkem; na jaře sbíráme medvědí česnek a bylinky na čaj. Co najdeme, večer zpracujeme." },
+  { code: "07", scene: "deepforest", t: "Kola a túry", d: "Půjčovna trekových kol a tištěné tipy na trasy — od lehké projížďky k Vltavě po celodenní hřebenovku." },
+  { code: "08", scene: "water", t: "Lesní jezírko", d: "Patnáct minut pěšky je tůň, kde se v létě dá koupat. V srpnu teplá, v září pro otrlé, vždycky tichá." },
+];
+
+const day = [
+  ["7:30", "Mlha nad loukou", "Ven dřív než ostatní, dokud se opar drží při zemi."],
+  ["9:00", "Pomalá snídaně", "Chléb, sýr, med a kafe u krbu. Bez spěchu."],
+  ["11:00", "Les za dveřmi", "Okruh k slati nebo k prameni Vltavy."],
+  ["15:00", "Čítárna a oheň", "Kniha, deska na gramofonu, hrnek v ruce."],
+  ["18:00", "Sauna do tmy", "Pára, studený pramen, lucerny na cestě."],
+  ["21:00", "Hvězdy a ticho", "Nad statkem Mléčná dráha. Konec dne."],
+];
+---
+
+<Mlha
+  title="Zážitky — Penzion Mlžný Dvůr"
+  description="Sauna, ranní mlha, snídaně z kraje, čítárna a hvězdy nad Kvildou. Pomalé dny v šumavském lese, nic z toho ale není povinné."
+  active="zazitky"
+>
+  <header class="mlz-phead">
+    <div class="mlz-phead__scene mlz-scene mlz-scene--sauna"></div>
+    <div class="mlz-wrap mlz-phead__inner">
+      <p class="mlz-crumb mlz-coord"><a href={base}>Úvod</a> &nbsp;/&nbsp; Zážitky</p>
+      <span class="mlz-label">Pomalé dny v lese</span>
+      <h1>Co se tu dá dělat<br />(a co radši ne)</h1>
+      <p class="mlz-phead__sub">
+        Mlžný Dvůr není animační program. Většina toho nejlepšího je zadarmo a
+        začíná za dveřmi: mlha, ticho, oheň a sauna. Tady je, na co se hosté
+        nejčastěji ptají.
+      </p>
+    </div>
+  </header>
+
+  <!-- FEATURED EXPERIENCES (editorial alternating) -->
+  <section class="mlz-section mlz-section--linen mlz-zx">
+    <div class="mlz-wrap">
+      <div class="mlz-zx__list">
+        {features.map((f) => (
+          <article class:list={["mlz-zx__row mlz-reveal", { "mlz-zx__row--rev": f.reverse }]}>
+            <div class="mlz-zx__media">
+              <div class:list={["mlz-zx__scene mlz-scene", `mlz-scene--${f.scene}`]}>
+                <Vrstevnice variant="frame" />
+                <div class="mlz-scene__veil"></div>
+                <span class="mlz-zx__code mlz-coord">{f.code}</span>
+              </div>
+            </div>
+            <div class="mlz-zx__text">
+              <span class="mlz-label">{f.tag}</span>
+              <h2 class="mlz-zx__t">{f.t}</h2>
+              <p class="mlz-zx__d">{f.d}</p>
+              <ul class="mlz-zx__meta">
+                {f.meta.map((m) => <li class="mlz-coord">{m}</li>)}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY AT THE ESTATE (timeline ledger) -->
+  <section class="mlz-section mlz-section--dark mlz-day">
+    <div class="mlz-wrap">
+      <div class="mlz-day__grid">
+        <div class="mlz-day__head mlz-reveal">
+          <span class="mlz-label">Jeden den ve Dvoře</span>
+          <h2>Rytmus pomalého dne</h2>
+          <p class="mlz-lede">Takhle nějak vypadá běžný den hostů. Není to rozvrh — spíš návrh, jak nechat čas plynout. Klidně všechno přeskočte a zůstaňte na terase.</p>
+        </div>
+        <ol class="mlz-day__time mlz-reveal" data-d="1">
+          {day.map((d) => (
+            <li class="mlz-day__row">
+              <span class="mlz-day__h mlz-coord">{d[0]}</span>
+              <span class="mlz-day__dot" aria-hidden="true"></span>
+              <div class="mlz-day__body">
+                <h3 class="mlz-day__t">{d[1]}</h3>
+                <p class="mlz-day__d">{d[2]}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- MORE (grid) -->
+  <section class="mlz-section mlz-section--linen mlz-zmore">
+    <div class="mlz-wrap">
+      <div class="mlz-sec-head mlz-reveal">
+        <span class="mlz-label">A když budete chtít víc</span>
+        <h2>Další drobnosti po ruce</h2>
+      </div>
+      <div class="mlz-zmore__grid">
+        {more.map((m, i) => (
+          <article class="mlz-zmore__card mlz-reveal" data-d={(i % 4) + 1}>
+            <div class:list={["mlz-zmore__scene mlz-scene", `mlz-scene--${m.scene}`]}>
+              <div class="mlz-scene__veil"></div>
+              <span class="mlz-zmore__code mlz-coord">{m.code}</span>
+            </div>
+            <h3 class="mlz-zmore__t">{m.t}</h3>
+            <p class="mlz-zmore__d">{m.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="mlz-cta mlz-scene mlz-scene--deepforest">
+    <Vrstevnice variant="frame" />
+    <div class="mlz-scene__veil mlz-cta__veil"></div>
+    <div class="mlz-wrap mlz-cta__inner mlz-reveal">
+      <span class="mlz-label mlz-label--center">Rezervace</span>
+      <h2 class="mlz-cta__h">Nejlepší zážitek je<br /><em>dorazit</em>.</h2>
+      <p class="mlz-cta__p">Vyberte si pokoj a my připravíme zbytek — saunu, dřevo v kamnech i mapku ranních okruhů.</p>
+      <div class="mlz-cta__btns">
+        <a class="mlz-btn mlz-btn--brass" href={`${base}/kontakt`}>Naplánovat pobyt <span class="mlz-btn__a" aria-hidden="true">→</span></a>
+        <a class="mlz-btn mlz-btn--ghost-d" href={`${base}/ubytovani`}>Vybrat pokoj</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .mlz-zx__list { display: flex; flex-direction: column; gap: clamp(3.5rem, 8vw, 6.5rem); }
+    .mlz-zx__row { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+    .mlz-zx__row--rev .mlz-zx__media { order: 2; }
+    .mlz-zx__scene { position: relative; aspect-ratio: 5 / 4; border-radius: var(--mlz-r-lg); overflow: hidden; box-shadow: var(--mlz-shadow); }
+    .mlz-zx__code { position: absolute; top: 1.1rem; left: 1.2rem; z-index: 4; font-family: var(--mlz-ff-display); font-size: 2rem; color: var(--mlz-brass-2); opacity: 0.9; }
+    .mlz-zx__t { font-size: clamp(2rem, 4vw, 3.2rem); margin: 1rem 0 1.2rem; line-height: 1; }
+    .mlz-zx__d { color: var(--mlz-ink-soft); line-height: 1.7; max-width: 54ch; margin-bottom: 1.6rem; }
+    .mlz-zx__meta { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .mlz-zx__meta li { font-size: 0.62rem; color: var(--mlz-ink-soft); border: 1px solid var(--mlz-line); border-radius: 999px; padding: 0.45em 0.9em; }
+
+    /* DAY */
+    .mlz-day__grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+    .mlz-day__head h2 { font-size: clamp(2rem, 4vw, 3rem); margin: 1rem 0 1.2rem; }
+    .mlz-day__time { list-style: none; margin: 0; padding: 0; position: relative; }
+    .mlz-day__time::before { content: ""; position: absolute; left: 64px; top: 8px; bottom: 8px; width: 1px; background: var(--mlz-line-d); }
+    .mlz-day__row { display: grid; grid-template-columns: 54px 20px 1fr; gap: 0.8rem; align-items: start; padding: 0.9rem 0; }
+    .mlz-day__h { color: var(--mlz-brass-2); padding-top: 0.3rem; }
+    .mlz-day__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--mlz-pine); border: 1.5px solid var(--mlz-brass); margin-top: 0.55rem; margin-left: 5px; position: relative; z-index: 1; }
+    .mlz-day__t { font-size: 1.4rem; color: var(--mlz-fog); margin-bottom: 0.3rem; }
+    .mlz-day__d { color: color-mix(in srgb, var(--mlz-fog) 64%, transparent); font-size: 0.95rem; }
+
+    /* MORE */
+    .mlz-zmore__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 3rem; }
+    .mlz-zmore__scene { position: relative; aspect-ratio: 4 / 3; border-radius: var(--mlz-r-lg); overflow: hidden; margin-bottom: 1.1rem; border: 1px solid var(--mlz-line); }
+    .mlz-zmore__code { position: absolute; top: 0.8rem; left: 0.9rem; z-index: 4; color: var(--mlz-brass-2); }
+    .mlz-zmore__t { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .mlz-zmore__d { color: var(--mlz-ink-soft); font-size: 0.94rem; line-height: 1.55; }
+
+    @media (max-width: 920px) {
+      .mlz-zx__row, .mlz-zx__row--rev { grid-template-columns: 1fr; gap: 1.6rem; }
+      .mlz-zx__row--rev .mlz-zx__media { order: 0; }
+      .mlz-day__grid { grid-template-columns: 1fr; }
+      .mlz-zmore__grid { grid-template-columns: 1fr 1fr; gap: 1.6rem 1.4rem; }
+    }
+    @media (max-width: 560px) {
+      .mlz-zmore__grid { grid-template-columns: 1fr; max-width: 360px; }
+    }
+  </style>
+</Mlha>

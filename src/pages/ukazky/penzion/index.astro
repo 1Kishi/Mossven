@@ -1,0 +1,461 @@
+---
+import Mlha from "./_layout/Mlha.astro";
+import Vrstevnice from "./_layout/Vrstevnice.astro";
+
+const base = "/ukazky/penzion";
+
+const rooms = [
+  {
+    key: "I", scene: "room",
+    name: "Pokoj Mlžná borovice", href: `${base}/ubytovani`,
+    price: "2 900", cap: "2 hosté", bed: "Manželská postel",
+    note: "Severní okno do korun borovic. Ráno mlha, večer jen lampa a kniha.",
+  },
+  {
+    key: "II", scene: "candle",
+    name: "Apartmá Tiché údolí", href: `${base}/ubytovani/apartma-tiche-udoli`,
+    price: "4 600", cap: "2–3 hosté", bed: "Apartmá s krbem",
+    note: "Dvě místnosti, kamna na dřevo a vlastní vstup do zahrady k potoku.",
+    feat: true,
+  },
+  {
+    key: "III", scene: "stone",
+    name: "Pokoj Kamenný pramen", href: `${base}/ubytovani`,
+    price: "3 200", cap: "2 hosté", bed: "Dvě lůžka / king",
+    note: "Klenutý strop, holá kamenná zeď a vana u okna s výhledem do lesa.",
+  },
+  {
+    key: "IV", scene: "deepforest",
+    name: "Lesní loft", href: `${base}/ubytovani`,
+    price: "5 400", cap: "2–4 hosté", bed: "Podkrovní loft",
+    note: "Celé podkroví pod trámy. Střešní okno do hvězd, kuchyňský kout.",
+  },
+];
+
+const seasons = [
+  { t: "Jaro", code: "III–V", scene: "path", d: "Tání, první sasanky u potoka a mlha, která se zvedá až k poledni." },
+  { t: "Léto", code: "VI–VIII", scene: "deepforest", d: "Dlouhé večery na terase, koupání v lesním jezírku, vůně rozehřáté smůly." },
+  { t: "Podzim", code: "IX–XI", scene: "forest", d: "Houby, oheň v krbu a bukové listí, které se barví do mědi a vína." },
+  { t: "Zima", code: "XII–II", scene: "night", d: "Ticho pod sněhem, sauna do tmy a běžky rovnou ode dveří." },
+];
+
+const experiences = [
+  { t: "Ranní mlha nad loukou", code: "01", scene: "path", d: "Vyjít před snídaní na louku, dokud se mlha drží při zemi. Tichá půlhodina jen pro vás." },
+  { t: "Sauna a studený pramen", code: "02", scene: "sauna", d: "Finská sauna do tmy a otužení v kamenné nádrži s pramenitou vodou." },
+  { t: "Snídaně z kraje", code: "03", scene: "breakfast", d: "Domácí chléb, sýry z Borových Lad, med od souseda a vejce z dvora." },
+];
+
+const reviews = [
+  { q: "Tři dny jsme skoro nemluvili a bylo to přesně to, co jsme potřebovali. Ráno mlha, večer oheň, mezi tím nic.", a: "Tereza & Jan", m: "Praha · Apartmá Tiché údolí", d: "říjen" },
+  { q: "Pracovala jsem odsud celý týden. Signál drží, wifi je rychlá, ale hlavně je tu ticho, ve kterém se konečně dá přemýšlet.", a: "Klára H.", m: "Brno · Lesní loft", d: "únor" },
+  { q: "Kamenný pramen má vanu u okna, ze které je vidět les. Nevylezli jsme z ní dvě hodiny.", a: "Petr & Magda", m: "Plzeň · Kamenný pramen", d: "prosinec" },
+];
+---
+
+<Mlha
+  title="Penzion Mlžný Dvůr — lesní útočiště na Šumavě"
+  description="Obnovený lesní statek na kraji šumavských hvozdů. Sedm pokojů, sauna, ticho a ranní mlha. Tichý luxus pro víkend i delší pobyt."
+  active="uvod"
+>
+  <!-- ============ HERO ============ -->
+  <section class="mlz-hero">
+    <div class="mlz-hero__scene mlz-scene mlz-scene--forest">
+      <Vrstevnice variant="hero" />
+      <div class="mlz-hero__veil"></div>
+    </div>
+
+    <div class="mlz-wrap mlz-hero__inner">
+      <div class="mlz-hero__top">
+        <span class="mlz-coord mlz-hero__coord">49.0382° N&nbsp;&nbsp;13.5471° E</span>
+        <span class="mlz-coord mlz-hero__season">· Sezóna mlh — září až listopad ·</span>
+      </div>
+
+      <div class="mlz-hero__head">
+        <span class="mlz-label">Penzion · Šumava · od 1908</span>
+        <h1 class="mlz-hero__title">
+          Ráno v&nbsp;mlze.<br />Večer u&nbsp;ohně.<br /><em>Mezi tím ticho.</em>
+        </h1>
+        <p class="mlz-hero__sub">
+          Obnovený lesní statek nad Kvildou, kde víkend zpomalí na rytmus
+          dřeva, kamene a mlhy. Sedm pokojů, sauna a louka, na kterou nedohlédne
+          žádný soused.
+        </p>
+      </div>
+    </div>
+
+    <!-- BOOKING STRIP (ledger) -->
+    <div class="mlz-wrap mlz-bookwrap">
+      <form class="mlz-book" id="mlz-book" aria-label="Vyhledat termín pobytu">
+        <span class="mlz-book__tab mlz-coord">Rezervační kniha</span>
+        <div class="mlz-book__row">
+          <label class="mlz-book__field">
+            <span class="mlz-book__lab mlz-coord">Příjezd</span>
+            <input type="date" name="prijezd" required />
+          </label>
+          <span class="mlz-book__sep" aria-hidden="true">→</span>
+          <label class="mlz-book__field">
+            <span class="mlz-book__lab mlz-coord">Odjezd</span>
+            <input type="date" name="odjezd" required />
+          </label>
+          <label class="mlz-book__field">
+            <span class="mlz-book__lab mlz-coord">Hosté</span>
+            <select name="hoste">
+              <option>1 host</option>
+              <option selected>2 hosté</option>
+              <option>3 hosté</option>
+              <option>4 hosté</option>
+            </select>
+          </label>
+          <label class="mlz-book__field">
+            <span class="mlz-book__lab mlz-coord">Pokoj</span>
+            <select name="pokoj">
+              <option selected>Jakýkoli pokoj</option>
+              <option>Mlžná borovice</option>
+              <option>Apartmá Tiché údolí</option>
+              <option>Kamenný pramen</option>
+              <option>Lesní loft</option>
+            </select>
+          </label>
+          <button class="mlz-btn mlz-btn--brass mlz-book__go" type="submit">
+            Ověřit termín <span class="mlz-btn__a" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </form>
+      <p class="mlz-book__hint mlz-coord" id="mlz-book-hint" hidden></p>
+    </div>
+  </section>
+
+  <!-- ============ THESIS / ESTATE RECORD ============ -->
+  <section class="mlz-section mlz-section--linen">
+    <div class="mlz-wrap mlz-intro">
+      <div class="mlz-intro__lead mlz-reveal">
+        <span class="mlz-label">Co je Mlžný Dvůr</span>
+        <h2 class="mlz-intro__h">
+          Statek, který les téměř pohltil — a my ho vrátili k&nbsp;životu jako
+          tiché útočiště, ne jako hotel.
+        </h2>
+        <p class="mlz-lede">
+          Stavení z roku 1908 stálo třicet let prázdné. Nechali jsme kamenné
+          zdi, dubové trámy i staré dveře a přidali jen to, co dělá pobyt
+          pohodlným: teplé podlahy, lněné povlečení, saunu a kuchyni, ze které
+          voní chleba. Žádná recepce v obleku. Jen klíč, oheň a klid.
+        </p>
+        <a class="mlz-btn mlz-btn--line mlz-intro__cta" href={`${base}/ubytovani`}>
+          Vybrat pokoj <span class="mlz-btn__a" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <aside class="mlz-record mlz-reveal" data-d="1" aria-label="Rejstřík statku">
+        <span class="mlz-record__tab mlz-coord">Z rejstříku statku</span>
+        <dl class="mlz-record__list">
+          <div class="mlz-record__row"><dt>Založeno</dt><dd>1908</dd></div>
+          <div class="mlz-record__row"><dt>Obnoveno</dt><dd>2019–2022</dd></div>
+          <div class="mlz-record__row"><dt>Pokoje</dt><dd>7</dd></div>
+          <div class="mlz-record__row"><dt>Nadmořská výška</dt><dd>1080 m</dd></div>
+          <div class="mlz-record__row"><dt>Nejbližší soused</dt><dd>1,4 km</dd></div>
+          <div class="mlz-record__row"><dt>Les za dveřmi</dt><dd>NP Šumava</dd></div>
+          <div class="mlz-record__row"><dt>Vytápění</dt><dd>Dřevo & tepelné čerp.</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <!-- contour divider -->
+  <div class="mlz-divwrap mlz-divwrap--linen-dark"><Vrstevnice variant="divider" /></div>
+
+  <!-- ============ ROOMS PREVIEW (key ledger) ============ -->
+  <section class="mlz-section mlz-section--dark mlz-rooms">
+    <div class="mlz-wrap">
+      <div class="mlz-rooms__head mlz-reveal">
+        <div>
+          <span class="mlz-label">Sedm klíčů, čtyři druhy pokojů</span>
+          <h2 class="mlz-sec-head__h">Kde budete spát</h2>
+        </div>
+        <a class="mlz-btn mlz-btn--ghost-d mlz-rooms__all" href={`${base}/ubytovani`}>
+          Všechny pokoje <span class="mlz-btn__a" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <ul class="mlz-rooms__list">
+        {rooms.map((r, i) => (
+          <li class:list={["mlz-room mlz-reveal", { "mlz-room--feat": r.feat }]} data-d={(i % 3) + 1}>
+            <a class="mlz-room__link" href={r.href} aria-label={`Zobrazit ${r.name}`}>
+              <div class:list={["mlz-room__scene mlz-scene", `mlz-scene--${r.scene}`]}>
+                <span class="mlz-room__keytag mlz-coord" aria-hidden="true">No.&nbsp;{r.key}</span>
+                <div class="mlz-scene__veil"></div>
+              </div>
+              <div class="mlz-room__body">
+                <div class="mlz-room__top">
+                  <h3 class="mlz-room__name">{r.name}</h3>
+                  <span class="mlz-room__price mlz-coord">od {r.price} Kč<span> / noc</span></span>
+                </div>
+                <p class="mlz-room__note">{r.note}</p>
+                <div class="mlz-room__meta">
+                  <span class="mlz-coord">{r.cap}</span>
+                  <span class="mlz-room__dot" aria-hidden="true">·</span>
+                  <span class="mlz-coord">{r.bed}</span>
+                  <span class="mlz-room__go" aria-hidden="true">Zobrazit →</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SEASONS ============ -->
+  <section class="mlz-section mlz-section--linen mlz-seasons">
+    <div class="mlz-wrap">
+      <div class="mlz-sec-head mlz-seasons__head mlz-reveal">
+        <span class="mlz-label">Čtyři tváře jednoho údolí</span>
+        <h2>Stejné místo, pokaždé jiné ticho</h2>
+        <p class="mlz-lede">Mlžný Dvůr je otevřený celý rok. Každá sezóna má svůj důvod, proč přijet — a svůj vlastní rytmus dne.</p>
+      </div>
+      <div class="mlz-seasons__grid">
+        {seasons.map((s, i) => (
+          <article class="mlz-season mlz-reveal" data-d={(i % 4) + 1}>
+            <div class:list={["mlz-season__scene mlz-scene", `mlz-scene--${s.scene}`]}>
+              <div class="mlz-scene__veil"></div>
+              <span class="mlz-season__code mlz-coord">{s.code}</span>
+            </div>
+            <h3 class="mlz-season__t">{s.t}</h3>
+            <p class="mlz-season__d">{s.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCES PREVIEW ============ -->
+  <section class="mlz-section mlz-section--pine2 mlz-exp">
+    <div class="mlz-wrap">
+      <div class="mlz-exp__head mlz-reveal">
+        <div>
+          <span class="mlz-label">Co se tu dá dělat (a nedělat)</span>
+          <h2 class="mlz-sec-head__h">Pomalé dny v&nbsp;lese</h2>
+        </div>
+        <p class="mlz-exp__lede mlz-lede">Nic z toho není povinné. Většina hostů nakonec stejně tráví nejvíc času na terase s hrnkem v ruce — a to je v pořádku.</p>
+      </div>
+      <div class="mlz-exp__grid">
+        {experiences.map((e, i) => (
+          <a class="mlz-expcard mlz-reveal" data-d={(i % 3) + 1} href={`${base}/zazitky`}>
+            <div class:list={["mlz-expcard__scene mlz-scene", `mlz-scene--${e.scene}`]}>
+              <div class="mlz-scene__veil"></div>
+              <span class="mlz-expcard__code mlz-coord">{e.code}</span>
+            </div>
+            <h3 class="mlz-expcard__t">{e.t}</h3>
+            <p class="mlz-expcard__d">{e.d}</p>
+            <span class="mlz-expcard__go mlz-coord">Více zážitků →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS (guest book) ============ -->
+  <section class="mlz-section mlz-section--linen mlz-guest">
+    <div class="mlz-wrap">
+      <div class="mlz-sec-head mlz-reveal">
+        <span class="mlz-label">Z naší knihy hostů</span>
+        <h2>Co si odvezli domů</h2>
+      </div>
+      <div class="mlz-guest__grid">
+        {reviews.map((r, i) => (
+          <figure class="mlz-quote mlz-reveal" data-d={(i % 3) + 1}>
+            <span class="mlz-quote__mark" aria-hidden="true">„</span>
+            <blockquote class="mlz-quote__q">{r.q}</blockquote>
+            <figcaption class="mlz-quote__cap">
+              <span class="mlz-quote__a">{r.a}</span>
+              <span class="mlz-coord mlz-quote__m">{r.m} · {r.d}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="mlz-cta mlz-scene mlz-scene--candle">
+    <Vrstevnice variant="frame" />
+    <div class="mlz-scene__veil mlz-cta__veil"></div>
+    <div class="mlz-wrap mlz-cta__inner mlz-reveal">
+      <span class="mlz-label mlz-label--center">Rezervace</span>
+      <h2 class="mlz-cta__h">Najděte si víkend, který<br /><em>zpomalí</em>.</h2>
+      <p class="mlz-cta__p">Termíny se v sezóně mlh plní rychle. Napište nám, na kdy uvažujete — ozveme se do druhého dne s návrhem pokoje.</p>
+      <div class="mlz-cta__btns">
+        <a class="mlz-btn mlz-btn--brass" href={`${base}/kontakt`}>Naplánovat pobyt <span class="mlz-btn__a" aria-hidden="true">→</span></a>
+        <a class="mlz-btn mlz-btn--ghost-d" href={`${base}/ubytovani`}>Prohlédnout pokoje</a>
+      </div>
+      <p class="mlz-cta__meta mlz-coord">Recepce +420 388 112 900 · recepce@mlznydvur.cz</p>
+    </div>
+  </section>
+
+  <script>
+    // Booking strip — demo feedback (žádný backend)
+    const form = document.getElementById("mlz-book") as HTMLFormElement | null;
+    const hint = document.getElementById("mlz-book-hint");
+    if (form && hint) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const inDate = String(data.get("prijezd") || "");
+        const outDate = String(data.get("odjezd") || "");
+        const room = String(data.get("pokoj") || "");
+        hint.hidden = false;
+        if (inDate && outDate) {
+          hint.textContent = `Ukázka: hledám „${room}" — ${inDate} → ${outDate}. V reálném webu by se zde zobrazila dostupnost a cena.`;
+        } else {
+          hint.textContent = "Ukázka: doplňte prosím datum příjezdu a odjezdu.";
+        }
+        hint.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+    }
+  </script>
+
+  <style>
+    /* ============ HERO ============ */
+    .mlz-hero { position: relative; min-height: clamp(620px, 92vh, 900px); display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(2rem, 5vw, 4rem); overflow: hidden; }
+    .mlz-hero__scene { position: absolute; inset: 0; z-index: 0; }
+    .mlz-hero__veil { position: absolute; inset: 0; z-index: 4; background:
+      linear-gradient(to top, var(--mlz-pine) 2%, rgba(14,21,18,0.3) 38%, rgba(14,21,18,0.55) 100%); }
+    .mlz-hero__inner { position: relative; z-index: 6; color: var(--mlz-fog); padding-top: clamp(5rem, 12vw, 8rem); }
+    .mlz-hero__top { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; align-items: center; margin-bottom: auto; }
+    .mlz-hero__coord { color: color-mix(in srgb, var(--mlz-fog) 70%, transparent); }
+    .mlz-hero__season { color: var(--mlz-brass-2); }
+    .mlz-hero__head { margin-top: clamp(2.5rem, 8vw, 6rem); max-width: 20ch; }
+    .mlz-hero .mlz-label { color: var(--mlz-brass-2); margin-bottom: 1.4rem; }
+    .mlz-hero__title { font-size: clamp(3rem, 9vw, 7rem); line-height: 0.96; color: var(--mlz-fog); letter-spacing: -0.015em; }
+    .mlz-hero__title em { font-style: italic; color: var(--mlz-brass-2); font-weight: 400; }
+    .mlz-hero__sub { margin-top: 1.8rem; font-size: clamp(1.05rem, 1.6vw, 1.28rem); color: color-mix(in srgb, var(--mlz-fog) 82%, transparent); max-width: 46ch; line-height: 1.6; }
+
+    /* ============ BOOKING STRIP ============ */
+    .mlz-bookwrap { position: relative; z-index: 6; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+    .mlz-book {
+      position: relative; background: color-mix(in srgb, var(--mlz-paper) 96%, transparent);
+      border: 1px solid var(--mlz-line); border-radius: var(--mlz-r-lg);
+      box-shadow: var(--mlz-shadow); padding: 1.5rem 1.4rem 1.3rem;
+      backdrop-filter: blur(8px);
+    }
+    .mlz-book__tab {
+      position: absolute; top: -0.7rem; left: 1.4rem; background: var(--mlz-brass);
+      color: #1A130A; padding: 0.3em 0.9em; border-radius: 3px; font-size: 0.58rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .mlz-book__row { display: grid; grid-template-columns: 1fr auto 1fr 1fr 1.2fr auto; gap: 0.9rem; align-items: end; }
+    .mlz-book__field { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+    .mlz-book__lab { color: var(--mlz-ink-soft); letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.58rem; }
+    .mlz-book__field input, .mlz-book__field select {
+      font-family: var(--mlz-ff-body); font-size: 0.98rem; color: var(--mlz-ink);
+      background: transparent; border: none; border-bottom: 1px solid var(--mlz-line);
+      padding: 0.45em 0.1em; width: 100%; cursor: pointer;
+    }
+    .mlz-book__field input:focus, .mlz-book__field select:focus { outline: none; border-bottom-color: var(--mlz-brass); }
+    .mlz-book__sep { color: var(--mlz-brass); align-self: center; padding-bottom: 0.5em; font-size: 1.1rem; }
+    .mlz-book__go { white-space: nowrap; align-self: stretch; }
+    .mlz-book__hint { margin-top: 1rem; color: var(--mlz-ink-soft); background: var(--mlz-card); border: 1px dashed var(--mlz-line); padding: 0.7em 1em; border-radius: var(--mlz-r); }
+
+    /* ============ DIVIDERS ============ */
+    .mlz-divwrap { line-height: 0; overflow: hidden; }
+    .mlz-divwrap--linen-dark { background: var(--mlz-pine); }
+    .mlz-divwrap--linen-dark + * { } /* contour sits above next dark section */
+
+    /* ============ INTRO / RECORD ============ */
+    .mlz-intro { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+    .mlz-intro__h { font-size: clamp(1.9rem, 3.6vw, 3rem); margin: 1.2rem 0 1.5rem; max-width: 18ch; }
+    .mlz-intro__cta { margin-top: 2rem; }
+    .mlz-record { border: 1px solid var(--mlz-line); border-radius: var(--mlz-r-lg); background: var(--mlz-card); padding: 2rem 1.8rem 1.6rem; position: relative; box-shadow: var(--mlz-shadow-sm); }
+    .mlz-record__tab { display: block; color: var(--mlz-brass); margin-bottom: 1.2rem; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.58rem; }
+    .mlz-record__list { margin: 0; }
+    .mlz-record__row { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.62rem 0; border-bottom: 1px dotted var(--mlz-line); }
+    .mlz-record__row:last-child { border-bottom: none; }
+    .mlz-record__row dt { font-size: 0.94rem; color: var(--mlz-ink-soft); white-space: nowrap; }
+    .mlz-record__row dd { margin: 0 0 0 auto; font-family: var(--mlz-ff-mono); font-size: 0.82rem; color: var(--mlz-ink); text-align: right; }
+
+    /* ============ ROOMS ============ */
+    .mlz-rooms__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+    .mlz-sec-head__h { font-size: clamp(2rem, 4.4vw, 3.4rem); margin-top: 1rem; }
+    .mlz-rooms__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
+    .mlz-room--feat { grid-column: 1 / -1; }
+    .mlz-room__link { display: grid; grid-template-columns: 280px 1fr; text-decoration: none; color: var(--mlz-fog); border: 1px solid var(--mlz-line-d-soft); border-radius: var(--mlz-r-lg); overflow: hidden; background: var(--mlz-pine-2); transition: border-color 0.4s var(--mlz-ease), transform 0.4s var(--mlz-ease); height: 100%; }
+    .mlz-room__link:hover { border-color: color-mix(in srgb, var(--mlz-brass) 55%, transparent); transform: translateY(-3px); }
+    .mlz-room--feat .mlz-room__link { grid-template-columns: 1fr 1fr; }
+    .mlz-room__scene { position: relative; min-height: 210px; }
+    .mlz-room--feat .mlz-room__scene { min-height: 320px; }
+    .mlz-room__keytag { position: absolute; top: 1rem; left: 1rem; z-index: 4; background: color-mix(in srgb, var(--mlz-pine) 70%, transparent); color: var(--mlz-brass-2); border: 1px solid color-mix(in srgb, var(--mlz-brass) 50%, transparent); padding: 0.35em 0.7em; border-radius: 3px; letter-spacing: 0.12em; backdrop-filter: blur(4px); }
+    .mlz-room__body { padding: 1.7rem 1.8rem; display: flex; flex-direction: column; }
+    .mlz-room__top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.7rem; }
+    .mlz-room__name { font-size: clamp(1.4rem, 2.4vw, 2rem); color: var(--mlz-fog); }
+    .mlz-room__price { color: var(--mlz-brass-2); white-space: nowrap; font-size: 0.82rem; }
+    .mlz-room__price span { color: color-mix(in srgb, var(--mlz-fog) 45%, transparent); }
+    .mlz-room__note { color: color-mix(in srgb, var(--mlz-fog) 70%, transparent); font-size: 0.98rem; line-height: 1.6; margin-bottom: 1.2rem; }
+    .mlz-room__meta { display: flex; align-items: center; gap: 0.7rem; margin-top: auto; color: color-mix(in srgb, var(--mlz-fog) 60%, transparent); }
+    .mlz-room__meta .mlz-coord { font-size: 0.66rem; }
+    .mlz-room__dot { opacity: 0.5; }
+    .mlz-room__go { margin-left: auto; font-family: var(--mlz-ff-mono); font-size: 0.66rem; color: var(--mlz-brass-2); opacity: 0; transform: translateX(-6px); transition: opacity 0.3s var(--mlz-ease), transform 0.3s var(--mlz-ease); }
+    .mlz-room__link:hover .mlz-room__go { opacity: 1; transform: none; }
+
+    /* ============ SEASONS ============ */
+    .mlz-seasons__head { margin-bottom: 3rem; }
+    .mlz-seasons__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; }
+    .mlz-season__scene { position: relative; aspect-ratio: 3 / 4; border-radius: var(--mlz-r-lg); overflow: hidden; margin-bottom: 1.2rem; }
+    .mlz-season__code { position: absolute; top: 0.9rem; right: 0.9rem; z-index: 4; color: var(--mlz-fog); opacity: 0.85; font-size: 0.6rem; }
+    .mlz-season__t { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .mlz-season__d { color: var(--mlz-ink-soft); font-size: 0.95rem; line-height: 1.55; }
+
+    /* ============ EXPERIENCES ============ */
+    .mlz-exp__head { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: end; margin-bottom: 3rem; }
+    .mlz-exp__lede { max-width: 42ch; }
+    .mlz-exp__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+    .mlz-expcard { display: flex; flex-direction: column; text-decoration: none; color: var(--mlz-fog); }
+    .mlz-expcard__scene { position: relative; aspect-ratio: 4 / 3; border-radius: var(--mlz-r-lg); overflow: hidden; margin-bottom: 1.3rem; border: 1px solid var(--mlz-line-d-soft); transition: transform 0.5s var(--mlz-ease-slow); }
+    .mlz-expcard:hover .mlz-expcard__scene { transform: translateY(-4px); }
+    .mlz-expcard__code { position: absolute; top: 1rem; left: 1rem; z-index: 4; color: var(--mlz-brass-2); }
+    .mlz-expcard__t { font-size: 1.5rem; margin-bottom: 0.6rem; color: var(--mlz-fog); }
+    .mlz-expcard__d { color: color-mix(in srgb, var(--mlz-fog) 68%, transparent); font-size: 0.96rem; line-height: 1.6; margin-bottom: 1rem; }
+    .mlz-expcard__go { color: var(--mlz-brass-2); margin-top: auto; opacity: 0.8; transition: opacity 0.3s var(--mlz-ease); }
+    .mlz-expcard:hover .mlz-expcard__go { opacity: 1; }
+
+    /* ============ GUEST BOOK ============ */
+    .mlz-guest__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; margin-top: 3rem; }
+    .mlz-quote { position: relative; background: var(--mlz-card); border: 1px solid var(--mlz-line); border-radius: var(--mlz-r-lg); padding: 2.2rem 1.9rem 1.8rem; display: flex; flex-direction: column; }
+    .mlz-quote__mark { position: absolute; top: 0.4rem; left: 1.2rem; font-family: var(--mlz-ff-display); font-size: 4rem; color: color-mix(in srgb, var(--mlz-brass) 45%, transparent); line-height: 1; }
+    .mlz-quote__q { font-family: var(--mlz-ff-display); font-style: italic; font-size: 1.32rem; line-height: 1.4; color: var(--mlz-ink); margin: 1.4rem 0 1.6rem; }
+    .mlz-quote__cap { margin-top: auto; display: flex; flex-direction: column; gap: 0.3rem; }
+    .mlz-quote__a { font-weight: 600; }
+    .mlz-quote__m { color: var(--mlz-ink-soft); font-size: 0.64rem; }
+
+    /* ============ FINAL CTA ============ */
+    .mlz-cta { position: relative; padding: clamp(5rem, 12vw, 9rem) 0; color: var(--mlz-fog); text-align: center; overflow: hidden; }
+    .mlz-cta__veil { background: linear-gradient(to top, rgba(14,9,5,0.7), rgba(14,9,5,0.45)); }
+    .mlz-cta__inner { position: relative; z-index: 6; max-width: 40ch; margin-inline: auto; }
+    .mlz-cta .mlz-label { color: var(--mlz-brass-2); margin-bottom: 1.4rem; }
+    .mlz-cta__h { font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; color: var(--mlz-fog); }
+    .mlz-cta__h em { font-style: italic; color: var(--mlz-brass-2); }
+    .mlz-cta__p { margin: 1.6rem auto 2.2rem; color: color-mix(in srgb, var(--mlz-fog) 80%, transparent); font-size: 1.1rem; line-height: 1.6; }
+    .mlz-cta__btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .mlz-cta__meta { margin-top: 2rem; color: color-mix(in srgb, var(--mlz-fog) 55%, transparent); }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1080px) {
+      .mlz-book__row { grid-template-columns: 1fr 1fr; gap: 1rem 1.4rem; }
+      .mlz-book__sep { display: none; }
+      .mlz-book__go { grid-column: 1 / -1; justify-content: center; margin-top: 0.4rem; }
+    }
+    @media (max-width: 920px) {
+      .mlz-intro { grid-template-columns: 1fr; }
+      .mlz-rooms__list { grid-template-columns: 1fr; }
+      .mlz-room__link, .mlz-room--feat .mlz-room__link { grid-template-columns: 1fr; }
+      .mlz-room__scene { min-height: 200px; }
+      .mlz-seasons__grid { grid-template-columns: repeat(2, 1fr); }
+      .mlz-exp__head { grid-template-columns: 1fr; gap: 1rem; }
+      .mlz-exp__grid { grid-template-columns: 1fr; max-width: 460px; }
+      .mlz-guest__grid { grid-template-columns: 1fr; max-width: 540px; }
+    }
+    @media (max-width: 560px) {
+      .mlz-book__row { grid-template-columns: 1fr; }
+      .mlz-seasons__grid { grid-template-columns: 1fr; max-width: 360px; }
+      .mlz-hero__top { font-size: 0.9em; }
+    }
+  </style>
+</Mlha>

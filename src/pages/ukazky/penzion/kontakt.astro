@@ -1,0 +1,310 @@
+---
+import Mlha from "./_layout/Mlha.astro";
+import Vrstevnice from "./_layout/Vrstevnice.astro";
+
+const base = "/ukazky/penzion";
+
+const arrival = [
+  ["Autem", "Z Vimperka přes Kvildu, pak 1,4 km lesní cestou ke statku. Cesta je zpevněná a sjízdná celoročně."],
+  ["V zimě", "Od kostela v Kvildě vás vyzvedneme rolbou — domluvíme čas předem. Auto necháte na hlídaném parkovišti."],
+  ["MHD a vlakem", "Vlakem do Vimperka, odtud autobus na Kvildu. Z Kvildy vás po domluvě svezeme."],
+  ["Letadlem", "Nejbližší letiště Praha (185 km) nebo Linec (95 km). Doporučujeme dál autem."],
+];
+
+const faq = [
+  { q: "Je snídaně v ceně?", a: "Ano. Domácí snídani podáváme každé ráno do 10:30 a je součástí ceny každého pokoje. Bezlepkovou nebo veganskou variantu připravíme, stačí napsat dopředu." },
+  { q: "Můžeme přijet se psem?", a: "Do apartmá v přízemí (Tiché údolí, Kamenný pramen) ano, po předchozí domluvě a za poplatek 250 Kč/noc. V pokojích v patře bohužel ne." },
+  { q: "Jak je to s parkováním?", a: "Místo u statku je zdarma a je tu i nabíječka pro elektromobil. V zimě, když nelze dojet až ke statku, parkujete na hlídaném parkovišti v Kvildě a my vás vyzvedneme." },
+  { q: "Jaké jsou storno podmínky?", a: "Zrušení zdarma do 14 dní před příjezdem. Později účtujeme jednu noc. Tohle je ukázkový web — v reálu byste podmínky dostali e-mailem u potvrzení." },
+  { q: "Je tu signál a wifi?", a: "Wifi je rychlá ve všech pokojích i ve společných prostorách. Mobilní signál drží venku a ve většině pokojů. Lesní loft je oblíbený mezi lidmi, kteří odsud pracují." },
+  { q: "Pořádáte svatby nebo akce?", a: "Menší rodinné oslavy ano, po domluvě a při rezervaci celého statku. Velké hlučné akce ne — Mlžný Dvůr je především o klidu." },
+];
+---
+
+<Mlha
+  title="Kontakt a rezervace — Penzion Mlžný Dvůr"
+  description="Rezervujte pobyt v Penzionu Mlžný Dvůr na Šumavě. Recepce +420 388 112 900, recepce@mlznydvur.cz. Jak k nám dojedete a časté dotazy."
+  active="kontakt"
+>
+  <header class="mlz-phead mlz-phead--k">
+    <div class="mlz-phead__scene mlz-scene mlz-scene--night"></div>
+    <div class="mlz-wrap mlz-phead__inner">
+      <p class="mlz-crumb mlz-coord"><a href={base}>Úvod</a> &nbsp;/&nbsp; Kontakt</p>
+      <span class="mlz-label">Rezervace a dotazy</span>
+      <h1>Domluvme termín</h1>
+      <p class="mlz-phead__sub">
+        Napište nám, na kdy uvažujete a kolik vás bude. Ozveme se do druhého dne
+        s návrhem pokoje a volných termínů. Bez automatů a bez závazku.
+      </p>
+    </div>
+  </header>
+
+  <section class="mlz-section mlz-section--linen mlz-k">
+    <div class="mlz-wrap mlz-k__grid">
+      <!-- RESERVATION FORM (guest ledger) -->
+      <div class="mlz-k__formwrap mlz-reveal">
+        <form class="mlz-kform" id="mlz-kform" aria-label="Rezervační formulář">
+          <span class="mlz-kform__tab mlz-coord">Rezervační kniha · zápis hosta</span>
+
+          <div class="mlz-kform__step">
+            <span class="mlz-kform__stepn mlz-coord">01 — Termín</span>
+            <div class="mlz-kform__row2">
+              <label class="mlz-field">
+                <span class="mlz-field__l mlz-coord">Příjezd</span>
+                <input type="date" name="prijezd" required />
+              </label>
+              <label class="mlz-field">
+                <span class="mlz-field__l mlz-coord">Odjezd</span>
+                <input type="date" name="odjezd" required />
+              </label>
+            </div>
+            <div class="mlz-kform__row2">
+              <label class="mlz-field">
+                <span class="mlz-field__l mlz-coord">Hosté</span>
+                <select name="hoste">
+                  <option>1 host</option>
+                  <option selected>2 hosté</option>
+                  <option>3 hosté</option>
+                  <option>4 hosté</option>
+                </select>
+              </label>
+              <label class="mlz-field">
+                <span class="mlz-field__l mlz-coord">Pokoj</span>
+                <select name="pokoj">
+                  <option selected>Doporučte mi</option>
+                  <option>Mlžná borovice</option>
+                  <option>Apartmá Tiché údolí</option>
+                  <option>Kamenný pramen</option>
+                  <option>Lesní loft</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="mlz-kform__step">
+            <span class="mlz-kform__stepn mlz-coord">02 — Kontakt</span>
+            <div class="mlz-kform__row2">
+              <label class="mlz-field">
+                <span class="mlz-field__l mlz-coord">Jméno</span>
+                <input type="text" name="jmeno" autocomplete="name" placeholder="Jméno a příjmení" required />
+              </label>
+              <label class="mlz-field">
+                <span class="mlz-field__l mlz-coord">Telefon</span>
+                <input type="tel" name="telefon" autocomplete="tel" placeholder="+420" />
+              </label>
+            </div>
+            <label class="mlz-field">
+              <span class="mlz-field__l mlz-coord">E-mail</span>
+              <input type="email" name="email" autocomplete="email" placeholder="vas@email.cz" required />
+            </label>
+          </div>
+
+          <div class="mlz-kform__step">
+            <span class="mlz-kform__stepn mlz-coord">03 — Vzkaz</span>
+            <label class="mlz-field">
+              <span class="mlz-field__l mlz-coord">Cokoli nám chcete říct předem</span>
+              <textarea name="vzkaz" rows="4" placeholder="Alergie, pes, výročí, čas příjezdu…"></textarea>
+            </label>
+          </div>
+
+          <button class="mlz-btn mlz-btn--brass mlz-kform__submit" type="submit">
+            Poslat dotaz <span class="mlz-btn__a" aria-hidden="true">→</span>
+          </button>
+          <p class="mlz-kform__note mlz-coord">Ukázkový formulář — neodesílá žádná data. Ozveme se do 24 hodin.</p>
+
+          <div class="mlz-kform__ok" id="mlz-kform-ok" hidden>
+            <span class="mlz-kform__okmark" aria-hidden="true">✓</span>
+            <div>
+              <strong>Děkujeme, máme to.</strong>
+              <p class="mlz-coord" id="mlz-kform-okmsg"></p>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- SIDE: contact + map + times -->
+      <aside class="mlz-k__side mlz-reveal" data-d="1">
+        <div class="mlz-kcard">
+          <span class="mlz-kcard__h mlz-coord">Recepce</span>
+          <a class="mlz-kcard__big" href="tel:+420388112900">+420 388 112 900</a>
+          <a class="mlz-kcard__link" href="mailto:recepce@mlznydvur.cz">recepce@mlznydvur.cz</a>
+          <p class="mlz-kcard__line">Denně 8:00–20:00, telefon i mimo</p>
+        </div>
+
+        <div class="mlz-kcard">
+          <span class="mlz-kcard__h mlz-coord">Adresa</span>
+          <p class="mlz-kcard__addr">Mlžný Dvůr 1<br />Kvilda 384 93<br />okres Prachatice</p>
+          <p class="mlz-coord mlz-kcard__coord">49.0382° N · 13.5471° E · 1080 m n. m.</p>
+        </div>
+
+        <div class="mlz-kmap mlz-scene mlz-scene--deepforest" role="img" aria-label="Orientační mapka: statek na konci lesní cesty u Kvildy">
+          <Vrstevnice variant="frame" />
+          <svg class="mlz-kmap__svg" viewBox="0 0 320 200" aria-hidden="true">
+            <path d="M-10 150 C 60 150, 90 120, 150 118 S 250 110, 330 70" fill="none" stroke="var(--mlz-brass)" stroke-width="1.5" stroke-dasharray="2 5" opacity="0.7" />
+            <circle cx="150" cy="118" r="6" fill="var(--mlz-brass)" />
+            <circle cx="150" cy="118" r="12" fill="none" stroke="var(--mlz-brass)" stroke-width="1" opacity="0.5" />
+            <text x="150" y="146" text-anchor="middle" fill="#ECEDE6" font-size="9" font-family="monospace" letter-spacing="1">MLŽNÝ DVŮR</text>
+            <text x="20" y="165" fill="#ECEDE6" font-size="7.5" font-family="monospace" opacity="0.7">KVILDA</text>
+          </svg>
+          <span class="mlz-kmap__tag mlz-coord">Na konci lesní cesty</span>
+        </div>
+
+        <div class="mlz-kcard mlz-kcard--times">
+          <div class="mlz-ktime">
+            <span class="mlz-coord">Check-in</span>
+            <strong>od 15:00</strong>
+          </div>
+          <div class="mlz-ktime">
+            <span class="mlz-coord">Check-out</span>
+            <strong>do 11:00</strong>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ARRIVAL -->
+  <section class="mlz-section mlz-section--dark mlz-arr">
+    <div class="mlz-wrap">
+      <div class="mlz-sec-head mlz-reveal">
+        <span class="mlz-label">Jak k nám</span>
+        <h2>Cesta na kraj lesa</h2>
+        <p class="mlz-lede">Statek stojí 1,4 km za poslední chalupou v Kvildě. Poslední kus vede lesní cestou — odměnou je, že kolem opravdu nikdo není.</p>
+      </div>
+      <ul class="mlz-arr__grid mlz-reveal" data-d="1">
+        {arrival.map((a, i) => (
+          <li class="mlz-arr__i">
+            <span class="mlz-arr__n mlz-coord">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="mlz-arr__t">{a[0]}</h3>
+            <p class="mlz-arr__d">{a[1]}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="mlz-section mlz-section--linen mlz-faq">
+    <div class="mlz-wrap mlz-faq__wrap">
+      <div class="mlz-faq__head mlz-reveal">
+        <span class="mlz-label">Než se zeptáte</span>
+        <h2>Časté dotazy</h2>
+        <p class="mlz-lede">A kdyby tu vaše otázka nebyla, zavolejte — rádi poradíme.</p>
+      </div>
+      <div class="mlz-faq__list mlz-reveal" data-d="1">
+        {faq.map((f, i) => (
+          <details class="mlz-faq__i" open={i === 0}>
+            <summary class="mlz-faq__q">
+              <span>{f.q}</span>
+              <span class="mlz-faq__plus" aria-hidden="true"></span>
+            </summary>
+            <p class="mlz-faq__a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById("mlz-kform") as HTMLFormElement | null;
+    const ok = document.getElementById("mlz-kform-ok");
+    const okmsg = document.getElementById("mlz-kform-okmsg");
+    if (form && ok && okmsg) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const d = new FormData(form);
+        const name = String(d.get("jmeno") || "").trim();
+        const inDate = String(d.get("prijezd") || "");
+        const outDate = String(d.get("odjezd") || "");
+        okmsg.textContent = `${name ? name + ", o" : "O"}zveme se na zadaný e-mail s návrhem pro termín ${inDate || "?"} → ${outDate || "?"}.`;
+        ok.hidden = false;
+        form.querySelectorAll<HTMLElement>(".mlz-kform__step, .mlz-kform__submit, .mlz-kform__note").forEach((el) => el.style.display = "none");
+        ok.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+  </script>
+
+  <style>
+    .mlz-k__grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+
+    /* FORM */
+    .mlz-kform { position: relative; background: var(--mlz-card); border: 1px solid var(--mlz-line); border-radius: var(--mlz-r-lg); padding: clamp(1.8rem, 3vw, 2.6rem); box-shadow: var(--mlz-shadow); }
+    .mlz-kform__tab { position: absolute; top: -0.7rem; left: 1.8rem; background: var(--mlz-brass); color: #1A130A; padding: 0.3em 0.9em; border-radius: 3px; font-size: 0.54rem; letter-spacing: 0.18em; text-transform: uppercase; }
+    .mlz-kform__step { padding: 1.6rem 0; border-bottom: 1px solid var(--mlz-line-soft); }
+    .mlz-kform__step:first-of-type { padding-top: 0.6rem; }
+    .mlz-kform__stepn { display: block; color: var(--mlz-brass); margin-bottom: 1.1rem; letter-spacing: 0.16em; font-size: 0.6rem; }
+    .mlz-kform__row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .mlz-kform__row2:last-child { margin-bottom: 0; }
+
+    .mlz-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .mlz-field__l { color: var(--mlz-ink-soft); text-transform: uppercase; letter-spacing: 0.13em; font-size: 0.56rem; }
+    .mlz-field input, .mlz-field select, .mlz-field textarea {
+      font-family: var(--mlz-ff-body); font-size: 0.98rem; color: var(--mlz-ink);
+      background: var(--mlz-paper); border: 1px solid var(--mlz-line); border-radius: var(--mlz-r);
+      padding: 0.68em 0.8em; width: 100%; resize: vertical;
+    }
+    .mlz-field input:focus, .mlz-field select:focus, .mlz-field textarea:focus { outline: none; border-color: var(--mlz-brass); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mlz-brass) 18%, transparent); }
+    .mlz-field input::placeholder, .mlz-field textarea::placeholder { color: color-mix(in srgb, var(--mlz-ink-soft) 60%, transparent); }
+
+    .mlz-kform__submit { margin-top: 1.6rem; width: 100%; justify-content: center; }
+    .mlz-kform__note { text-align: center; color: var(--mlz-ink-soft); margin-top: 0.9rem; font-size: 0.58rem; }
+
+    .mlz-kform__ok { display: flex; gap: 1rem; align-items: flex-start; margin-top: 1.4rem; padding: 1.3rem 1.4rem; background: color-mix(in srgb, var(--mlz-moss) 14%, var(--mlz-paper)); border: 1px solid color-mix(in srgb, var(--mlz-moss) 40%, transparent); border-radius: var(--mlz-r); }
+    .mlz-kform__okmark { width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: var(--mlz-moss); color: #fff; display: grid; place-items: center; font-size: 0.9rem; }
+    .mlz-kform__ok strong { font-family: var(--mlz-ff-display); font-size: 1.3rem; }
+    .mlz-kform__ok p { color: var(--mlz-ink-soft); margin-top: 0.2rem; font-size: 0.66rem; line-height: 1.5; }
+
+    /* SIDE */
+    .mlz-k__side { display: flex; flex-direction: column; gap: 1rem; }
+    .mlz-kcard { background: var(--mlz-card); border: 1px solid var(--mlz-line); border-radius: var(--mlz-r-lg); padding: 1.5rem 1.6rem; }
+    .mlz-kcard__h { display: block; color: var(--mlz-brass); margin-bottom: 0.8rem; letter-spacing: 0.16em; font-size: 0.6rem; }
+    .mlz-kcard__big { display: block; font-family: var(--mlz-ff-display); font-size: 1.8rem; text-decoration: none; color: var(--mlz-ink); }
+    .mlz-kcard__big:hover { color: var(--mlz-brass); }
+    .mlz-kcard__link { display: block; color: var(--mlz-ink-soft); text-decoration: none; margin-top: 0.3rem; }
+    .mlz-kcard__link:hover { color: var(--mlz-brass); }
+    .mlz-kcard__line { color: var(--mlz-ink-soft); font-size: 0.86rem; margin-top: 0.5rem; }
+    .mlz-kcard__addr { font-family: var(--mlz-ff-display); font-size: 1.25rem; line-height: 1.4; }
+    .mlz-kcard__coord { color: var(--mlz-ink-soft); margin-top: 0.7rem; font-size: 0.6rem; }
+
+    .mlz-kmap { position: relative; aspect-ratio: 16 / 10; border-radius: var(--mlz-r-lg); overflow: hidden; border: 1px solid var(--mlz-line); }
+    .mlz-kmap__svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; }
+    .mlz-kmap__tag { position: absolute; bottom: 0.8rem; right: 0.9rem; z-index: 5; color: var(--mlz-brass-2); font-size: 0.56rem; }
+
+    .mlz-kcard--times { display: flex; gap: 1.5rem; }
+    .mlz-ktime { display: flex; flex-direction: column; gap: 0.3rem; }
+    .mlz-ktime span { color: var(--mlz-ink-soft); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; }
+    .mlz-ktime strong { font-family: var(--mlz-ff-display); font-size: 1.4rem; font-weight: 500; }
+
+    /* ARRIVAL */
+    .mlz-arr__grid { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; }
+    .mlz-arr__i { border-top: 1px solid var(--mlz-line-d); padding-top: 1.3rem; }
+    .mlz-arr__n { color: var(--mlz-brass-2); display: block; margin-bottom: 0.9rem; }
+    .mlz-arr__t { font-size: 1.4rem; color: var(--mlz-fog); margin-bottom: 0.6rem; }
+    .mlz-arr__d { color: color-mix(in srgb, var(--mlz-fog) 66%, transparent); font-size: 0.94rem; line-height: 1.55; }
+
+    /* FAQ */
+    .mlz-faq__wrap { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+    .mlz-faq__head h2 { font-size: clamp(2rem, 4vw, 3rem); margin: 1rem 0 1rem; }
+    .mlz-faq__list { border-top: 1px solid var(--mlz-line); }
+    .mlz-faq__i { border-bottom: 1px solid var(--mlz-line); }
+    .mlz-faq__q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; padding: 1.25rem 0; font-family: var(--mlz-ff-display); font-size: 1.25rem; list-style: none; }
+    .mlz-faq__q::-webkit-details-marker { display: none; }
+    .mlz-faq__plus { position: relative; width: 16px; height: 16px; flex-shrink: 0; }
+    .mlz-faq__plus::before, .mlz-faq__plus::after { content: ""; position: absolute; background: var(--mlz-brass); transition: transform 0.3s var(--mlz-ease); }
+    .mlz-faq__plus::before { left: 0; top: 7.5px; width: 16px; height: 1.5px; }
+    .mlz-faq__plus::after { left: 7.5px; top: 0; width: 1.5px; height: 16px; }
+    .mlz-faq__i[open] .mlz-faq__plus::after { transform: scaleY(0); }
+    .mlz-faq__a { color: var(--mlz-ink-soft); line-height: 1.65; padding: 0 0 1.4rem; max-width: 62ch; }
+
+    @media (max-width: 980px) {
+      .mlz-k__grid { grid-template-columns: 1fr; }
+      .mlz-k__side { max-width: 520px; }
+      .mlz-arr__grid { grid-template-columns: 1fr 1fr; gap: 1.6rem 1.4rem; }
+      .mlz-faq__wrap { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .mlz-kform__row2 { grid-template-columns: 1fr; }
+      .mlz-arr__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</Mlha>

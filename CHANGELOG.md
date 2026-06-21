@@ -13,6 +13,70 @@
 
 ---
 
+## 2026-06-21
+
+### Showcase: mark Mlžný Dvůr card as "Připravuje se" (full-image overlay)
+Per request, the Penzion Mlžný Dvůr hub card now reads as upcoming instead of live: added
+`soon: true` to its `multi` entry so it renders through the non-clickable coming-soon branch,
+with a **full-cover overlay** across the whole preview (diagonal-hatch + dark scrim + brass-bordered
+"Připravuje se" chip, `.ux-soonover` / `.ux-prev--over`) rather than the small corner badge. Added a
+bilingual key `demos.soon3` ("Připravuje se" / "In preparation") so the i18n pass shows the exact
+wording (reusing `demos.soon2` would have overwritten it with "Brzy k dispozici"). The demo pages
+themselves are untouched and still reachable directly at `/ukazky/penzion`.
+
+**Touched:** `src/components/Showcase.astro`, `src/i18n/translations.ts`
+
+**Note:** Showcase validated via `@astrojs/compiler` `transform()` — 0 errors. To make the card live
+again later: remove `soon: true` from its entry.
+
+### Added Penzion Mlžný Dvůr — multipage forest-retreat demo (`/ukazky/penzion`)
+New 6-page hospitality demo (3rd multipage demo), with a deliberately distinct identity from
+Studio Luma (warm pastel salon) and Ateliér Hrot (cold gothic tattoo): a dark, misty, slow
+quiet-luxury forest estate on the Šumava. All classes prefixed `mlz-`; own `_layout/`, not the
+Mossven Layout.
+
+- **Identity:** dark-led pine/brass/linen palette (deep pine `#0E1512`, aged brass `#B0894A`,
+  warm linen `#E2D7C0`, muted moss, dark wine accent). Type trio not reused elsewhere:
+  **Cormorant Garamond** (cinematic display serif), **Hanken Grotesk** (calm body),
+  **Martian Mono** (ledger/utility: prices, coordinates, room codes). Small radii (stone/wood),
+  page-wide film-grain/mist overlay, slow contour drift, IntersectionObserver reveals,
+  scroll-aware header, mobile menu, reduced-motion guards.
+- **Signature motif (mist map + key ledger):** `_layout/Vrstevnice.astro` = drifting SVG
+  topographic contour lines (hero/divider/frame/panel variants) threaded through the site;
+  rooms carry brass **key tags (No. I–IV)**, coordinates, and guest-book "estate record" rows
+  with dotted leaders. This is the memorable through-line per Jacob's stated preference.
+- **Images:** no photo assets available, so scenes are art-directed CSS "fog frame" placeholders
+  (`.mlz-scene--forest/room/candle/sauna/breakfast/stone/path/night/water/reading/deepforest`),
+  each a layered gradient mood. A real photo can be dropped in per-element via `--photo`
+  (`style="--photo:url(...)"`) with no markup change — `.mlz-scene::after` overlays it.
+- **Pages:** `index` (cinematic dark hero with integrated **booking ledger strip** — příjezd/
+  odjezd/hosté/pokoj/Ověřit termín — estate thesis + record, 4-room key preview, 4 seasons,
+  experiences preview, guest-book testimonials, candlelit CTA), `ubytovani` (4 room types as
+  alternating full-width ledger entries: Mlžná borovice / Apartmá Tiché údolí / Kamenný pramen /
+  Lesní loft — specs w/ dot leaders, amenity chips, price block, dual CTA; + "v ceně" band),
+  `ubytovani/apartma-tiche-udoli` (full detail: gallery, story, specs, amenities, included,
+  **tichá pravidla**, sticky booking card w/ price block, nearby výhledy, related rooms),
+  `zazitky` (editorial alternating features + "jeden den ve Dvoře" timeline ledger + grid +
+  CTA), `galerie` (JS-filtered editorial mosaic with varied tile spans, categories Vše/Pokoje/
+  Snídaně/Wellness/Les/Detaily + counts), `kontakt` (guest-ledger reservation form w/ demo
+  success state, recepce/adresa cards, SVG location mapka, check-in/out, arrival instructions,
+  FAQ `<details>`). Nav: Úvod/Ubytování/Zážitky/Galerie/Kontakt + persistent "Rezervovat pobyt".
+- Wired the **Showcase** "Penzion & retreat — Mlžný Dvůr" card live into the multi-page grid
+  (changed `ux-grid--2` → `ux-grid` for 3-up; added on-brand `.ux-prev--mist` gradient preview
+  since the card has no hero photo; demos.6* i18n keys use Czech fallbacks, missing keys are safe).
+
+**Touched:** `src/pages/ukazky/penzion/**` (new: `_layout/Mlha.astro`, `_layout/Vrstevnice.astro`,
+`index.astro`, `ubytovani.astro`, `ubytovani/apartma-tiche-udoli.astro`, `zazitky.astro`,
+`galerie.astro`, `kontakt.astro`), `src/components/Showcase.astro`
+
+**Note:** Large `.astro` files written to `outputs/` then `cp`-ed into the mount (file-tool
+~24 KB truncation workaround). Validated all 8 new files + edited Showcase via `@astrojs/compiler`
+`transform()` — 0 errors, no NUL bytes. All internal routes confirmed to resolve (no broken
+links); all pages end with `</Mlha>`. All imagery is CSS/SVG (no external photo assets needed);
+prices/contact/coordinates are fictional and marked as demo. Full `astro build` still can't run in
+the sandbox (missing rollup linux binary — same long-standing platform issue). Confirm visually
+with `npm run dev` on Windows.
+
 ## 2026-06-20
 
 ### Ateliér Hrot — gothic mood shift (cold blackwork-editorial, layout-level retune)

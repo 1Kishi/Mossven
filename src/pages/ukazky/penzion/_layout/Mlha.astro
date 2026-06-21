@@ -1,0 +1,613 @@
+---
+// Sdílený layout pro ukázkový (demo) vícestránkový web fiktivního
+// lesního penzionu „Penzion Mlžný Dvůr" (Šumava / jižní Čechy).
+// Samostatná identita - nepoužívá Mossven Layout. Všechny třídy mají
+// prefix `mlz-`, aby nedošlo ke konfliktu s globálními styly Mossven webu.
+// Soubor je ve složce s podtržítkem (_layout), takže ho Astro nebere jako routu.
+//
+// Signaturní motiv: „mlžná mapa" (vrstevnice) + „klíčový rejstřík" (mosazné
+// klíče, souřadnice, estate-record řádky). Viz Vrstevnice.astro.
+//
+// OBRÁZKY: scény (.mlz-scene--*) jsou atmosférické CSS placeholdery. Skutečnou
+// fotku lze vložit bez zásahu do markupu přes inline proměnnou, např.:
+//   <div class="mlz-scene mlz-scene--forest" style="--photo:url(/cesta.jpg)"></div>
+// Fotka se navrství nad gradient (viz .mlz-scene::after níže).
+
+interface Props {
+  title: string;
+  description: string;
+  active: "uvod" | "ubytovani" | "zazitky" | "galerie" | "kontakt";
+}
+const { title, description, active } = Astro.props;
+
+const base = "/ukazky/penzion";
+const nav = [
+  { key: "uvod", label: "Úvod", href: `${base}` },
+  { key: "ubytovani", label: "Ubytování", href: `${base}/ubytovani` },
+  { key: "zazitky", label: "Zážitky", href: `${base}/zazitky` },
+  { key: "galerie", label: "Galerie", href: `${base}/galerie` },
+  { key: "kontakt", label: "Kontakt", href: `${base}/kontakt` },
+];
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Martian+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="mlz-body">
+    <a class="mlz-skip" href="#mlz-main">Přeskočit na obsah</a>
+
+    <!-- jemná zrnitá vrstva přes celou stránku (mlha / film grain) -->
+    <div class="mlz-grain" aria-hidden="true"></div>
+
+    <header class="mlz-nav" id="mlz-top">
+      <div class="mlz-wrap mlz-nav__inner">
+        <a class="mlz-brand" href={base} aria-label="Penzion Mlžný Dvůr: úvod">
+          <span class="mlz-brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" width="38" height="38" fill="none">
+              <!-- mosazný klíč jako značka penzionu -->
+              <circle cx="14" cy="16" r="7.5" stroke="var(--mlz-brass)" stroke-width="2.2" />
+              <circle cx="14" cy="16" r="2.6" fill="var(--mlz-brass)" />
+              <path d="M19 21 L31 33" stroke="var(--mlz-brass)" stroke-width="2.2" stroke-linecap="round" />
+              <path d="M27 29 l3.4 -3.4 M30 32 l3.2 -3.2" stroke="var(--mlz-brass)" stroke-width="2.2" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="mlz-brand__txt">
+            <span class="mlz-brand__name">Mlžný&nbsp;Dvůr</span>
+            <span class="mlz-brand__sub">Penzion · Šumava</span>
+          </span>
+        </a>
+
+        <nav class="mlz-nav__links" aria-label="Hlavní navigace">
+          {nav.map((n) => (
+            <a
+              href={n.href}
+              class:list={["mlz-nav__link", { "is-active": active === n.key }]}
+              aria-current={active === n.key ? "page" : undefined}
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+
+        <a class="mlz-btn mlz-btn--brass mlz-nav__cta" href={`${base}/kontakt`}>Rezervovat pobyt</a>
+
+        <button class="mlz-burger" type="button" aria-expanded="false" aria-controls="mlz-mobile" aria-label="Otevřít menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <div class="mlz-mobile" id="mlz-mobile" hidden>
+        <nav class="mlz-mobile__nav" aria-label="Mobilní navigace">
+          {nav.map((n) => (
+            <a
+              href={n.href}
+              class:list={["mlz-mobile__link", { "is-active": active === n.key }]}
+              aria-current={active === n.key ? "page" : undefined}
+            >
+              <span class="mlz-mobile__idx">0{nav.indexOf(n) + 1}</span>
+              {n.label}
+            </a>
+          ))}
+          <a class="mlz-btn mlz-btn--brass mlz-mobile__cta" href={`${base}/kontakt`}>Rezervovat pobyt</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="mlz-main">
+      <slot />
+    </main>
+
+    <footer class="mlz-foot">
+      <div class="mlz-wrap">
+        <div class="mlz-foot__top">
+          <div class="mlz-foot__brand">
+            <span class="mlz-foot__name">Penzion Mlžný Dvůr</span>
+            <p class="mlz-foot__tag">
+              Obnovený lesní statek na kraji šumavských hvozdů. Sedm pokojů,
+              ticho, kamenná zeď a ranní mlha nad loukou.
+            </p>
+            <p class="mlz-coord mlz-foot__coord">49.0382° N&nbsp;&nbsp;13.5471° E · 1080&nbsp;m&nbsp;n.&nbsp;m.</p>
+          </div>
+
+          <nav class="mlz-foot__col" aria-label="Navigace v patičce">
+            <span class="mlz-foot__h mlz-coord">Rozcestník</span>
+            {nav.map((n) => (
+              <a href={n.href} class="mlz-foot__link">{n.label}</a>
+            ))}
+            <a href={`${base}/ubytovani/apartma-tiche-udoli`} class="mlz-foot__link">Apartmá Tiché údolí</a>
+          </nav>
+
+          <div class="mlz-foot__col">
+            <span class="mlz-foot__h mlz-coord">Recepce</span>
+            <a href="tel:+420388112900" class="mlz-foot__link">+420 388 112 900</a>
+            <a href="mailto:recepce@mlznydvur.cz" class="mlz-foot__link">recepce@mlznydvur.cz</a>
+            <p class="mlz-foot__line">Mlžný Dvůr 1, Kvilda 384&nbsp;93</p>
+            <p class="mlz-foot__line mlz-foot__line--soft">Check-in 15:00 · Check-out 11:00</p>
+          </div>
+
+          <div class="mlz-foot__col mlz-foot__col--note">
+            <span class="mlz-foot__h mlz-coord">Sezóna</span>
+            <p class="mlz-foot__line">Otevřeno celoročně.</p>
+            <p class="mlz-foot__line mlz-foot__line--soft">
+              V zimě jezdíme pro hosty z parkoviště u kostela rolbou.
+            </p>
+          </div>
+        </div>
+
+        <div class="mlz-foot__bottom">
+          <p class="mlz-foot__demo mlz-coord">
+            Demo web vytvořený jako ukázka řešení od <a href="/" class="mlz-foot__mossven">Mossven</a>.
+          </p>
+          <p class="mlz-foot__year mlz-coord">© <span id="mlz-yr"></span> Mlžný Dvůr — ukázka</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Rok do patičky
+      const yr = document.getElementById("mlz-yr");
+      if (yr) yr.textContent = String(new Date().getFullYear());
+
+      // Mobilní menu
+      const burger = document.querySelector(".mlz-burger");
+      const mobile = document.getElementById("mlz-mobile");
+      if (burger && mobile) {
+        burger.addEventListener("click", () => {
+          const open = burger.getAttribute("aria-expanded") === "true";
+          burger.setAttribute("aria-expanded", String(!open));
+          burger.classList.toggle("is-open", !open);
+          (mobile as HTMLElement).hidden = open;
+        });
+      }
+
+      // Změna headeru po odscrollování (jemné ztmavení / kompaktnost)
+      const header = document.querySelector(".mlz-nav");
+      const onScroll = () => {
+        if (!header) return;
+        header.classList.toggle("is-scrolled", window.scrollY > 24);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      // Scroll-reveal (respektuje prefers-reduced-motion)
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reveals = document.querySelectorAll<HTMLElement>(".mlz-reveal");
+      if (reduce || !("IntersectionObserver" in window)) {
+        reveals.forEach((el) => el.classList.add("is-in"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                (e.target as HTMLElement).classList.add("is-in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+
+      // Načtení stránky
+      requestAnimationFrame(() => document.body.classList.add("mlz-ready"));
+    </script>
+
+    <style is:global>
+      /* ============ RESET ============ */
+      .mlz-body *, .mlz-body *::before, .mlz-body *::after { box-sizing: border-box; }
+      .mlz-body { margin: 0; }
+
+      /* ============ TOKENY ============ */
+      :root {
+        --mlz-pine: #0E1512;        /* hluboká borová čerň-zeleň */
+        --mlz-pine-2: #16201A;      /* tmavý les */
+        --mlz-pine-3: #1E2A23;      /* panel na tmavém */
+        --mlz-stone: #5A615C;       /* mokrý kámen */
+        --mlz-stone-2: #80857E;     /* světlejší kámen */
+        --mlz-fog: #ECEDE6;         /* mlžná běl */
+        --mlz-fog-2: #E3E2D8;       /* mlha s tělem */
+        --mlz-linen: #E2D7C0;       /* teplé plátno */
+        --mlz-linen-2: #D6C8AC;
+        --mlz-brass: #B0894A;       /* stará mosaz */
+        --mlz-brass-2: #C6A263;     /* světlá mosaz (hover) */
+        --mlz-moss: #6E7A57;        /* tlumený mech */
+        --mlz-wine: #6E2F33;        /* tmavé víno (vzácný akcent) */
+
+        --mlz-ink: #141914;         /* text na světlém */
+        --mlz-ink-soft: #4C534B;
+        --mlz-paper: #EFEDE3;       /* světlé pozadí (plátno+mlha) */
+        --mlz-paper-2: #E7E3D6;
+        --mlz-card: #F6F4EC;
+
+        --mlz-line: rgba(20, 25, 20, 0.14);
+        --mlz-line-soft: rgba(20, 25, 20, 0.08);
+        --mlz-line-d: rgba(236, 237, 230, 0.16);
+        --mlz-line-d-soft: rgba(236, 237, 230, 0.09);
+
+        --mlz-shadow: 0 40px 90px -50px rgba(8, 14, 10, 0.7);
+        --mlz-shadow-sm: 0 18px 44px -28px rgba(8, 14, 10, 0.55);
+
+        --mlz-ff-display: "Cormorant Garamond", "Hoefler Text", Georgia, serif;
+        --mlz-ff-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+        --mlz-ff-mono: "Martian Mono", ui-monospace, "SFMono-Regular", monospace;
+
+        --mlz-maxw: 1200px;
+        --mlz-r: 4px;             /* statek = málo zaoblení, kámen a dřevo */
+        --mlz-r-lg: 8px;
+        --mlz-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+        --mlz-ease-slow: cubic-bezier(0.16, 0.84, 0.34, 1);
+      }
+
+      .mlz-body {
+        font-family: var(--mlz-ff-body);
+        color: var(--mlz-ink);
+        background: var(--mlz-paper);
+        line-height: 1.62;
+        font-size: 17px;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        overflow-x: hidden;
+      }
+
+      .mlz-wrap { width: min(var(--mlz-maxw), 92vw); margin-inline: auto; }
+      .mlz-wrap--narrow { width: min(880px, 92vw); margin-inline: auto; }
+
+      /* film grain / mlžná textura */
+      .mlz-grain {
+        position: fixed; inset: 0; z-index: 1; pointer-events: none;
+        opacity: 0.5; mix-blend-mode: soft-light;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+      }
+
+      /* ============ TYPOGRAFIE ============ */
+      .mlz-body h1, .mlz-body h2, .mlz-body h3, .mlz-body h4 {
+        font-family: var(--mlz-ff-display);
+        font-weight: 500;
+        line-height: 1.02;
+        margin: 0;
+        letter-spacing: -0.005em;
+      }
+      .mlz-body p { margin: 0; }
+
+      /* štítek sekce — laděný jako rejstříkový popisek */
+      .mlz-label {
+        display: inline-flex; align-items: center; gap: 0.7em;
+        font-family: var(--mlz-ff-mono);
+        font-size: 0.66rem; font-weight: 500;
+        letter-spacing: 0.26em; text-transform: uppercase;
+        color: var(--mlz-brass);
+      }
+      .mlz-label::before {
+        content: ""; width: 26px; height: 1px; background: var(--mlz-brass); opacity: 0.7;
+      }
+      .mlz-label--center { justify-content: center; }
+      .mlz-label--plain::before { display: none; }
+
+      .mlz-coord {
+        font-family: var(--mlz-ff-mono);
+        font-size: 0.72rem; letter-spacing: 0.08em;
+        font-weight: 400;
+      }
+
+      .mlz-display {
+        font-size: clamp(2.6rem, 6.4vw, 5.4rem);
+        font-weight: 500; line-height: 0.98; letter-spacing: -0.012em;
+      }
+      .mlz-display em { font-style: italic; font-weight: 400; color: var(--mlz-brass); }
+
+      .mlz-lede {
+        font-size: 1.18rem; color: var(--mlz-ink-soft); max-width: 56ch;
+        line-height: 1.66;
+      }
+
+      a { color: inherit; }
+
+      /* ============ TLAČÍTKA ============ */
+      .mlz-btn {
+        display: inline-flex; align-items: center; gap: 0.6em;
+        font-family: var(--mlz-ff-body); font-weight: 600; font-size: 0.92rem;
+        letter-spacing: 0.01em;
+        padding: 0.92em 1.6em; border-radius: var(--mlz-r);
+        border: 1px solid transparent; text-decoration: none; cursor: pointer;
+        line-height: 1; position: relative; overflow: hidden;
+        transition: transform 0.3s var(--mlz-ease), background 0.3s var(--mlz-ease),
+          color 0.3s var(--mlz-ease), border-color 0.3s var(--mlz-ease), box-shadow 0.3s var(--mlz-ease);
+      }
+      .mlz-btn__a { transition: transform 0.3s var(--mlz-ease); }
+      .mlz-btn:hover .mlz-btn__a { transform: translateX(4px); }
+
+      .mlz-btn--brass { background: var(--mlz-brass); color: #1A130A; border-color: var(--mlz-brass); }
+      .mlz-btn--brass:hover { background: var(--mlz-brass-2); border-color: var(--mlz-brass-2); transform: translateY(-2px); box-shadow: 0 16px 34px -18px rgba(176, 137, 74, 0.7); }
+
+      .mlz-btn--line { background: transparent; color: var(--mlz-ink); border-color: var(--mlz-line); }
+      .mlz-btn--line:hover { border-color: var(--mlz-ink); transform: translateY(-2px); }
+
+      /* na tmavém pozadí */
+      .mlz-btn--ghost-d { background: transparent; color: var(--mlz-fog); border-color: var(--mlz-line-d); }
+      .mlz-btn--ghost-d:hover { border-color: var(--mlz-brass); color: var(--mlz-brass-2); transform: translateY(-2px); }
+
+      /* ============ SKIP LINK ============ */
+      .mlz-skip {
+        position: absolute; left: 12px; top: -60px; z-index: 200;
+        background: var(--mlz-pine); color: var(--mlz-fog);
+        padding: 0.6em 1em; border-radius: var(--mlz-r); text-decoration: none;
+        transition: top 0.2s var(--mlz-ease);
+      }
+      .mlz-skip:focus { top: 12px; }
+
+      /* ============ NAVIGACE ============ */
+      .mlz-nav {
+        position: sticky; top: 0; z-index: 100;
+        background: color-mix(in srgb, var(--mlz-paper) 80%, transparent);
+        backdrop-filter: blur(14px) saturate(1.1);
+        border-bottom: 1px solid transparent;
+        transition: background 0.4s var(--mlz-ease), border-color 0.4s var(--mlz-ease);
+      }
+      .mlz-nav.is-scrolled {
+        background: color-mix(in srgb, var(--mlz-paper) 92%, transparent);
+        border-bottom-color: var(--mlz-line-soft);
+      }
+      .mlz-nav__inner { display: flex; align-items: center; gap: 1.4rem; height: 80px; }
+
+      .mlz-brand { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--mlz-ink); }
+      .mlz-brand__mark { display: inline-flex; transition: transform 0.5s var(--mlz-ease-slow); }
+      .mlz-brand:hover .mlz-brand__mark { transform: rotate(-18deg); }
+      .mlz-brand__txt { display: flex; flex-direction: column; line-height: 1; }
+      .mlz-brand__name { font-family: var(--mlz-ff-display); font-weight: 600; font-size: 1.42rem; letter-spacing: 0; }
+      .mlz-brand__sub { font-family: var(--mlz-ff-mono); font-size: 0.56rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--mlz-ink-soft); margin-top: 0.4em; }
+
+      .mlz-nav__links { display: flex; gap: 0.2rem; margin-left: auto; }
+      .mlz-nav__link {
+        text-decoration: none; color: var(--mlz-ink-soft); font-weight: 500; font-size: 0.96rem;
+        padding: 0.5em 0.85em; position: relative;
+        transition: color 0.25s var(--mlz-ease);
+      }
+      .mlz-nav__link::after {
+        content: ""; position: absolute; left: 0.85em; right: 0.85em; bottom: 0.34em; height: 1.5px;
+        background: var(--mlz-brass); transform: scaleX(0); transform-origin: left; opacity: 0;
+        transition: transform 0.35s var(--mlz-ease), opacity 0.35s var(--mlz-ease);
+      }
+      .mlz-nav__link:hover { color: var(--mlz-ink); }
+      .mlz-nav__link:hover::after { transform: scaleX(1); opacity: 0.55; }
+      .mlz-nav__link.is-active { color: var(--mlz-ink); }
+      .mlz-nav__link.is-active::after { transform: scaleX(1); opacity: 1; }
+
+      .mlz-nav__cta { margin-left: 0.8rem; padding: 0.74em 1.25em; }
+
+      .mlz-burger {
+        display: none; margin-left: auto; width: 46px; height: 46px;
+        background: transparent; border: 1px solid var(--mlz-line); border-radius: var(--mlz-r);
+        cursor: pointer; padding: 0; flex-direction: column; gap: 5px; align-items: center; justify-content: center;
+      }
+      .mlz-burger span { width: 20px; height: 1.5px; background: var(--mlz-ink); transition: transform 0.28s var(--mlz-ease), opacity 0.2s var(--mlz-ease); }
+      .mlz-burger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+      .mlz-burger.is-open span:nth-child(2) { opacity: 0; }
+      .mlz-burger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+      .mlz-mobile { border-top: 1px solid var(--mlz-line-soft); background: var(--mlz-paper); }
+      .mlz-mobile__nav { display: flex; flex-direction: column; padding: 0.8rem 4vw 1.6rem; gap: 0.1rem; }
+      .mlz-mobile__link {
+        display: flex; align-items: baseline; gap: 0.9rem;
+        text-decoration: none; color: var(--mlz-ink); font-family: var(--mlz-ff-display); font-weight: 500; font-size: 1.7rem;
+        padding: 0.6em 0.4em; border-bottom: 1px solid var(--mlz-line-soft);
+      }
+      .mlz-mobile__idx { font-family: var(--mlz-ff-mono); font-size: 0.6rem; color: var(--mlz-brass); letter-spacing: 0.1em; }
+      .mlz-mobile__link.is-active { color: var(--mlz-brass); }
+      .mlz-mobile__cta { margin-top: 1rem; justify-content: center; font-size: 0.95rem; }
+
+      /* ============ SCÉNY / OBRÁZKOVÉ PLACEHOLDERY ============ */
+      /* Atmosférické gradientové „okno do lesa". Skutečnou fotku lze vložit přes
+         --photo (navrství se nahoře). Každá scéna má vlastní náladu. */
+      .mlz-scene {
+        position: relative; overflow: hidden; isolation: isolate;
+        background-color: var(--mlz-pine-2);
+        background-position: center; background-size: cover;
+      }
+      .mlz-scene::after {
+        content: ""; position: absolute; inset: 0; z-index: 2;
+        background-image: var(--photo, none);
+        background-size: cover; background-position: center;
+      }
+      /* jemná mlžná clona dole pro čitelnost popisků */
+      .mlz-scene__veil {
+        position: absolute; inset: 0; z-index: 3;
+        background: linear-gradient(to top, rgba(10,16,12,0.78) 0%, rgba(10,16,12,0.18) 42%, transparent 70%);
+        pointer-events: none;
+      }
+      .mlz-scene__cap {
+        position: absolute; left: 0; bottom: 0; z-index: 4;
+        padding: 1.1rem 1.3rem; color: var(--mlz-fog);
+      }
+      .mlz-scene__cap .mlz-coord { color: color-mix(in srgb, var(--mlz-fog) 80%, transparent); }
+
+      .mlz-scene--forest {
+        background-image:
+          radial-gradient(120% 80% at 50% 120%, rgba(8,13,10,0.9), transparent 60%),
+          radial-gradient(80% 60% at 70% 10%, rgba(176,137,74,0.10), transparent 60%),
+          linear-gradient(170deg, #2A352B 0%, #1B241D 40%, #0E1512 100%);
+      }
+      .mlz-scene--deepforest {
+        background-image:
+          radial-gradient(100% 70% at 30% 0%, rgba(120,140,110,0.16), transparent 55%),
+          linear-gradient(180deg, #20302600 0%, #16201A 60%, #0B100D 100%),
+          linear-gradient(110deg, #243029, #0E1512);
+      }
+      .mlz-scene--room {
+        background-image:
+          radial-gradient(90% 70% at 78% 18%, rgba(214,200,172,0.5), transparent 55%),
+          radial-gradient(70% 80% at 12% 90%, rgba(110,47,51,0.16), transparent 60%),
+          linear-gradient(160deg, #3A352B 0%, #2A2620 45%, #1A1714 100%);
+      }
+      .mlz-scene--linen {
+        background-image:
+          radial-gradient(100% 80% at 30% 10%, rgba(236,237,230,0.7), transparent 60%),
+          linear-gradient(160deg, #E2D7C0 0%, #D2C4A6 60%, #B9A983 100%);
+      }
+      .mlz-scene--candle {
+        background-image:
+          radial-gradient(60% 50% at 64% 60%, rgba(214,160,80,0.55), transparent 60%),
+          radial-gradient(50% 60% at 30% 30%, rgba(110,47,51,0.3), transparent 60%),
+          linear-gradient(150deg, #241A12 0%, #181009 60%, #0E0905 100%);
+      }
+      .mlz-scene--sauna {
+        background-image:
+          radial-gradient(70% 60% at 60% 70%, rgba(176,137,74,0.4), transparent 60%),
+          linear-gradient(160deg, #4A372192 0%, #2C2014 50%, #170F08 100%),
+          linear-gradient(120deg, #3A2A18, #140D06);
+      }
+      .mlz-scene--breakfast {
+        background-image:
+          radial-gradient(80% 70% at 24% 16%, rgba(236,237,230,0.66), transparent 58%),
+          radial-gradient(50% 50% at 84% 80%, rgba(176,137,74,0.22), transparent 60%),
+          linear-gradient(155deg, #E7E0CE 0%, #D3C6A8 55%, #A99B74 100%);
+      }
+      .mlz-scene--stone {
+        background-image:
+          radial-gradient(90% 70% at 20% 12%, rgba(176,137,74,0.14), transparent 55%),
+          linear-gradient(160deg, #6A6F67 0%, #4C524C 45%, #2E332E 100%);
+      }
+      .mlz-scene--path {
+        background-image:
+          radial-gradient(120% 90% at 50% 120%, rgba(8,13,10,0.85), transparent 55%),
+          radial-gradient(60% 50% at 50% 6%, rgba(214,210,190,0.32), transparent 55%),
+          linear-gradient(180deg, #38463A 0%, #243029 45%, #10160F 100%);
+      }
+      .mlz-scene--night {
+        background-image:
+          radial-gradient(50% 40% at 78% 22%, rgba(214,210,190,0.4), transparent 55%),
+          radial-gradient(120% 80% at 50% 120%, rgba(6,10,16,0.9), transparent 55%),
+          linear-gradient(180deg, #1A2330 0%, #121A26 50%, #080C12 100%);
+      }
+      .mlz-scene--water {
+        background-image:
+          radial-gradient(80% 60% at 60% 16%, rgba(150,170,160,0.34), transparent 55%),
+          linear-gradient(180deg, #34423B 0%, #1E2A26 55%, #0C1310 100%);
+      }
+      .mlz-scene--reading {
+        background-image:
+          radial-gradient(70% 60% at 70% 30%, rgba(214,170,96,0.34), transparent 58%),
+          linear-gradient(155deg, #2E251A 0%, #20180F 55%, #120C07 100%);
+      }
+
+      /* ============ SIGNATURNÍ VRSTEVNICE (mlžná mapa) ============ */
+      .mlz-vrst { display: block; }
+      .mlz-vrst path { fill: none; stroke: var(--mlz-brass); stroke-width: 1; vector-effect: non-scaling-stroke; }
+      .mlz-vrst--hero { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; opacity: 0.22; }
+      .mlz-vrst--hero path { stroke: var(--mlz-fog); stroke-width: 1; }
+      .mlz-vrst--divider { width: 100%; height: clamp(60px, 8vw, 110px); }
+      .mlz-vrst--divider path { stroke: var(--mlz-brass); opacity: 0.5; }
+      .mlz-vrst--frame { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; opacity: 0.16; }
+      .mlz-vrst--frame path { stroke: var(--mlz-fog); }
+      .mlz-vrst--panel { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.5; }
+      .mlz-vrst--panel path { stroke: var(--mlz-brass); opacity: 0.4; }
+
+      .mlz-vrst__drift { animation: mlz-drift 26s ease-in-out infinite alternate; transform-origin: center; }
+      @keyframes mlz-drift {
+        0%   { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-2.4%, -1.4%, 0); }
+      }
+
+      /* ============ OBECNÉ SEKCE ============ */
+      .mlz-section { padding: clamp(4.5rem, 9vw, 8rem) 0; position: relative; }
+      .mlz-section--dark { background: var(--mlz-pine); color: var(--mlz-fog); }
+      .mlz-section--pine2 { background: var(--mlz-pine-2); color: var(--mlz-fog); }
+      .mlz-section--linen { background: var(--mlz-paper-2); }
+      .mlz-section--tight { padding: clamp(3rem, 6vw, 5rem) 0; }
+
+      .mlz-section--dark .mlz-lede, .mlz-section--pine2 .mlz-lede { color: color-mix(in srgb, var(--mlz-fog) 74%, transparent); }
+      .mlz-section--dark h1, .mlz-section--dark h2, .mlz-section--dark h3,
+      .mlz-section--pine2 h1, .mlz-section--pine2 h2, .mlz-section--pine2 h3 { color: var(--mlz-fog); }
+
+      .mlz-sec-head { max-width: 60ch; }
+      .mlz-sec-head h2 { font-size: clamp(2rem, 4.4vw, 3.4rem); margin-top: 1.1rem; }
+      .mlz-sec-head p { margin-top: 1.1rem; }
+
+      /* ============ SDÍLENÁ HLAVIČKA STRÁNKY ============ */
+      .mlz-phead {
+        position: relative; padding: clamp(7rem, 13vw, 11rem) 0 clamp(3rem, 6vw, 5rem);
+        background: var(--mlz-pine); color: var(--mlz-fog); overflow: hidden;
+      }
+      .mlz-phead__scene { position: absolute; inset: 0; z-index: 0; opacity: 0.5; }
+      .mlz-phead__scene::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, var(--mlz-pine), transparent 60%); z-index: 5; }
+      .mlz-phead__inner { position: relative; z-index: 6; max-width: 64ch; }
+      .mlz-phead h1 { font-size: clamp(2.8rem, 7vw, 5.6rem); }
+      .mlz-phead__sub { margin-top: 1.4rem; font-size: 1.18rem; color: color-mix(in srgb, var(--mlz-fog) 78%, transparent); max-width: 54ch; }
+      .mlz-phead__meta { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-top: 2rem; }
+      .mlz-phead__meta .mlz-coord { color: color-mix(in srgb, var(--mlz-fog) 64%, transparent); }
+      .mlz-crumb { color: color-mix(in srgb, var(--mlz-fog) 60%, transparent); margin-bottom: 1.4rem; }
+      .mlz-crumb a { color: var(--mlz-brass); text-decoration: none; }
+      .mlz-crumb a:hover { text-decoration: underline; }
+
+      /* ============ PATIČKA ============ */
+      .mlz-foot { background: var(--mlz-pine); color: var(--mlz-fog); position: relative; z-index: 2; border-top: 1px solid var(--mlz-line-d-soft); }
+      .mlz-foot__top {
+        display: grid; grid-template-columns: 1.7fr 1fr 1fr 1fr; gap: 2.4rem;
+        padding: clamp(3.5rem, 7vw, 5.5rem) 0 2.6rem;
+      }
+      .mlz-foot__name { font-family: var(--mlz-ff-display); font-weight: 600; font-size: 1.7rem; color: var(--mlz-fog); }
+      .mlz-foot__tag { color: color-mix(in srgb, var(--mlz-fog) 66%, transparent); max-width: 38ch; margin: 0.9rem 0 0; font-size: 0.98rem; }
+      .mlz-foot__coord { color: color-mix(in srgb, var(--mlz-fog) 50%, transparent); margin-top: 1.2rem; }
+      .mlz-foot__col { display: flex; flex-direction: column; gap: 0.5rem; }
+      .mlz-foot__h { color: var(--mlz-brass); margin-bottom: 0.4rem; }
+      .mlz-foot__link { color: color-mix(in srgb, var(--mlz-fog) 76%, transparent); text-decoration: none; width: fit-content; transition: color 0.2s var(--mlz-ease); }
+      .mlz-foot__link:hover { color: var(--mlz-brass-2); }
+      .mlz-foot__line { color: color-mix(in srgb, var(--mlz-fog) 70%, transparent); margin: 0; font-size: 0.96rem; }
+      .mlz-foot__line--soft { color: color-mix(in srgb, var(--mlz-fog) 50%, transparent); font-size: 0.9rem; }
+      .mlz-foot__bottom {
+        display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; justify-content: space-between;
+        padding: 1.5rem 0 2.2rem; border-top: 1px solid var(--mlz-line-d-soft);
+        color: color-mix(in srgb, var(--mlz-fog) 50%, transparent);
+      }
+      .mlz-foot__demo, .mlz-foot__year { margin: 0; font-size: 0.66rem; letter-spacing: 0.1em; }
+      .mlz-foot__mossven { color: var(--mlz-brass-2); font-weight: 600; text-decoration: none; }
+      .mlz-foot__mossven:hover { text-decoration: underline; }
+
+      /* ============ FOCUS ============ */
+      .mlz-body a:focus-visible, .mlz-body button:focus-visible,
+      .mlz-body input:focus-visible, .mlz-body textarea:focus-visible, .mlz-body select:focus-visible {
+        outline: 2.5px solid var(--mlz-brass); outline-offset: 3px; border-radius: 3px;
+      }
+
+      /* ============ SCROLL REVEAL ============ */
+      .mlz-reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.9s var(--mlz-ease-slow), transform 0.9s var(--mlz-ease-slow); }
+      .mlz-reveal.is-in { opacity: 1; transform: none; }
+      .mlz-reveal[data-d="1"] { transition-delay: 0.08s; }
+      .mlz-reveal[data-d="2"] { transition-delay: 0.16s; }
+      .mlz-reveal[data-d="3"] { transition-delay: 0.24s; }
+      .mlz-reveal[data-d="4"] { transition-delay: 0.32s; }
+      .mlz-reveal[data-d="5"] { transition-delay: 0.40s; }
+
+      /* ============ RESPONZIVITA ============ */
+      @media (max-width: 980px) {
+        .mlz-nav__links, .mlz-nav__cta { display: none; }
+        .mlz-burger { display: flex; }
+        .mlz-foot__top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .mlz-foot__brand { grid-column: 1 / -1; }
+      }
+      @media (max-width: 560px) {
+        .mlz-body { font-size: 16px; }
+        .mlz-foot__top { grid-template-columns: 1fr; gap: 1.6rem; }
+      }
+
+      /* ============ REDUCED MOTION ============ */
+      @media (prefers-reduced-motion: reduce) {
+        .mlz-body * { animation: none !important; transition-duration: 0.001ms !important; }
+        .mlz-reveal { opacity: 1 !important; transform: none !important; }
+        .mlz-vrst__drift { animation: none !important; }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,380 @@
+---
+import Mlha from "../_layout/Mlha.astro";
+import Vrstevnice from "../_layout/Vrstevnice.astro";
+
+const base = "/ukazky/penzion";
+
+const gallery = [
+  { scene: "candle", cap: "Obývací část s litinovými kamny" },
+  { scene: "room", cap: "Ložnice za dřevěnou stěnou" },
+  { scene: "stone", cap: "Koupelna s vanou i sprchou" },
+  { scene: "path", cap: "Vlastní vstup na terasu k potoku" },
+];
+
+const specs = [
+  ["Kapacita", "2–3 hosté"],
+  ["Lůžko", "King 200 cm + rozkládací pohovka"],
+  ["Plocha", "46 m² · dvě místnosti"],
+  ["Patro", "Přízemí, vlastní vstup"],
+  ["Vytápění", "Litinová kamna + podlahové"],
+  ["Výhled", "Potok a smrkový les"],
+];
+
+const amenities = [
+  "Litinová kamna na dřevo (dřevo připravené)",
+  "Kuchyňský kout s varnou deskou a lednicí",
+  "Volně stojící vana a samostatný sprchový kout",
+  "Vlastní terasa a kus zahrady k potoku",
+  "Lněné povlečení a ručníky, župany",
+  "Rychlá wifi a pracovní stůl u okna",
+  "Bluetooth gramofon a výběr desek",
+  "Šumavský med, čaj a karafa pramenité vody",
+];
+
+const included = [
+  ["Snídaně", "Domácí, servírovaná do 10:30"],
+  ["Sauna", "Večerní rezervace jen pro vás"],
+  ["Dřevo do kamen", "Doplňujeme každý den"],
+  ["Parkování", "U statku, i nabíječka EV"],
+];
+
+const rules = [
+  "Klid od 22:00 do 8:00 — statek stojí v lese, neozve se ani auto.",
+  "Pobyt bez kouření uvnitř; kouřit lze na terase.",
+  "Domácí mazlíček po domluvě, do apartmá v přízemí ano.",
+  "Bez velkých oslav — Mlžný Dvůr je místo na ztišení, ne na párty.",
+];
+
+const nearby = [
+  { t: "Jezerní slať", code: "2,5 km", d: "Rašeliniště s povalovým chodníkem, nejlepší za ranní mlhy." },
+  { t: "Pramen Vltavy", code: "9 km", d: "Začátek řeky v Kvildských pláních, příjemná půldenní trasa." },
+  { t: "Bučina a Schwarzenberský kanál", code: "12 km", d: "Vyhlídka k Alpám a historický plavební kanál v lese." },
+];
+
+const related = [
+  { key: "I", scene: "room", name: "Pokoj Mlžná borovice", price: "2 900", cap: "2 hosté" },
+  { key: "III", scene: "stone", name: "Pokoj Kamenný pramen", price: "3 200", cap: "2 hosté" },
+  { key: "IV", scene: "deepforest", name: "Lesní loft", price: "5 400", cap: "2–4 hosté" },
+];
+---
+
+<Mlha
+  title="Apartmá Tiché údolí — Penzion Mlžný Dvůr"
+  description="Největší apartmá Mlžného Dvora: dvě místnosti, litinová kamna, vana a vlastní vstup k potoku. Od 4 600 Kč za noc, snídaně a sauna v ceně."
+  active="ubytovani"
+>
+  <!-- HERO GALLERY -->
+  <section class="mlz-rd-hero">
+    <div class="mlz-wrap">
+      <p class="mlz-crumb mlz-coord mlz-rd-crumb">
+        <a href={base}>Úvod</a> &nbsp;/&nbsp; <a href={`${base}/ubytovani`}>Ubytování</a> &nbsp;/&nbsp; Apartmá Tiché údolí
+      </p>
+      <div class="mlz-rd-head mlz-reveal">
+        <div>
+          <span class="mlz-label">Klíč No. II · Nejoblíbenější</span>
+          <h1 class="mlz-rd-title">Apartmá Tiché údolí</h1>
+          <p class="mlz-rd-tagline">Dvě místnosti, kamna na dřevo a okno, za kterým šumí potok.</p>
+        </div>
+        <div class="mlz-rd-coord">
+          <span class="mlz-coord">49.0379° N · 13.5468° E</span>
+          <span class="mlz-coord">46 m² · přízemí</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mlz-wrap mlz-rd-gal mlz-reveal" data-d="1">
+      <figure class="mlz-rd-gal__main mlz-scene mlz-scene--candle">
+        <Vrstevnice variant="frame" />
+        <div class="mlz-scene__veil"></div>
+        <figcaption class="mlz-scene__cap mlz-coord">{gallery[0].cap}</figcaption>
+        <span class="mlz-rd-gal__key mlz-coord" aria-hidden="true">No. II</span>
+      </figure>
+      <div class="mlz-rd-gal__side">
+        {gallery.slice(1).map((g) => (
+          <figure class:list={["mlz-rd-gal__thumb mlz-scene", `mlz-scene--${g.scene}`]}>
+            <div class="mlz-scene__veil"></div>
+            <figcaption class="mlz-scene__cap mlz-coord">{g.cap}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY: story + sticky booking -->
+  <section class="mlz-section mlz-section--linen mlz-rd-body">
+    <div class="mlz-wrap mlz-rd-grid">
+      <div class="mlz-rd-main">
+        <div class="mlz-reveal">
+          <span class="mlz-label">O apartmá</span>
+          <h2 class="mlz-rd-h">Místo, ze kterého se nechce odejít</h2>
+          <p class="mlz-rd-p">
+            Tiché údolí je nejstarší a největší část statku. Kdysi tu byla černá
+            kuchyně a špýchar; dnes je to apartmá o dvou místnostech s vlastním
+            vchodem do zahrady. Obývacímu pokoji vévodí litinová kamna, u kterých
+            se dá prosedět celý večer s knihou a sklenkou.
+          </p>
+          <p class="mlz-rd-p">
+            Ložnice je schovaná za dřevěnou příčkou, takže i když vstanete dřív,
+            druhého nevzbudíte. Koupelna má volně stojící vanu i sprchu. A hlavně:
+            za oknem teče potok, který v noci přehluší všechno ostatní. Většina
+            hostů, kteří tu jednou byli, se vrací sem.
+          </p>
+        </div>
+
+        <div class="mlz-rd-block mlz-reveal">
+          <h3 class="mlz-rd-h3">Prostor a uspořádání</h3>
+          <dl class="mlz-rd-specs">
+            {specs.map((s) => (
+              <div class="mlz-rd-spec">
+                <dt class="mlz-coord">{s[0]}</dt>
+                <span class="mlz-rd-leader" aria-hidden="true"></span>
+                <dd>{s[1]}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div class="mlz-rd-block mlz-reveal">
+          <h3 class="mlz-rd-h3">Vybavení</h3>
+          <ul class="mlz-rd-amen">
+            {amenities.map((a) => (
+              <li class="mlz-rd-amen__i">
+                <span class="mlz-rd-amen__mark" aria-hidden="true">·</span>{a}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mlz-rd-block mlz-reveal">
+          <h3 class="mlz-rd-h3">Co je v ceně</h3>
+          <ul class="mlz-rd-incl">
+            {included.map((it) => (
+              <li class="mlz-rd-incl__i">
+                <span class="mlz-rd-incl__t">{it[0]}</span>
+                <span class="mlz-rd-incl__d mlz-coord">{it[1]}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mlz-rd-block mlz-rd-rules mlz-reveal">
+          <h3 class="mlz-rd-h3">Tichá pravidla</h3>
+          <ul class="mlz-rd-rules__list">
+            {rules.map((r) => <li>{r}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <!-- STICKY BOOKING CARD -->
+      <aside class="mlz-rd-aside">
+        <div class="mlz-rd-book mlz-reveal" data-d="1">
+          <span class="mlz-rd-book__tab mlz-coord">Rezervace · Klíč II</span>
+          <div class="mlz-rd-book__price">
+            <span class="mlz-coord mlz-rd-book__from">od</span>
+            <span class="mlz-rd-book__num">4 600</span>
+            <span class="mlz-coord mlz-rd-book__per">Kč&nbsp;/&nbsp;noc</span>
+          </div>
+          <p class="mlz-rd-book__min mlz-coord">Min. 2 noci · v sezóně mlh 3 noci</p>
+
+          <form class="mlz-rd-book__form" id="mlz-rd-form" aria-label="Rezervovat apartmá">
+            <label class="mlz-rd-book__field">
+              <span class="mlz-coord">Příjezd</span>
+              <input type="date" name="prijezd" required />
+            </label>
+            <label class="mlz-rd-book__field">
+              <span class="mlz-coord">Odjezd</span>
+              <input type="date" name="odjezd" required />
+            </label>
+            <label class="mlz-rd-book__field">
+              <span class="mlz-coord">Hosté</span>
+              <select name="hoste">
+                <option selected>2 hosté</option>
+                <option>3 hosté</option>
+              </select>
+            </label>
+            <button class="mlz-btn mlz-btn--brass mlz-rd-book__go" type="submit">
+              Ověřit termín <span class="mlz-btn__a" aria-hidden="true">→</span>
+            </button>
+          </form>
+          <p class="mlz-rd-book__hint mlz-coord" id="mlz-rd-hint" hidden></p>
+
+          <dl class="mlz-rd-book__rows">
+            <div><dt class="mlz-coord">Snídaně</dt><dd class="mlz-coord">v ceně</dd></div>
+            <div><dt class="mlz-coord">Sauna</dt><dd class="mlz-coord">v ceně</dd></div>
+            <div><dt class="mlz-coord">Storno</dt><dd class="mlz-coord">zdarma do 14 dní</dd></div>
+          </dl>
+
+          <a class="mlz-rd-book__call mlz-coord" href="tel:+420388112900">Raději telefonicky? +420 388 112 900</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- NEARBY -->
+  <section class="mlz-section mlz-section--dark mlz-rd-near">
+    <div class="mlz-wrap">
+      <div class="mlz-sec-head mlz-reveal">
+        <span class="mlz-label">Výhledy a výlety z prahu</span>
+        <h2>Co je kolem na dosah</h2>
+      </div>
+      <ul class="mlz-rd-near__list mlz-reveal" data-d="1">
+        {nearby.map((n) => (
+          <li class="mlz-rd-near__i">
+            <span class="mlz-rd-near__code mlz-coord">{n.code}</span>
+            <h3 class="mlz-rd-near__t">{n.t}</h3>
+            <p class="mlz-rd-near__d">{n.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- RELATED -->
+  <section class="mlz-section mlz-section--linen mlz-rd-rel">
+    <div class="mlz-wrap">
+      <div class="mlz-sec-head mlz-reveal">
+        <span class="mlz-label">Další klíče</span>
+        <h2>Pokud je Tiché údolí obsazené</h2>
+      </div>
+      <ul class="mlz-rd-rel__grid mlz-reveal" data-d="1">
+        {related.map((r) => (
+          <li>
+            <a class="mlz-rd-relcard" href={`${base}/ubytovani`}>
+              <div class:list={["mlz-rd-relcard__scene mlz-scene", `mlz-scene--${r.scene}`]}>
+                <div class="mlz-scene__veil"></div>
+                <span class="mlz-rd-relcard__key mlz-coord" aria-hidden="true">No. {r.key}</span>
+              </div>
+              <div class="mlz-rd-relcard__body">
+                <h3>{r.name}</h3>
+                <div class="mlz-rd-relcard__meta">
+                  <span class="mlz-coord">{r.cap}</span>
+                  <span class="mlz-coord mlz-rd-relcard__price">od {r.price} Kč</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById("mlz-rd-form") as HTMLFormElement | null;
+    const hint = document.getElementById("mlz-rd-hint");
+    if (form && hint) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const d = new FormData(form);
+        const a = String(d.get("prijezd") || ""), b = String(d.get("odjezd") || "");
+        hint.hidden = false;
+        hint.textContent = a && b
+          ? `Ukázka: Apartmá Tiché údolí, ${a} → ${b}. V reálném webu by se zde zobrazila cena a dostupnost.`
+          : "Ukázka: doplňte prosím datum příjezdu a odjezdu.";
+      });
+    }
+  </script>
+
+  <style>
+    /* HERO */
+    .mlz-rd-hero { background: var(--mlz-pine); color: var(--mlz-fog); padding: clamp(6.5rem, 12vw, 9rem) 0 clamp(2rem, 4vw, 3rem); }
+    .mlz-rd-crumb { color: color-mix(in srgb, var(--mlz-fog) 55%, transparent); }
+    .mlz-rd-crumb a { color: var(--mlz-brass-2); text-decoration: none; }
+    .mlz-rd-crumb a:hover { text-decoration: underline; }
+    .mlz-rd-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin-top: 1.4rem; }
+    .mlz-rd-hero .mlz-label { color: var(--mlz-brass-2); }
+    .mlz-rd-title { font-size: clamp(2.6rem, 6.5vw, 5rem); margin: 1rem 0 0.6rem; color: var(--mlz-fog); }
+    .mlz-rd-tagline { font-family: var(--mlz-ff-display); font-style: italic; font-size: 1.4rem; color: color-mix(in srgb, var(--mlz-fog) 78%, transparent); }
+    .mlz-rd-coord { display: flex; flex-direction: column; gap: 0.4rem; text-align: right; color: color-mix(in srgb, var(--mlz-fog) 55%, transparent); }
+
+    .mlz-rd-gal { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.1rem; margin-top: clamp(2rem, 4vw, 3rem); }
+    .mlz-rd-gal__main { position: relative; aspect-ratio: 16 / 11; border-radius: var(--mlz-r-lg); overflow: hidden; box-shadow: var(--mlz-shadow); }
+    .mlz-rd-gal__key { position: absolute; top: 1.1rem; left: 1.1rem; z-index: 5; background: color-mix(in srgb, var(--mlz-pine) 72%, transparent); border: 1px solid color-mix(in srgb, var(--mlz-brass) 55%, transparent); color: var(--mlz-brass-2); padding: 0.45em 0.85em; border-radius: 3px; letter-spacing: 0.1em; backdrop-filter: blur(5px); }
+    .mlz-rd-gal__side { display: grid; grid-template-rows: repeat(3, 1fr); gap: 1.1rem; }
+    .mlz-rd-gal__thumb { position: relative; border-radius: var(--mlz-r-lg); overflow: hidden; min-height: 110px; }
+
+    /* BODY GRID */
+    .mlz-rd-grid { display: grid; grid-template-columns: 1fr 380px; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start; }
+    .mlz-rd-main { display: flex; flex-direction: column; gap: clamp(2.2rem, 4vw, 3.2rem); }
+    .mlz-rd-h { font-size: clamp(1.9rem, 3.6vw, 2.8rem); margin: 1rem 0 1.3rem; }
+    .mlz-rd-p { color: var(--mlz-ink-soft); line-height: 1.7; margin-bottom: 1.1rem; max-width: 60ch; }
+    .mlz-rd-block { border-top: 1px solid var(--mlz-line); padding-top: 1.8rem; }
+    .mlz-rd-h3 { font-size: 1.5rem; margin-bottom: 1.2rem; }
+
+    .mlz-rd-specs { margin: 0; }
+    .mlz-rd-spec { display: flex; align-items: baseline; gap: 0.7rem; padding: 0.55rem 0; }
+    .mlz-rd-spec dt { color: var(--mlz-ink-soft); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; white-space: nowrap; }
+    .mlz-rd-leader { flex: 1; border-bottom: 1px dotted var(--mlz-line); transform: translateY(-3px); }
+    .mlz-rd-spec dd { margin: 0; white-space: nowrap; }
+
+    .mlz-rd-amen { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 2.2rem; }
+    .mlz-rd-amen__i { break-inside: avoid; margin-bottom: 0.7rem; color: var(--mlz-ink-soft); line-height: 1.5; padding-left: 1.1em; text-indent: -1.1em; }
+    .mlz-rd-amen__mark { color: var(--mlz-brass); font-weight: 700; margin-right: 0.6em; }
+
+    .mlz-rd-incl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .mlz-rd-incl__i { display: flex; flex-direction: column; gap: 0.25rem; border-left: 2px solid var(--mlz-brass); padding-left: 1rem; }
+    .mlz-rd-incl__t { font-family: var(--mlz-ff-display); font-size: 1.3rem; }
+    .mlz-rd-incl__d { color: var(--mlz-ink-soft); font-size: 0.62rem; }
+
+    .mlz-rd-rules__list { margin: 0; padding-left: 1.2rem; color: var(--mlz-ink-soft); line-height: 1.7; }
+    .mlz-rd-rules__list li { margin-bottom: 0.6rem; }
+    .mlz-rd-rules__list li::marker { color: var(--mlz-brass); }
+
+    /* STICKY BOOKING */
+    .mlz-rd-aside { position: sticky; top: 100px; }
+    .mlz-rd-book { background: var(--mlz-card); border: 1px solid var(--mlz-line); border-radius: var(--mlz-r-lg); padding: 2rem 1.7rem 1.7rem; box-shadow: var(--mlz-shadow); position: relative; }
+    .mlz-rd-book__tab { position: absolute; top: -0.7rem; left: 1.6rem; background: var(--mlz-brass); color: #1A130A; padding: 0.3em 0.85em; border-radius: 3px; font-size: 0.54rem; letter-spacing: 0.18em; text-transform: uppercase; }
+    .mlz-rd-book__price { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .mlz-rd-book__from { color: var(--mlz-ink-soft); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.16em; }
+    .mlz-rd-book__num { font-family: var(--mlz-ff-display); font-size: 2.8rem; line-height: 1; }
+    .mlz-rd-book__per { color: var(--mlz-ink-soft); font-size: 0.62rem; }
+    .mlz-rd-book__min { color: var(--mlz-ink-soft); padding-bottom: 1.2rem; border-bottom: 1px solid var(--mlz-line-soft); margin-bottom: 1.2rem; }
+    .mlz-rd-book__form { display: flex; flex-direction: column; gap: 0.9rem; }
+    .mlz-rd-book__field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .mlz-rd-book__field span { color: var(--mlz-ink-soft); text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.56rem; }
+    .mlz-rd-book__field input, .mlz-rd-book__field select { font-family: var(--mlz-ff-body); font-size: 0.96rem; padding: 0.6em 0.7em; border: 1px solid var(--mlz-line); border-radius: var(--mlz-r); background: var(--mlz-paper); color: var(--mlz-ink); }
+    .mlz-rd-book__field input:focus, .mlz-rd-book__field select:focus { outline: none; border-color: var(--mlz-brass); }
+    .mlz-rd-book__go { justify-content: center; margin-top: 0.4rem; }
+    .mlz-rd-book__hint { margin-top: 0.9rem; color: var(--mlz-ink-soft); background: var(--mlz-paper); border: 1px dashed var(--mlz-line); padding: 0.6em 0.8em; border-radius: var(--mlz-r); line-height: 1.4; }
+    .mlz-rd-book__rows { margin: 1.4rem 0 1rem; padding-top: 1.2rem; border-top: 1px solid var(--mlz-line-soft); display: flex; flex-direction: column; gap: 0.55rem; }
+    .mlz-rd-book__rows div { display: flex; justify-content: space-between; }
+    .mlz-rd-book__rows dt { color: var(--mlz-ink-soft); }
+    .mlz-rd-book__rows dd { margin: 0; color: var(--mlz-moss); }
+    .mlz-rd-book__call { display: block; text-align: center; color: var(--mlz-ink-soft); text-decoration: none; padding-top: 0.6rem; border-top: 1px solid var(--mlz-line-soft); }
+    .mlz-rd-book__call:hover { color: var(--mlz-brass); }
+
+    /* NEARBY */
+    .mlz-rd-near__list { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+    .mlz-rd-near__i { border-top: 1px solid var(--mlz-line-d); padding-top: 1.4rem; }
+    .mlz-rd-near__code { color: var(--mlz-brass-2); display: block; margin-bottom: 0.8rem; }
+    .mlz-rd-near__t { font-size: 1.5rem; color: var(--mlz-fog); margin-bottom: 0.5rem; }
+    .mlz-rd-near__d { color: color-mix(in srgb, var(--mlz-fog) 66%, transparent); font-size: 0.95rem; line-height: 1.55; }
+
+    /* RELATED */
+    .mlz-rd-rel__grid { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    .mlz-rd-relcard { display: block; text-decoration: none; color: var(--mlz-ink); border: 1px solid var(--mlz-line); border-radius: var(--mlz-r-lg); overflow: hidden; background: var(--mlz-card); transition: transform 0.4s var(--mlz-ease), border-color 0.4s var(--mlz-ease); }
+    .mlz-rd-relcard:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--mlz-brass) 50%, var(--mlz-line)); }
+    .mlz-rd-relcard__scene { position: relative; aspect-ratio: 16 / 10; }
+    .mlz-rd-relcard__key { position: absolute; top: 0.8rem; left: 0.8rem; z-index: 4; background: color-mix(in srgb, var(--mlz-pine) 70%, transparent); border: 1px solid color-mix(in srgb, var(--mlz-brass) 50%, transparent); color: var(--mlz-brass-2); padding: 0.3em 0.65em; border-radius: 3px; font-size: 0.6rem; backdrop-filter: blur(4px); }
+    .mlz-rd-relcard__body { padding: 1.2rem 1.3rem 1.4rem; }
+    .mlz-rd-relcard__body h3 { font-size: 1.35rem; margin-bottom: 0.6rem; }
+    .mlz-rd-relcard__meta { display: flex; justify-content: space-between; color: var(--mlz-ink-soft); font-size: 0.62rem; }
+    .mlz-rd-relcard__price { color: var(--mlz-brass); }
+
+    @media (max-width: 980px) {
+      .mlz-rd-grid { grid-template-columns: 1fr; }
+      .mlz-rd-aside { position: static; max-width: 460px; }
+      .mlz-rd-near__list { grid-template-columns: 1fr; max-width: 520px; }
+      .mlz-rd-rel__grid { grid-template-columns: 1fr; max-width: 460px; }
+    }
+    @media (max-width: 760px) {
+      .mlz-rd-gal { grid-template-columns: 1fr; }
+      .mlz-rd-gal__side { grid-template-rows: none; grid-template-columns: repeat(3, 1fr); }
+      .mlz-rd-coord { text-align: left; }
+    }
+    @media (max-width: 560px) {
+      .mlz-rd-amen { columns: 1; }
+      .mlz-rd-incl { grid-template-columns: 1fr; }
+      .mlz-rd-gal__side { grid-template-columns: 1fr; }
+    }
+  </style>
+</Mlha>

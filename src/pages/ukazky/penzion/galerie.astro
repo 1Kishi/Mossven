@@ -1,0 +1,194 @@
+---
+import Mlha from "./_layout/Mlha.astro";
+
+const base = "/ukazky/penzion";
+
+const filters = [
+  { key: "vse", label: "Vše" },
+  { key: "pokoje", label: "Pokoje" },
+  { key: "snidane", label: "Snídaně" },
+  { key: "wellness", label: "Wellness" },
+  { key: "les", label: "Les" },
+  { key: "detaily", label: "Detaily" },
+];
+
+// span: "w" wide (2 sloupce), "t" tall (2 řádky), "b" big (2×2), jinak 1×1
+const shots = [
+  { scene: "forest", cat: "les", cap: "Ranní mlha nad loukou", code: "F-01", span: "b" },
+  { scene: "candle", cat: "pokoje", cap: "Apartmá Tiché údolí", code: "P-02", span: "t" },
+  { scene: "breakfast", cat: "snidane", cap: "Snídaňový stůl", code: "S-01", span: "" },
+  { scene: "stone", cat: "detaily", cap: "Kamenná klenba", code: "D-03", span: "" },
+  { scene: "sauna", cat: "wellness", cap: "Sauna do tmy", code: "W-01", span: "w" },
+  { scene: "room", cat: "pokoje", cap: "Mlžná borovice", code: "P-01", span: "" },
+  { scene: "path", cat: "les", cap: "Cesta k slati", code: "F-02", span: "" },
+  { scene: "deepforest", cat: "les", cap: "Smrkový porost", code: "F-03", span: "t" },
+  { scene: "reading", cat: "detaily", cap: "Čítárna a gramofon", code: "D-01", span: "w" },
+  { scene: "water", cat: "wellness", cap: "Studený pramen", code: "W-02", span: "" },
+  { scene: "breakfast", cat: "snidane", cap: "Domácí chléb a med", code: "S-02", span: "" },
+  { scene: "room", cat: "pokoje", cap: "Lněné povlečení", code: "P-03", span: "" },
+  { scene: "night", cat: "les", cap: "Hvězdy nad Kvildou", code: "F-04", span: "w" },
+  { scene: "stone", cat: "detaily", cap: "Vana u okna", code: "D-02", span: "" },
+  { scene: "candle", cat: "detaily", cap: "Večer u kamen", code: "D-04", span: "" },
+  { scene: "deepforest", cat: "wellness", cap: "Ochlazení v lese", code: "W-03", span: "" },
+];
+---
+
+<Mlha
+  title="Galerie — Penzion Mlžný Dvůr"
+  description="Pokoje, snídaně, sauna, les a detaily obnoveného statku na Šumavě. Projděte si atmosféru Mlžného Dvora."
+  active="galerie"
+>
+  <header class="mlz-phead">
+    <div class="mlz-phead__scene mlz-scene mlz-scene--forest"></div>
+    <div class="mlz-wrap mlz-phead__inner">
+      <p class="mlz-crumb mlz-coord"><a href={base}>Úvod</a> &nbsp;/&nbsp; Galerie</p>
+      <span class="mlz-label">Atmosféra ve snímcích</span>
+      <h1>Mlžný Dvůr<br />zblízka</h1>
+      <p class="mlz-phead__sub">
+        Statek, pokoje, sauna a les za dveřmi. Vyberte si, co chcete vidět —
+        nebo si nechte projít všechno a poslouchejte ticho mezi snímky.
+      </p>
+    </div>
+  </header>
+
+  <section class="mlz-section mlz-section--linen mlz-gal">
+    <div class="mlz-wrap">
+      <div class="mlz-gal__bar mlz-reveal" role="tablist" aria-label="Filtr galerie">
+        {filters.map((f, i) => (
+          <button
+            class:list={["mlz-gal__filter", { "is-active": i === 0 }]}
+            data-filter={f.key}
+            type="button"
+            role="tab"
+            aria-selected={i === 0 ? "true" : "false"}
+          >
+            {f.label}
+            <span class="mlz-gal__count mlz-coord" data-count={f.key}></span>
+          </button>
+        ))}
+      </div>
+
+      <div class="mlz-gal__grid mlz-reveal" data-d="1" id="mlz-gal-grid">
+        {shots.map((s) => (
+          <figure
+            class:list={["mlz-tile mlz-scene", `mlz-scene--${s.scene}`, s.span === "w" && "mlz-tile--w", s.span === "t" && "mlz-tile--t", s.span === "b" && "mlz-tile--b"]}
+            data-cat={s.cat}
+          >
+            <div class="mlz-scene__veil"></div>
+            <figcaption class="mlz-tile__cap">
+              <span class="mlz-tile__name">{s.cap}</span>
+              <span class="mlz-tile__code mlz-coord">{s.code}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <p class="mlz-gal__empty mlz-coord" id="mlz-gal-empty" hidden>V této kategorii zatím nic není.</p>
+    </div>
+  </section>
+
+  <section class="mlz-section mlz-section--dark mlz-galcta">
+    <div class="mlz-wrap mlz-wrap--narrow mlz-galcta__inner mlz-reveal">
+      <span class="mlz-label mlz-label--center">Fotky nestačí</span>
+      <h2 class="mlz-galcta__h">Mlhu a ticho je potřeba zažít</h2>
+      <p class="mlz-lede mlz-galcta__p">Snímky napoví, ale vůni dřeva v kamnech a ranní opar nad loukou vám neukáže žádná obrazovka. Přijeďte na víkend.</p>
+      <a class="mlz-btn mlz-btn--brass" href={`${base}/kontakt`}>Naplánovat pobyt <span class="mlz-btn__a" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <script>
+    const grid = document.getElementById("mlz-gal-grid");
+    const empty = document.getElementById("mlz-gal-empty");
+    const filters = Array.from(document.querySelectorAll<HTMLButtonElement>(".mlz-gal__filter"));
+    const tiles = Array.from(document.querySelectorAll<HTMLElement>(".mlz-tile"));
+
+    // counts
+    document.querySelectorAll<HTMLElement>(".mlz-gal__count").forEach((c) => {
+      const key = c.getAttribute("data-count");
+      const n = key === "vse" ? tiles.length : tiles.filter((t) => t.dataset.cat === key).length;
+      c.textContent = String(n);
+    });
+
+    function apply(key: string) {
+      let shown = 0;
+      tiles.forEach((t) => {
+        const ok = key === "vse" || t.dataset.cat === key;
+        t.style.display = ok ? "" : "none";
+        if (ok) shown++;
+      });
+      if (empty) empty.hidden = shown !== 0;
+    }
+
+    filters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filters.forEach((b) => { b.classList.remove("is-active"); b.setAttribute("aria-selected", "false"); });
+        btn.classList.add("is-active");
+        btn.setAttribute("aria-selected", "true");
+        apply(btn.dataset.filter || "vse");
+      });
+    });
+  </script>
+
+  <style>
+    .mlz-gal__bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+    .mlz-gal__filter {
+      display: inline-flex; align-items: center; gap: 0.5em;
+      font-family: var(--mlz-ff-body); font-weight: 500; font-size: 0.92rem;
+      color: var(--mlz-ink-soft); background: transparent;
+      border: 1px solid var(--mlz-line); border-radius: 999px;
+      padding: 0.55em 1.1em; cursor: pointer;
+      transition: color 0.25s var(--mlz-ease), border-color 0.25s var(--mlz-ease), background 0.25s var(--mlz-ease);
+    }
+    .mlz-gal__filter:hover { color: var(--mlz-ink); border-color: var(--mlz-ink); }
+    .mlz-gal__filter.is-active { color: #1A130A; background: var(--mlz-brass); border-color: var(--mlz-brass); }
+    .mlz-gal__count { font-size: 0.56rem; opacity: 0.6; }
+
+    .mlz-gal__grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px; gap: 1rem; grid-auto-flow: dense;
+    }
+    .mlz-tile {
+      position: relative; border-radius: var(--mlz-r-lg); overflow: hidden;
+      border: 1px solid var(--mlz-line-soft); cursor: pointer;
+    }
+    .mlz-tile::before {
+      content: ""; position: absolute; inset: 0; z-index: 5;
+      box-shadow: inset 0 0 0 0 transparent; transition: box-shadow 0.3s var(--mlz-ease);
+    }
+    .mlz-tile:hover::before { box-shadow: inset 0 0 0 2px var(--mlz-brass); }
+    .mlz-tile--w { grid-column: span 2; }
+    .mlz-tile--t { grid-row: span 2; }
+    .mlz-tile--b { grid-column: span 2; grid-row: span 2; }
+
+    .mlz-tile__cap {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 6;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 0.6rem;
+      padding: 1rem 1.1rem; color: var(--mlz-fog);
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.3s var(--mlz-ease), transform 0.3s var(--mlz-ease);
+    }
+    .mlz-tile:hover .mlz-tile__cap { opacity: 1; transform: none; }
+    .mlz-tile__name { font-family: var(--mlz-ff-display); font-size: 1.2rem; }
+    .mlz-tile__code { color: var(--mlz-brass-2); font-size: 0.56rem; white-space: nowrap; }
+
+    .mlz-gal__empty { text-align: center; color: var(--mlz-ink-soft); padding: 3rem 0; }
+
+    .mlz-galcta { text-align: center; }
+    .mlz-galcta__inner { display: flex; flex-direction: column; align-items: center; }
+    .mlz-galcta__h { font-size: clamp(2rem, 4.4vw, 3.2rem); margin: 1rem 0; color: var(--mlz-fog); }
+    .mlz-galcta__p { margin-inline: auto; margin-bottom: 2rem; }
+
+    @media (max-width: 880px) {
+      .mlz-gal__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+      .mlz-tile--b { grid-column: span 2; grid-row: span 2; }
+      .mlz-tile--w { grid-column: span 2; }
+      .mlz-tile--t { grid-row: span 2; }
+      .mlz-tile__cap { opacity: 1; transform: none; }
+    }
+    @media (max-width: 520px) {
+      .mlz-gal__grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+      .mlz-tile--w, .mlz-tile--b { grid-column: span 1; }
+      .mlz-tile--t, .mlz-tile--b { grid-row: span 1; }
+    }
+  </style>
+</Mlha>

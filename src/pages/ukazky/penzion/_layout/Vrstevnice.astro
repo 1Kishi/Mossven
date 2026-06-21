@@ -1,0 +1,58 @@
+---
+// Vrstevnice = "contour lines". The signature motif of Penzion Mlžný Dvůr:
+// a topographic mist-map. Soft contour lines that drift through the layout,
+// connecting the estate, the rooms, the forest and the booking flow.
+// Variants tune density / framing for different placements.
+interface Props {
+  variant?: "hero" | "divider" | "frame" | "panel";
+  class?: string;
+}
+const { variant = "panel", class: cls = "" } = Astro.props;
+---
+
+{variant === "hero" && (
+  <svg class:list={["mlz-vrst mlz-vrst--hero", cls]} viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g class="mlz-vrst__drift">
+      <path d="M-40 560 C 260 510, 420 600, 700 540 S 1180 470, 1500 540" />
+      <path d="M-40 500 C 240 450, 440 540, 720 470 S 1200 410, 1500 470" />
+      <path d="M-40 440 C 220 392, 460 470, 740 405 S 1220 350, 1500 405" />
+      <path d="M-40 380 C 240 338, 470 405, 760 345 S 1230 296, 1500 345" />
+      <path d="M-40 320 C 260 286, 480 345, 780 290 S 1240 250, 1500 290" />
+      <path d="M-40 262 C 280 236, 500 290, 800 240 S 1250 210, 1500 240" />
+      <path d="M-40 208 C 300 190, 520 240, 820 196 S 1260 174, 1500 196" />
+      <path d="M-40 158 C 320 148, 540 196, 840 158 S 1270 144, 1500 158" />
+    </g>
+  </svg>
+)}
+
+{variant === "divider" && (
+  <svg class:list={["mlz-vrst mlz-vrst--divider", cls]} viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path d="M0 70 C 240 40, 420 96, 700 62 S 1200 30, 1440 62" />
+    <path d="M0 58 C 260 30, 440 84, 720 52 S 1220 22, 1440 52" />
+    <path d="M0 46 C 280 22, 460 72, 740 42 S 1240 16, 1440 42" />
+    <path d="M0 34 C 300 14, 480 60, 760 32 S 1260 10, 1440 32" />
+  </svg>
+)}
+
+{variant === "frame" && (
+  <svg class:list={["mlz-vrst mlz-vrst--frame", cls]} viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g class="mlz-vrst__drift">
+      <path d="M-20 470 C 120 430, 240 500, 380 450 S 600 400, 640 450" />
+      <path d="M-20 410 C 110 372, 250 440, 390 392 S 600 348, 640 392" />
+      <path d="M-20 350 C 130 318, 260 380, 400 336 S 600 296, 640 336" />
+      <path d="M-20 290 C 150 262, 270 320, 410 280 S 600 244, 640 280" />
+      <path d="M-20 230 C 170 208, 290 262, 420 226 S 600 196, 640 226" />
+      <path d="M-20 172 C 190 156, 300 206, 430 174 S 600 150, 640 174" />
+    </g>
+  </svg>
+)}
+
+{variant === "panel" && (
+  <svg class:list={["mlz-vrst mlz-vrst--panel", cls]} viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <path d="M-20 320 C 140 286, 280 350, 420 306 S 700 262, 820 306" />
+    <path d="M-20 268 C 150 238, 290 298, 430 258 S 700 220, 820 258" />
+    <path d="M-20 216 C 160 190, 300 246, 440 210 S 700 178, 820 210" />
+    <path d="M-20 164 C 170 144, 310 196, 450 164 S 700 138, 820 164" />
+    <path d="M-20 114 C 180 100, 320 148, 460 120 S 700 100, 820 120" />
+  </svg>
+)}
